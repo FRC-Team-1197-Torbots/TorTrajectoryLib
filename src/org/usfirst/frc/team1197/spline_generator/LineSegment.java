@@ -8,13 +8,13 @@ public class LineSegment extends PathSegment{
 	public LineSegment(double l, double r){
 		super();
 		length = l;
-		rotateTo(r);
+		rotateInternally(r);
 	}
 	
 	public String toString(){
 		return "LineSegment[length=".concat(String.valueOf(length))
 									  .concat(", rotation=")
-									  .concat(String.valueOf(rotation))
+									  .concat(String.valueOf(internalRotation()))
 									  .concat("]") ;
 	}
 
@@ -26,7 +26,7 @@ public class LineSegment extends PathSegment{
 
 	@Override
 	public double headingAt(double s) {
-		return rotation;
+		return totalRotation();
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class LineSegment extends PathSegment{
 
 	@Override
 	public LineSegment clone() {
-		return new LineSegment(length, rotation);
+		return new LineSegment(length, internalRotation());
 	}
 
 }

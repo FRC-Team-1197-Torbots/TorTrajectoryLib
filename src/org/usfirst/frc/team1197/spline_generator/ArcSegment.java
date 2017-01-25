@@ -36,7 +36,7 @@ public class ArcSegment extends PathSegment {
 
 	@Override
 	public double headingAt(double s) {
-		return rotation+curvature*s;
+		return totalRotation()+curvature*s;
 	}
 
 	@Override
