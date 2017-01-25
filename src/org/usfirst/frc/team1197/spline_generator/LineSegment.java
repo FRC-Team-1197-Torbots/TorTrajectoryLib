@@ -34,4 +34,9 @@ public class LineSegment extends PathSegment{
 		return 0.0;
 	}
 
+	@Override
+	public LineSegment clone() {
+		return new LineSegment(length, rotation);
+	}
+
 }

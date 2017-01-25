@@ -11,6 +11,7 @@ public abstract class PathSegment {
 	protected RealMatrix rotationMatrix;
 	protected RealVector translationVector;
 	public abstract String toString();
+	public abstract PathSegment clone();
 	public abstract RealVector positionAt(double s);
 	public abstract double headingAt(double s);
 	public abstract double curvatureAt(double s);

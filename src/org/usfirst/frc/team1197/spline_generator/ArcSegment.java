@@ -21,6 +21,10 @@ public class ArcSegment extends PathSegment {
 				  .concat(String.valueOf(totalAngle))
 				  .concat("]") ;
 	}
+	
+	public ArcSegment clone(){
+		return new ArcSegment((1.0/curvature), totalAngle);
+	}
 
 	@Override
 	public RealVector positionAt(double s) {

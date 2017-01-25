@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
-public class Spline {
+public class Spline extends PathSegment{
 	private RealVector startPoint;
 	private double startHeading;
 	private double length;
@@ -19,7 +19,33 @@ public class Spline {
 		length = 0.0;
 	}
 	
+	@Override
+	public String toString() {
+		String s = new String("Spline:\n");
+		int i = 0;
+		for(PathSegment segment:path){
+			s.concat("\tsegment ")
+			 .concat(String.valueOf(i))
+			 .concat(" = ")
+			 .concat(segment.toString())
+			 .concat("\n");
+			i++;
+		}
+		return s;
+	}
+
+	@Override
+	public PathSegment clone() {
+		Spline splineCopy = new Spline(startPoint.getEntry(0), startPoint.getEntry(1), startHeading);
+		for(PathSegment segment:path){
+			splineCopy.add(segment.clone());
+		}
+		return splineCopy;
+	}
+	
 	public void add(PathSegment segment){
+		if (segment == this)
+			segment = segment.clone();
 		if (path.size() > 0){
 			RealVector nextStartingPoint = positionAt(length());
 			double nextStartingHeading = headingAt(length);
@@ -32,7 +58,6 @@ public class Spline {
 			path.add(segment);
 		}
 		length += segment.length();
-
 	}
 	
 	public RealVector positionAt(double s){
@@ -57,5 +82,16 @@ public class Spline {
 	
 	public double length(){
 		return length;
+	}
+
+	@Override
+	public double curvatureAt(double s){
+		double lengthSoFar = 0.0;
+		for (PathSegment segment : path){
+			if (s - lengthSoFar <= segment.length)
+				return segment.curvatureAt(s - lengthSoFar);
+			lengthSoFar += segment.length();
+		}
+		return 0.0;
 	}
 }
