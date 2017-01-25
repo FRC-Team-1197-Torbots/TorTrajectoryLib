@@ -32,8 +32,6 @@ public class Spline {
 			segment.rotateBy(startHeading);
 			path.add(segment);
 		}
-
-		System.out.println(segment);
 		length += segment.length();
 
 	}

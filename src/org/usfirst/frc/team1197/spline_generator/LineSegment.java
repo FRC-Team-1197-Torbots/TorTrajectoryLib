@@ -9,7 +9,6 @@ public class LineSegment extends PathSegment{
 		super();
 		length = l;
 		rotateTo(r);
-		System.out.println(rotation);
 	}
 	
 	public String toString(){
