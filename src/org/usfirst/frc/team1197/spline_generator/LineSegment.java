@@ -1,16 +1,22 @@
 package org.usfirst.frc.team1197.spline_generator;
 
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
 public class LineSegment extends PathSegment{
 	
-	public LineSegment(double length, double t){
+	public LineSegment(double l, double r){
 		super();
-		this.length = length;
-		rotation = t;
-		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(t), Math.cos(t)}, {Math.sin(t), -Math.sin(t)}});
+		length = l;
+		rotateTo(r);
+		System.out.println(rotation);
+	}
+	
+	public String toString(){
+		return "LineSegment[length=".concat(String.valueOf(length))
+									  .concat(", rotation=")
+									  .concat(String.valueOf(rotation))
+									  .concat("]") ;
 	}
 
 	@Override
@@ -22,13 +28,11 @@ public class LineSegment extends PathSegment{
 
 	@Override
 	public double headingAt(double s) {
-		// TODO Auto-generated method stub
 		return rotation;
 	}
 
 	@Override
 	public double curvatureAt(double s) {
-		// TODO Auto-generated method stub
 		return 0.0;
 	}
 

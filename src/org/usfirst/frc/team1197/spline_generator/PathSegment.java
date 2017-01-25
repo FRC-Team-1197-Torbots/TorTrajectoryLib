@@ -10,14 +10,13 @@ public abstract class PathSegment {
 	protected double rotation;
 	protected RealMatrix rotationMatrix;
 	protected RealVector translationVector;
+	public abstract String toString();
 	public abstract RealVector positionAt(double s);
 	public abstract double headingAt(double s);
 	public abstract double curvatureAt(double s);
 	
 	
 	public PathSegment(){
-		length = 0.0;
-		rotation = 0.0;
 		translationVector = new ArrayRealVector(new double[] {0.0, 0.0}, false);
 	}
 	
@@ -29,14 +28,15 @@ public abstract class PathSegment {
 		return rotation;
 	}
 	
-	public void rotateTo(double t){
-		rotation = t;
-		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(t), Math.cos(t)}, {Math.sin(t), -Math.sin(t)}});
+	public void rotateTo(double r){
+		rotation = r;
+		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r),  Math.cos(r)}, 
+																  {Math.sin(r), -Math.sin(r)}});
 	}
 	
 	public void rotateBy(double delta_theta){
-		rotation += delta_theta;
-		rotateTo(rotation);
+		double r = rotation + delta_theta;
+		rotateTo(r);
 	}
 	
 	public void translateTo(RealVector v){
