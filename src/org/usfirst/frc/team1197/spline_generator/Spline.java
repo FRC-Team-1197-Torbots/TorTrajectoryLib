@@ -22,9 +22,7 @@ public class Spline {
 	public void add(PathSegment segment){
 		if (path.size() > 0){
 			RealVector nextStartingPoint = positionAt(length());
-			PathSegment previousSegment = path.get(path.size()-1);
-			double nextStartingHeading = previousSegment.headingAt(previousSegment.length());
-			System.out.println(nextStartingHeading);
+			double nextStartingHeading = headingAt(length);
 			segment.translateTo(nextStartingPoint);
 			segment.rotateTo(nextStartingHeading);
 			path.add(segment);
