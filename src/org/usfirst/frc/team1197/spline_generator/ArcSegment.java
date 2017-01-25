@@ -32,7 +32,7 @@ public class ArcSegment extends PathSegment {
 
 	@Override
 	public double headingAt(double s) {
-		return curvature*s;
+		return rotation+curvature*s;
 	}
 
 	@Override
