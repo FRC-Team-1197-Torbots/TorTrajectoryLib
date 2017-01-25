@@ -25,6 +25,8 @@ public abstract class PathSegment {
 		internalTranslation = new ArrayRealVector(new double[] {0.0, 0.0});
 		externalTranslation = new ArrayRealVector(new double[] {0.0, 0.0});
 		translationVector = new ArrayRealVector(new double[] {0.0, 0.0});
+		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{0.0, 0.0}, 
+																  {0.0, 0.0}});
 	}
 	
 	public double length(){
@@ -47,6 +49,12 @@ public abstract class PathSegment {
 		totalRotation = internalRotation + externalRotation;
 		return totalRotation;
 	}
+	public RealMatrix externalUnrotateMatrix(){
+		double r = -externalRotation;
+		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  													{Math.sin(r), Math.cos(r)}});
+		return m;
+	}
 	public void rotateInternally(double i){
 		internalRotation = i;
 		totalRotation = internalRotation + externalRotation;
@@ -60,6 +68,33 @@ public abstract class PathSegment {
 	private void rotateTo(double r){
 		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
 			  													  {Math.sin(r), Math.cos(r)}});
+	}
+	public RealMatrix rotationMatrix(){
+		return rotationMatrix;
+	}
+	public RealMatrix unrotateMatrix(){
+		double r = -totalRotation;
+		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  													{Math.sin(r), Math.cos(r)}});
+		return m;
+	}
+	public RealMatrix internalRotationMatrix(){
+		double r = internalRotation;
+		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  													{Math.sin(r), Math.cos(r)}});
+		return m;
+	}
+	public RealMatrix internalUnrotateMatrix(){
+		double r = -internalRotation;
+		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  													{Math.sin(r), Math.cos(r)}});
+		return m;
+	}
+	public RealMatrix externalRotationMatrix(){
+		double r = externalRotation;
+		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  													{Math.sin(r), Math.cos(r)}});
+		return m;
 	}
 	
 	// Translation

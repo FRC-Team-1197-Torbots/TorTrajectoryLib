@@ -57,12 +57,12 @@ public class Spline extends PathSegment{
 	}
 	
 	public void add(PathSegment segment){
-		if (segment == this){
-			segment = segment.clone();
-		}
+		segment = segment.clone();
 		if (path.size() > 0){
-			RealVector nextStartingPoint = positionAt(length());
-			double nextStartingHeading = headingAt(length);
+			RealVector nextStartingPoint = externalUnrotateMatrix()
+												.operate(positionAt(length())
+														 .subtract(externalTranslation()));
+			double nextStartingHeading = headingAt(length)-externalRotation();
 			segment.translateExternally(nextStartingPoint);
 			segment.rotateExternally(nextStartingHeading);
 			path.add(segment);
@@ -88,7 +88,7 @@ public class Spline extends PathSegment{
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path){
 			if (s - lengthSoFar <= segment.length)
-				return segment.headingAt(s - lengthSoFar);
+				return totalRotation() + segment.headingAt(s - lengthSoFar);
 			lengthSoFar += segment.length();
 		}
 		return 0.0;
