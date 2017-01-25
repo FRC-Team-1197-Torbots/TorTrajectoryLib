@@ -58,7 +58,6 @@ public class PathGraph extends ApplicationFrame {
 		plot.setSquaredToRange(true); 		// Define x-axis, and square y-axis to it.
 		readBackgroundImage();
 		plot.setBackgroundImage(backgroundImage);
-//		plot.setBackgroundImageAlignment(Align.BOTTOM_LEFT);
 		plot.setBackgroundPaint(Color.white);
 		plot.setDomainGridlinePaint(Color.white);
 		plot.setRangeGridlinePaint(Color.white);

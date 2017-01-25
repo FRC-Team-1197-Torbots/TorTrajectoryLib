@@ -1,31 +1,35 @@
 package org.usfirst.frc.team1197.spline_generator;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
+
 public class LineSegment extends PathSegment{
 	
-	private double x_cos;
-	private double y_cos;
-
-	public LineSegment(double x_length, double y_length){
+	public LineSegment(double length, double t){
 		super();
-		length = Math.sqrt(x_length*x_length + y_length*y_length);
-		x_cos = x_length/length;
-		y_cos = y_length/length;
-	}
-	
-	@Override
-	public double x(double t) {
-		return x_cos*t;
+		this.length = length;
+		rotation = t;
+		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(t), Math.cos(t)}, {Math.sin(t), -Math.sin(t)}});
 	}
 
 	@Override
-	public double y(double t) {
-		return y_cos*t;
+	public RealVector positionAt(double s) {
+		RealVector pos = new ArrayRealVector(new double[] {s, 0.0}, false);
+		pos = rotationMatrix.operate(pos).add(translationVector);
+		return pos;
 	}
 
 	@Override
-	public Point pointAt(double t) {
-		Point P = new Point(x_cos*t, y_cos*t);
-		return P;
+	public double headingAt(double s) {
+		// TODO Auto-generated method stub
+		return rotation;
+	}
+
+	@Override
+	public double curvatureAt(double s) {
+		// TODO Auto-generated method stub
+		return 0.0;
 	}
 
 }
