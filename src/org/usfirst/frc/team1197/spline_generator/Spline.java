@@ -21,15 +21,16 @@ public class Spline {
 	
 	public void add(PathSegment segment){
 		if (path.size() > 0){
-			PathSegment previousSegment = path.get(path.size()-1);
 			RealVector nextStartingPoint = positionAt(length());
-			double nextStartingHeading = previousSegment.headingAt(length());
+			PathSegment previousSegment = path.get(path.size()-1);
+			double nextStartingHeading = previousSegment.headingAt(previousSegment.length());
+			System.out.println(nextStartingHeading);
 			segment.translateTo(nextStartingPoint);
-			segment.rotateBy(nextStartingHeading);
+			segment.rotateTo(nextStartingHeading);
 			path.add(segment);
 		} else {
 			segment.translateTo(startPoint);
-			segment.rotateBy(startHeading);
+			segment.rotateTo(startHeading);
 			path.add(segment);
 		}
 		length += segment.length();
@@ -39,11 +40,9 @@ public class Spline {
 	public RealVector positionAt(double s){
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path){
-			if (lengthSoFar + segment.length() >= s){
+			if (s - lengthSoFar <= segment.length)
 				return segment.positionAt(s-lengthSoFar);
-			} else {
-				lengthSoFar += segment.length();
-			}
+			lengthSoFar += segment.length();
 		}
 		return null;
 	}
@@ -51,11 +50,9 @@ public class Spline {
 	public double headingAt(double s){
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path){
-			if (lengthSoFar + segment.length() >= s){
-				return segment.headingAt(s-lengthSoFar);
-			} else {
-				lengthSoFar += segment.length();
-			}
+			if (s - lengthSoFar <= segment.length)
+				return segment.headingAt(s - lengthSoFar);
+			lengthSoFar += segment.length();
 		}
 		return 0.0;
 	}

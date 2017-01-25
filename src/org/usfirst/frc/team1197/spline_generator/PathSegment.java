@@ -30,8 +30,8 @@ public abstract class PathSegment {
 	
 	public void rotateTo(double r){
 		rotation = r;
-		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r),  Math.cos(r)}, 
-																  {Math.sin(r), -Math.sin(r)}});
+		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+																  {Math.sin(r), Math.cos(r)}});
 	}
 	
 	public void rotateBy(double delta_theta){
@@ -41,5 +41,9 @@ public abstract class PathSegment {
 	
 	public void translateTo(RealVector v){
 		translationVector = v;
+	}
+	
+	public RealVector outputTransform(RealVector pos){
+		return rotationMatrix.operate(pos).add(translationVector);
 	}
 }

@@ -12,12 +12,16 @@ public class SplineGenerator {
         
         final PathGraph graph = new PathGraph();
         graph.display();
-        PathSegment line1 = new LineSegment(2, 0);
-        PathSegment line2 = new LineSegment(2, Math.PI/6);
-        PathSegment line3 = new LineSegment(2, -Math.PI/6);
-        inputSpline = new Spline(1.0, 4.0, 0.0);
+        PathSegment line1 = new LineSegment(2.0, 0.0);
+        PathSegment arcA = new ArcSegment(1.0, Math.PI/2.0);
+        PathSegment line2 = new LineSegment(2.0, 0.0);
+        PathSegment arcB = new ArcSegment(1.0, Math.PI/2.0);
+        PathSegment line3 = new LineSegment(2.0, 0.0);
+        inputSpline = new Spline(1.0, 1.0, 0.0);
         inputSpline.add(line1);
+        inputSpline.add(arcA);
         inputSpline.add(line2);
+        inputSpline.add(arcB);
         inputSpline.add(line3);
         
         RealVector P = new ArrayRealVector(new double[] {0.0, 0.0});

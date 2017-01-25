@@ -20,9 +20,8 @@ public class LineSegment extends PathSegment{
 
 	@Override
 	public RealVector positionAt(double s) {
-		RealVector pos = new ArrayRealVector(new double[] {s, 0.0}, false);
-		pos = rotationMatrix.operate(pos).add(translationVector);
-		return pos;
+		RealVector pos = new ArrayRealVector(new double[] {s, 0.0});
+		return outputTransform(pos);
 	}
 
 	@Override

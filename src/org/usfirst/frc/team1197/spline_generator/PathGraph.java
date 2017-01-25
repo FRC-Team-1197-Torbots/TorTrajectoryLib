@@ -23,9 +23,9 @@ import org.jfree.ui.RefineryUtilities;
 public class PathGraph extends ApplicationFrame {
 
 	private static final long serialVersionUID = 4784689670538172011L;
-	final XYSeries inputPath = new XYSeries("Input Path");
-	final XYSeries outputPath = new XYSeries("Output Path");
-	private final XYSeries border = new XYSeries("Border");
+	final XYSeries inputPath = new XYSeries("Input Path", false);	// "false" to disable auto-sort
+	final XYSeries outputPath = new XYSeries("Output Path", false);	// so points plot in the order
+	private final XYSeries border = new XYSeries("Border", false);	// they were added.
 	static ChartPanel chartPanel;
 	BufferedImage backgroundImage;
 	NumberAxis rangeAx;
