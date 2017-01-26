@@ -11,6 +11,8 @@ public class Spline extends PathSegment{
 	public Spline(double start_x, double start_y, double start_head){
 		translateInternally(start_x, start_y);
 		rotateInternally(start_head);
+		translateExternally(0.0, 0.0);
+		rotateExternally(0.0);
 		path = new LinkedList<PathSegment>();
 		length = 0.0;
 	}
@@ -59,18 +61,14 @@ public class Spline extends PathSegment{
 	public void add(PathSegment segment){
 		segment = segment.clone();
 		if (path.size() > 0){
-			RealVector nextStartingPoint = externalUnrotateMatrix()
+			RealVector nextStartingPoint = unrotateMatrix()
 												.operate(positionAt(length())
-														 .subtract(externalTranslation()));
-			double nextStartingHeading = headingAt(length)-externalRotation();
+														 .subtract(totalTranslation()));
+			double nextStartingHeading = headingAt(length)-totalRotation();
 			segment.translateExternally(nextStartingPoint);
 			segment.rotateExternally(nextStartingHeading);
-			path.add(segment);
-		} else {
-			segment.translateExternally(internalTranslation());
-			segment.rotateExternally(internalRotation());
-			path.add(segment);
 		}
+		path.add(segment);
 		length += segment.length();
 	}
 	

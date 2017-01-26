@@ -16,12 +16,12 @@ public class SplineGenerator {
         PathSegment arcA = new ArcSegment(1.0, Math.PI/3.0);
         PathSegment line2 = new LineSegment(1.0, 0.0);
         PathSegment arcB = new ArcSegment(1.0, Math.PI/3.0);
-        Spline baseSpline = new Spline(0.0, 0.0, Math.PI/6.0, true);
+        Spline baseSpline = new Spline(0.0, 0.0, 0.0);
         baseSpline.add(line1);
         baseSpline.add(arcA);
         baseSpline.add(line2);
         baseSpline.add(arcB);
-        Spline inputSpline = new Spline(5.0, 3.0, Math.PI/6.0, true);
+        inputSpline = new Spline(6.0, 2.0, 0.0, true);
         inputSpline.add(baseSpline);
         inputSpline.add(baseSpline);
         inputSpline.add(baseSpline);
