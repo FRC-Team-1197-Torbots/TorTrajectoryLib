@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TorTrajectory {
+
 	protected double goal_pos = 0.0;
 	protected double goal_head = 0.0;
 	
@@ -40,14 +41,14 @@ public abstract class TorTrajectory {
 	}
 	
 	public TorTrajectory(){
-		
+		time = new ArrayList<Long>();
+		translation = new ArrayList<MotionState1D>();
+		rotation = new ArrayList<MotionState1D>();
 	}
 	
 	// The following magic was adapted from 254's TrajectoryLib.
 	protected void build(double goal_pos, double max_vel, double max_acc, double max_jerk, 
 						List<MotionState1D> motion){
-		time.clear();
-		motion.clear();
 		// This guarantees that if we don't have the runway to accelerate up to top speed
 		// or to "jerk" up to top acceleration, we set more realistic goals:
 		
