@@ -1,46 +1,27 @@
 
 package org.usfirst.frc.team1197.TorTrajectoryLib;
 
-import java.util.Vector;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class TorTrajectory {
 	protected double goal_pos = 0.0;
 	protected double goal_head = 0.0;
 	
-	protected double max_vel = 1000.0;
-	protected double max_acc = 1000.0;
-	protected double max_jerk = 1000.0;
+	protected double max_vel = 1.0;
+	protected double max_acc = 1.0;
+	protected double max_jerk = 1.0;
 	
-	protected double max_omg;
-	protected double max_alf;
-	protected double max_jeta;
+	protected double max_omg = 1.0;
+	protected double max_alf = 1.0;
+	protected double max_jeta = 1.0;
 	
-	protected Vector<Long> time;
-	
-	protected Vector<Double> position;
-	protected Vector<Double> velocity;
-	protected Vector<Double> acceleration;
-	
-	protected Vector<Double> omega;
-	protected Vector<Double> alpha;
-	protected Vector<Double> heading;
+	protected List<Long> time;
+	protected List<MotionState1D> translation;
+	protected List<MotionState1D> rotation;
 	
 	protected static long startTime;
 	protected double dt = 0.005;
-	
-	public class Motion {
-		public double pos;
-		public double vel;
-		public double acc;
-		
-		public Motion(double p, double v, double a){
-			pos = p;
-			vel = v;
-			acc = a;
-		}
-	}
 	
 	public TorTrajectory(double goal_pos, double goal_head){
 		this.goal_pos = goal_pos;
@@ -54,15 +35,9 @@ public abstract class TorTrajectory {
 		max_alf = 32.0; //16.0
 		max_jeta = 38.0; //22.0
 		
-		time = new Vector<Long>();
-		
-		position = new Vector<Double>();
-		velocity = new Vector<Double>();
-		acceleration = new Vector<Double>();
-		
-		omega = new Vector<Double>();
-		alpha = new Vector<Double>();
-		heading = new Vector<Double>();
+		time = new ArrayList<Long>();
+		translation = new ArrayList<MotionState1D>();
+		rotation = new ArrayList<MotionState1D>();
 	}
 	
 	public TorTrajectory(){
@@ -71,11 +46,9 @@ public abstract class TorTrajectory {
 	
 	// The following magic was adapted from 254's TrajectoryLib.
 	protected void build(double goal_pos, double max_vel, double max_acc, double max_jerk, 
-						Vector<Double> position, Vector<Double> velocity, Vector<Double> acceleration){
-		position.clear();
-		velocity.clear();
-		acceleration.clear();
+						List<MotionState1D> motion){
 		time.clear();
+		motion.clear();
 		// This guarantees that if we don't have the runway to accelerate up to top speed
 		// or to "jerk" up to top acceleration, we set more realistic goals:
 		
@@ -104,20 +77,20 @@ public abstract class TorTrajectory {
 		if(goal_pos < 0.0){
 			adjusted_max_vel = -adjusted_max_vel;
 		}
-		secondOrderFilter(f0_length, f1_length, f2_length, dt, adjusted_max_vel, tot_length, position, velocity, acceleration);
+		secondOrderFilter(f0_length, f1_length, f2_length, dt, adjusted_max_vel, tot_length, motion);
 	}
 	
 	protected void secondOrderFilter(int f0_length, int f1_length, int f2_length, double dt, double max_vel, int tot_length,
-			Vector<Double> position, Vector<Double> velocity, Vector<Double> acceleration) {
+			List<MotionState1D> motion) {
 		// Why no "f0"? Because the zero-filter can be equivalently implemented more
 		// simply by just feeding a constant velocity value into the first filter for
 		// the correct length of time. The "real" filters, on the other hand, MUST be 
 		// implemented as lists of numbers:
-		List<Double> f1 = new LinkedList<Double>();
+		List<Double> f1 = new ArrayList<Double>();
 		for(int i = 0; i < f1_length; i++){
 			f1.add(new Double(0));
 		}
-		List<Double> f2 = new LinkedList<Double>();
+		List<Double> f2 = new ArrayList<Double>();
 		for(int i = 0; i < f2_length; i++){
 			f2.add(new Double(0));
 		}
@@ -127,10 +100,10 @@ public abstract class TorTrajectory {
 		double FL1out;
 		double FL2out;
 		// Individual data values:
+		long t = 0;
 		double pos = 0.0;
 		double vel = 0.0;
 		double acc = 0.0;
-		long t = 0;
 		// record previous values so we can do integration/differentiation:
 		double last_pos = 0.0;
 		double last_vel = 0.0;
@@ -160,16 +133,15 @@ public abstract class TorTrajectory {
 			
 			// The output of the filter is velocity:
 			vel = FL2out;
-			velocity.addElement(new Double(vel));
 		    // We have to integrate to get position. This uses trapezoidal integration,
 		    // but the choice of integration strategy probably doesn't matter:
 			pos = last_pos + 0.5 * (last_vel + vel) * dt;
-			position.addElement(new Double(pos));
 			// We have to differentiate to get acceleration:
 			acc = (vel - last_vel) / dt;
-			acceleration.addElement(new Double(acc));
+			// Add the new motion and time data to their respective lists:
+			motion.add(new MotionState1D(pos, vel, acc));
 			t += (long)(dt * 1000);
-			time.addElement(new Long(t));
+			time.add(new Long(t));
 		}
 	}
 	

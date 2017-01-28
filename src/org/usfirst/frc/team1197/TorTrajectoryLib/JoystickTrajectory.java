@@ -2,8 +2,8 @@ package org.usfirst.frc.team1197.TorTrajectoryLib;
 
 public class JoystickTrajectory extends TorTrajectory{
 	
-	private Motion linearMotion;
-	private Motion rotationalMotion;
+	private MotionState1D translation;
+	private MotionState1D rotation;
 	private double tgt_vel;
 	private double tgt_omg;
 	private double tgt_acc;
@@ -11,28 +11,28 @@ public class JoystickTrajectory extends TorTrajectory{
 	public JoystickTrajectory(){
 		super(0.0, 0.0);
 		max_alf = 1000.0;
-		linearMotion = new Motion(0.0, 0.0, 0.0);
-		rotationalMotion = new Motion(0.0, 0.0, 0.0);
+		translation = new MotionState1D(0.0, 0.0, 0.0);
+		rotation = new MotionState1D(0.0, 0.0, 0.0);
 	}
 	
 	public double lookUpPosition(long t){
-		return linearMotion.pos;
+		return translation.pos;
 	}
 	public double lookUpVelocity(long t){
-		return linearMotion.vel;
+		return translation.vel;
 	}
 	public double lookUpAcceleration(long t){
-		return linearMotion.acc;
+		return translation.acc;
 	}
 	
 	public double lookUpHeading(long t){
-		return rotationalMotion.pos;
+		return rotation.pos;
 	}
 	public double lookUpOmega(long t){
-		return rotationalMotion.vel;
+		return rotation.vel;
 	}
 	public double lookUpAlpha(long t){
-		return rotationalMotion.acc;
+		return rotation.acc;
 	}
 	
 	public boolean lookUpIsLast(long t){
@@ -45,19 +45,19 @@ public class JoystickTrajectory extends TorTrajectory{
 	}
 	
 	public void execute(double p_init, double v_init, double h_init, double w_init){
-		linearMotion.pos = p_init;
-		linearMotion.vel = v_init;
-		linearMotion.acc = 0.0;
+		translation.pos = p_init;
+		translation.vel = v_init;
+		translation.acc = 0.0;
 		
-		rotationalMotion.pos = h_init;
-		rotationalMotion.vel = w_init;
-		rotationalMotion.acc = 0.0;
+		rotation.pos = h_init;
+		rotation.vel = w_init;
+		rotation.acc = 0.0;
 		
 //		TODO: find a better way
 //		TorMotionProfile.INSTANCE.loadTrajectory(this);
 	}
 	
-	public void update(double tgt_vel, Motion m, double max_acc){
+	public void update(double tgt_vel, MotionState1D m, double max_acc){
 		// Target (requested) acceleration:
 		tgt_acc = (tgt_vel - m.vel) / dt;
 		// Actual acceleration:
@@ -69,11 +69,11 @@ public class JoystickTrajectory extends TorTrajectory{
 	}
 	
 	public void updateVelocity(){
-		update(tgt_vel, linearMotion, max_acc);
+		update(tgt_vel, translation, max_acc);
 	}
 	
 	public void updateOmega(){
-		update(tgt_omg, rotationalMotion, max_alf);
+		update(tgt_omg, rotation, max_alf);
 	}
 	
 	public void updateDt(double dt){
