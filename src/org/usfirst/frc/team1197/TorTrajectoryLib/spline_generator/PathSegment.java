@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1197.spline_generator;
+package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;

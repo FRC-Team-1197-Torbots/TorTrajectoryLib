@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1197.spline_generator;
+package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
 import java.awt.Color;
 import java.awt.Dimension;

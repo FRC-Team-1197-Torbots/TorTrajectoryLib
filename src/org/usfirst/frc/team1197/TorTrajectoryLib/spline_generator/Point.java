@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1197.spline_generator;
+package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
 public class Point {
 	public double x;
