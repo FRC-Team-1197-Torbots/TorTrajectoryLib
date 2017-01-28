@@ -85,7 +85,7 @@ public class JoystickTrajectory extends TorTrajectory{
 		}
 	}
 	
-	//TODO: make this global
+	//TODO: put this in TorMath
 	public static double sign(double x){
 		if (x > 0.0)
 			return 1.0;

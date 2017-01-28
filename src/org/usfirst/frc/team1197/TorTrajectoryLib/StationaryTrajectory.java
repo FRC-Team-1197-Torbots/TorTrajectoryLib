@@ -11,7 +11,7 @@ public class StationaryTrajectory extends TorTrajectory{
 	}
 	
 	public double lookUpPosition(long t){
-		return goal_pos;
+		return 0.0;
 	}
 	public double lookUpVelocity(long t){
 		return 0.0;
@@ -21,13 +21,13 @@ public class StationaryTrajectory extends TorTrajectory{
 	}
 	
 	public double lookUpHeading(long t){
-		return 0;
+		return 0.0;
 	}
 	public double lookUpOmega(long t){
-		return 0;
+		return 0.0;
 	}
 	public double lookUpAlpha(long t){
-		return 0;
+		return 0.0;
 	}
 	
 	//TODO figure out what to do instead of this:

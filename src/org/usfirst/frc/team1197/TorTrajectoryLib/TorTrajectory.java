@@ -20,7 +20,6 @@ public abstract class TorTrajectory {
 	protected List<MotionState1D> translation;
 	protected List<MotionState1D> rotation;
 	
-	protected static long startTime;
 	protected double dt = 0.005;
 	
 	public TorTrajectory(double goal_pos, double goal_head){
@@ -146,8 +145,6 @@ public abstract class TorTrajectory {
 	}
 	
 	public void execute(){
-		startTime = System.currentTimeMillis(); //TODO are these lines even needed any more?
-		startTime = startTime - (startTime % 10);
 //		TODO figure out what to do instead of this madness.
 //		Probably the correct answer is to make execute a method of TorMotionProfile.
 //		TorMotionProfile.INSTANCE.loadTrajectory(this);
@@ -156,14 +153,52 @@ public abstract class TorTrajectory {
 	public double goalPos(){
 		return goal_pos;
 	}
+	public double goalHead(){
+		return goal_head;
+	}
 	
-	public abstract double lookUpPosition(long t);
-	public abstract double lookUpVelocity(long t);
-	public abstract double lookUpAcceleration(long t);
-	
-	public abstract double lookUpAlpha(long t);
-	public abstract double lookUpOmega(long t);
-	public abstract double lookUpHeading(long t);	
+	public double lookUpPosition(long t){
+		int i = time.indexOf(t);
+		if(i == -1){
+			return goal_pos;
+		}
+		return translation.get(i).pos;
+	}
+	public double lookUpVelocity(long t){
+		int i = time.indexOf(t);
+		if(i == -1){
+			return 0.0;
+		}
+		return translation.get(i).vel;
+	}
+	public double lookUpAcceleration(long t){
+		int i = time.indexOf(t);
+		if(i == -1){
+			return 0.0;
+		}
+		return translation.get(i).acc;
+	}
+	public double lookUpHeading(long t){
+		int i = time.indexOf(t);
+		if(i == -1){
+			return goal_head;
+		}
+		return rotation.get(i).pos;
+	}
+	public double lookUpOmega(long t){
+		int i = time.indexOf(t);
+		if(i == -1){
+			return 0.0;
+		}
+		return rotation.get(i).vel;
+	}
+	public double lookUpAlpha(long t){
+		int i = time.indexOf(t);
+		if(i == -1){
+			return 0.0;
+		}
+		return rotation.get(i).acc;
+	}
 	
 	public boolean lookUpIsLast(long t){
 		if(t < time.get(0)){
@@ -176,6 +211,7 @@ public abstract class TorTrajectory {
 		return (i+1 == time.size());
 	}
 	
+	//TODO put this in TorMath:
 	public double average(List<Double> list){
 		double avg = 0;
 		for(Double element : list){
