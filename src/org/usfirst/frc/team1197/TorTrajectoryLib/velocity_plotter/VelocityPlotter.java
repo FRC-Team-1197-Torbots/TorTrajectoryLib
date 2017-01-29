@@ -20,7 +20,7 @@ public class VelocityPlotter {
 			time = (long)(t*1000);
 			pos = trajectory.lookUpPosition(time);
 			vel = trajectory.lookUpVelocity(time);
-			acc = trajectory.lookUpVelocity(time);
+			acc = trajectory.lookUpAcceleration(time);
 			graph.position.add(t, pos);
 			graph.velocity.add(t, vel);
 			graph.acceleration.add(t, acc);

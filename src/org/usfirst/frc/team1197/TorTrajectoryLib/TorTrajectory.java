@@ -226,10 +226,20 @@ public abstract class TorTrajectory {
 		return goal_pos;
 	}
 	public double max_vel(){
-		return Math.signum(goal_pos)*max_vel;
+		double max = 0.0;
+		for (MotionState1D m:translation){
+			if(Math.abs(m.vel)>max)
+				max = Math.abs(m.vel);
+		}
+		return Math.signum(goal_pos)*max;
 	}
 	public double max_acc(){
-		return Math.signum(goal_pos)*max_acc;
+		double max = 0.0;
+		for (MotionState1D m:translation){
+			if(Math.abs(m.acc)>max)
+				max = Math.abs(m.acc);
+		}
+		return Math.signum(goal_pos)*max;
 	}
 	public double max_jerk(){
 		return Math.signum(goal_pos)*max_jerk;
@@ -238,10 +248,20 @@ public abstract class TorTrajectory {
 		return goal_head;
 	}
 	public double max_omg(){
-		return Math.signum(goal_pos)*max_omg;
+		double max = 0.0;
+		for (MotionState1D m : rotation){
+			if(Math.abs(m.vel)>max)
+				max = Math.abs(m.vel);
+		}
+		return Math.signum(goal_head)*max;
 	}
 	public double max_alf(){
-		return Math.signum(goal_pos)*max_alf;
+		double max = 0.0;
+		for (MotionState1D m : rotation){
+			if(Math.abs(m.acc)>max)
+				max = Math.abs(m.acc);
+		}
+		return Math.signum(goal_head)*max;
 	}
 	public double max_jeta(){
 		return Math.signum(goal_pos)*max_jeta;

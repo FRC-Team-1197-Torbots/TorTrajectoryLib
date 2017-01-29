@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.Range;
@@ -20,7 +19,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
-import org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator.SquaredXYPlot;
 
 public class VelocityGraph extends ApplicationFrame {
 	private static final long serialVersionUID = -3149991762921866114L;
@@ -34,7 +32,6 @@ public class VelocityGraph extends ApplicationFrame {
 	double xMax;
 	double yMax;
 	double yMin;
-	
 	NumberAxis rangeAx;
 	NumberAxis domainAx;
 
@@ -57,23 +54,20 @@ public class VelocityGraph extends ApplicationFrame {
 			position = new XYSeries("Position");
 			velocity = new XYSeries("Velocity");
 			acceleration = new XYSeries("Acceleration");
-			yMax = 1.25*Math.max(0.0,
-								 Math.max(trajectory.goal_pos(),
-										  Math.max(trajectory.max_vel(),
-				    							   trajectory.max_acc())));
-			yMin = 1.25*Math.min(0.0,
-								 Math.min(trajectory.goal_pos(),
-										  Math.min(trajectory.max_vel(),
-												   trajectory.max_acc())));
+			yMax = 1.25*Math.abs(Math.max(0.0,
+										  Math.max(trajectory.goal_pos(),
+												   Math.max(trajectory.max_vel(),
+						    							    trajectory.max_acc()))));
+			yMin = -yMax;
 		}
 		final XYDataset dataset = createDataset();
 		// Configure axes:
 		NumberAxis domainAx = new NumberAxis();
 		domainAx.setRange(new Range(xMin, xMax));
-		domainAx.setStandardTickUnits(NumberAxis.createStandardTickUnits());
+//		domainAx.setStandardTickUnits(NumberAxis.createStandardTickUnits());
 		NumberAxis rangeAx = new NumberAxis();
 		rangeAx.setRange(new Range(yMin, yMax));
-		rangeAx.setStandardTickUnits(NumberAxis.createStandardTickUnits());
+//		rangeAx.setStandardTickUnits(NumberAxis.createStandardTickUnits());
 		// Configure series rendering options:
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 		renderer.setSeriesLinesVisible(0, true);
@@ -84,17 +78,16 @@ public class VelocityGraph extends ApplicationFrame {
 		renderer.setSeriesPaint(1, new Color(0xFF, 0x00, 0x00));
 		renderer.setSeriesLinesVisible(2, true);
 		renderer.setSeriesShapesVisible(2, false);
-		renderer.setSeriesPaint(2, new Color(0x00, 0x00, 0x00));
+		renderer.setSeriesPaint(2, new Color(0x00, 0x00, 0xFF));
 		// Create and configure the plot:
-		XYPlot plot = new SquaredXYPlot(dataset, domainAx, rangeAx, renderer);
-		plot.setOrientation(PlotOrientation.VERTICAL);
+		XYPlot plot = new XYPlot(dataset, domainAx, rangeAx, renderer);
+//		plot.setOrientation(PlotOrientation.VERTICAL);
 		plot.setBackgroundPaint(new Color(0xFF, 0xFF, 0xFF));
 		plot.setDomainGridlinePaint(new Color(0xCC, 0xCC, 0xCC));
 		plot.setRangeGridlinePaint(new Color(0xCC, 0xCC, 0xCC));
 		// Create the chart:
 		JFreeChart chart = new JFreeChart("", JFreeChart.DEFAULT_TITLE_FONT, plot, false);
 		chartPanel = new ChartPanel(chart);
-		chartPanel.setMouseZoomable(true, false);
 //		chartPanel.setPreferredSize(new Dimension(824,420));
 		setContentPane(chartPanel);
 	}
