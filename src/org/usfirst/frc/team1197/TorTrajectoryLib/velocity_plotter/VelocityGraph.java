@@ -23,6 +23,8 @@ import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 public class VelocityGraph extends ApplicationFrame {
 	private static final long serialVersionUID = -3149991762921866114L;
 	public enum motionType{Translation, Rotation;}
+	private motionType graphType;
+	private TorTrajectory trajectory;
 	XYSeries position;
 	XYSeries velocity;
 	XYSeries acceleration;
@@ -37,19 +39,17 @@ public class VelocityGraph extends ApplicationFrame {
 
 	public VelocityGraph(TorTrajectory trajectory, motionType graphType) {
 		super(graphType.toString());
+		this.graphType = graphType;
+		this.trajectory = trajectory;
 		xMax = trajectory.totalTime();
 		if (graphType == motionType.Rotation){
 			position = new XYSeries("Heading");
 			velocity = new XYSeries("Omega");
 			acceleration = new XYSeries("Alpha");
-			yMax = 1.25*Math.max(0.0,  
-								 Math.max(trajectory.goal_head(), 
-									      Math.max(trajectory.max_omg(),
-									    		   trajectory.max_alf())));
-			yMin = 1.25*Math.min(0.0,
-								 Math.min(trajectory.goal_head(),
-										  Math.min(trajectory.max_omg(),
-												   trajectory.max_alf())));
+			yMax = 1.25*Math.abs(Math.max(0.0,  
+								 		  Math.max(trajectory.goal_head(),
+								 				   Math.max(trajectory.max_omg(),
+								 						    trajectory.max_alf()))));
 		} else {
 			position = new XYSeries("Position");
 			velocity = new XYSeries("Velocity");
@@ -58,8 +58,9 @@ public class VelocityGraph extends ApplicationFrame {
 										  Math.max(trajectory.goal_pos(),
 												   Math.max(trajectory.max_vel(),
 						    							    trajectory.max_acc()))));
-			yMin = -yMax;
+
 		}
+		yMin = -yMax;
 		final XYDataset dataset = createDataset();
 		// Configure axes:
 		NumberAxis domainAx = new NumberAxis();
@@ -118,6 +119,32 @@ public class VelocityGraph extends ApplicationFrame {
 //		border.add(16.5608,8.2296);
 //		border.add(16.5608,0.0);
 		return dataset;
+	}
+	
+	public void plotData(){
+		double dt = 5;
+		double pos;
+		double vel;
+		double acc;
+		if (graphType == motionType.Rotation){
+			for (long time = 0; time <= (long)trajectory.totalTime()*1000; time+=dt){
+				pos = trajectory.lookUpHeading(time);
+				vel = trajectory.lookUpOmega(time);
+				acc = trajectory.lookUpAlpha(time);
+				position.add(time*0.001, pos);
+				velocity.add(time*0.001, vel);
+				acceleration.add(time*0.001, acc);
+		    }
+		}else{
+			for (long time = 0; time <= (long)trajectory.totalTime()*1000; time+=dt){
+				pos = trajectory.lookUpPosition(time);
+				vel = trajectory.lookUpVelocity(time);
+				acc = trajectory.lookUpAcceleration(time);
+				position.add(time*0.001, pos);
+				velocity.add(time*0.001, vel);
+				acceleration.add(time*0.001, acc);
+		    }
+		}
 	}
 
 }

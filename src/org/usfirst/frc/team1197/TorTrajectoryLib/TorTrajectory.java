@@ -267,6 +267,6 @@ public abstract class TorTrajectory {
 		return Math.signum(goal_pos)*max_jeta;
 	}
 	public double totalTime(){
-		return ((double)time.get(time.size()-1))*0.001;
+		return (time.get(time.size()-1))*0.001;
 	}
 }
