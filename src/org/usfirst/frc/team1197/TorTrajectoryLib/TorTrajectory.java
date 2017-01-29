@@ -27,9 +27,9 @@ public abstract class TorTrajectory {
 		this.goal_pos = goal_pos;
 		this.goal_head = goal_head;
 		
-		max_vel = 15.0; //2.5
-		max_acc = 17.0; //6.0 
-		max_jerk = 29.0; //12.0
+		max_vel = 4.5; //2.5
+		max_acc = 6.0; //6.0 
+		max_jerk = 25.0; //12.0
 		
 		max_omg = 30.0; //14.0
 		max_alf = 32.0; //16.0
@@ -266,7 +266,7 @@ public abstract class TorTrajectory {
 	public double max_jeta(){
 		return Math.signum(goal_pos)*max_jeta;
 	}
-	public double totalTime(){
-		return (time.get(time.size()-1))*0.001;
+	public long totalTime(){
+		return time.get(time.size()-1);
 	}
 }

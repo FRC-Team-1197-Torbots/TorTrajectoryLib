@@ -2,10 +2,6 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -41,7 +37,8 @@ public class VelocityGraph extends ApplicationFrame {
 		super(graphType.toString());
 		this.graphType = graphType;
 		this.trajectory = trajectory;
-		xMax = trajectory.totalTime();
+		xMax = 1.1*trajectory.totalTime()*0.001;
+		xMin = -0.1*trajectory.totalTime()*0.001;
 		if (graphType == motionType.Rotation){
 			position = new XYSeries("Heading");
 			velocity = new XYSeries("Omega");
@@ -93,23 +90,38 @@ public class VelocityGraph extends ApplicationFrame {
 		setContentPane(chartPanel);
 	}
 
-	public void readBackgroundImage() {
-		try {
-			// the line that reads the image file
-			backgroundImage = ImageIO.read(new File("backgroundImage.jpg"));
-			// work with the image here ...
-		} catch (IOException e) {
-			// log the exception
-			// re-throw if desired
-		}
-	}
-
 	public void display() {
 		this.pack();
 		RefineryUtilities.centerFrameOnScreen(this);
 		this.setVisible(true);
 	}
-
+	
+	public void plotData(){
+		double dt = 5;
+		double pos;
+		double vel;
+		double acc;
+		if (graphType == motionType.Rotation){
+			for (long time = 0; time <= trajectory.totalTime(); time+=dt){
+				pos = trajectory.lookUpHeading(time);
+				vel = trajectory.lookUpOmega(time);
+				acc = trajectory.lookUpAlpha(time);
+				position.add(time*0.001, pos);
+				velocity.add(time*0.001, vel);
+				acceleration.add(time*0.001, acc);
+		    }
+		}else{
+			for (long time = 0; time <= trajectory.totalTime(); time+=dt){
+				pos = trajectory.lookUpPosition(time);
+				vel = trajectory.lookUpVelocity(time);
+				acc = trajectory.lookUpAcceleration(time);
+				position.add(time*0.001, pos);
+				velocity.add(time*0.001, vel);
+				acceleration.add(time*0.001, acc);
+		    }
+		}
+	}
+	
 	private XYDataset createDataset() {
 		final XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(position);
@@ -119,32 +131,6 @@ public class VelocityGraph extends ApplicationFrame {
 //		border.add(16.5608,8.2296);
 //		border.add(16.5608,0.0);
 		return dataset;
-	}
-	
-	public void plotData(){
-		double dt = 5;
-		double pos;
-		double vel;
-		double acc;
-		if (graphType == motionType.Rotation){
-			for (long time = 0; time <= (long)trajectory.totalTime()*1000; time+=dt){
-				pos = trajectory.lookUpHeading(time);
-				vel = trajectory.lookUpOmega(time);
-				acc = trajectory.lookUpAlpha(time);
-				position.add(time*0.001, pos);
-				velocity.add(time*0.001, vel);
-				acceleration.add(time*0.001, acc);
-		    }
-		}else{
-			for (long time = 0; time <= (long)trajectory.totalTime()*1000; time+=dt){
-				pos = trajectory.lookUpPosition(time);
-				vel = trajectory.lookUpVelocity(time);
-				acc = trajectory.lookUpAcceleration(time);
-				position.add(time*0.001, pos);
-				velocity.add(time*0.001, vel);
-				acceleration.add(time*0.001, acc);
-		    }
-		}
 	}
 
 }
