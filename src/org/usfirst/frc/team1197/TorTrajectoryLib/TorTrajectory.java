@@ -33,7 +33,7 @@ public abstract class TorTrajectory {
 		
 		max_omg = 8.0; //14.0
 		max_alf = 18; //16.0
-		max_jeta = 200.0; //22.0
+		max_jeta = 100.0; //22.0
 		
 		time = new ArrayList<Long>();
 		translation = new ArrayList<MotionState1D>();

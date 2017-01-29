@@ -47,6 +47,7 @@ public class VelocityGraph extends ApplicationFrame {
 								 		  Math.max(trajectory.goal_head(),
 								 				   Math.max(trajectory.max_omg(),
 								 						    trajectory.max_alf()))));
+			yMax *= 180.0/Math.PI;
 		} else {
 			position = new XYSeries("Position");
 			velocity = new XYSeries("Velocity");
@@ -106,9 +107,9 @@ public class VelocityGraph extends ApplicationFrame {
 				pos = trajectory.lookUpHeading(time);
 				vel = trajectory.lookUpOmega(time);
 				acc = trajectory.lookUpAlpha(time);
-				position.add(time*0.001, pos);
-				velocity.add(time*0.001, vel);
-				acceleration.add(time*0.001, acc);
+				position.add(time*0.001, pos*(180.0/Math.PI));
+				velocity.add(time*0.001, vel*(180.0/Math.PI));
+				acceleration.add(time*0.001, acc*(180.0/Math.PI));
 		    }
 		}else{
 			for (long time = 0; time <= trajectory.totalTime(); time+=dt){
