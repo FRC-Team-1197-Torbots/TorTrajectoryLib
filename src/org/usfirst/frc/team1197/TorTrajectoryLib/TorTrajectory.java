@@ -159,6 +159,9 @@ public abstract class TorTrajectory {
 	}
 	
 	public double lookUpPosition(long t){
+		if(t < time.get(0)){
+			return 0.0;
+		}
 		int i = time.indexOf(t);
 		if(i == -1){
 			return goal_pos;
@@ -180,6 +183,9 @@ public abstract class TorTrajectory {
 		return translation.get(i).acc;
 	}
 	public double lookUpHeading(long t){
+		if(t < time.get(0)){
+			return 0.0;
+		}
 		int i = time.indexOf(t);
 		if(i == -1){
 			return goal_head;
