@@ -31,9 +31,9 @@ public abstract class TorTrajectory {
 		max_acc = 6.0; //6.0 
 		max_jerk = 25.0; //12.0
 		
-		max_omg = 30.0; //14.0
-		max_alf = 32.0; //16.0
-		max_jeta = 38.0; //22.0
+		max_omg = 8.0; //14.0
+		max_alf = 18; //16.0
+		max_jeta = 200.0; //22.0
 		
 		time = new ArrayList<Long>();
 		translation = new ArrayList<MotionState1D>();

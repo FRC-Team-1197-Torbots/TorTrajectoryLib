@@ -26,7 +26,7 @@ public class VelocityGraph extends ApplicationFrame {
 	XYSeries acceleration;
 	static ChartPanel chartPanel;
 	BufferedImage backgroundImage;
-	double xMin = 0.0;
+	double xMin;
 	double xMax;
 	double yMax;
 	double yMin;
@@ -37,8 +37,8 @@ public class VelocityGraph extends ApplicationFrame {
 		super(graphType.toString());
 		this.graphType = graphType;
 		this.trajectory = trajectory;
-		xMax = 1.1*trajectory.totalTime()*0.001;
-		xMin = -0.1*trajectory.totalTime()*0.001;
+		xMin = 0.0;
+		xMax = trajectory.totalTime()*0.001;
 		if (graphType == motionType.Rotation){
 			position = new XYSeries("Heading");
 			velocity = new XYSeries("Omega");
