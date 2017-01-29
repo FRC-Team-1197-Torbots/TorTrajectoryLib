@@ -221,4 +221,32 @@ public abstract class TorTrajectory {
 		avg /= list.size();
 		return avg;
 	}
+	
+	public double goal_pos(){
+		return goal_pos;
+	}
+	public double max_vel(){
+		return Math.signum(goal_pos)*max_vel;
+	}
+	public double max_acc(){
+		return Math.signum(goal_pos)*max_acc;
+	}
+	public double max_jerk(){
+		return Math.signum(goal_pos)*max_jerk;
+	}
+	public double goal_head(){
+		return goal_head;
+	}
+	public double max_omg(){
+		return Math.signum(goal_pos)*max_omg;
+	}
+	public double max_alf(){
+		return Math.signum(goal_pos)*max_alf;
+	}
+	public double max_jeta(){
+		return Math.signum(goal_pos)*max_jeta;
+	}
+	public double totalTime(){
+		return ((double)time.get(time.size()-1))*0.001;
+	}
 }

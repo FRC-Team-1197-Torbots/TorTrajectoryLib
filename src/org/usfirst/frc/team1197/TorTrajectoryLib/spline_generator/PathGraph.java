@@ -34,13 +34,13 @@ public class PathGraph extends ApplicationFrame {
 	public PathGraph() {
 		super("Path"); // window title = "Path"
 		final XYDataset dataset = createDataset();
-		// Configure axes: 
-		NumberAxis rangeAx = new NumberAxis();
-		rangeAx.setRange(new Range(0.0, 8.2296));
-		rangeAx.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+		// Configure axes:
 		NumberAxis domainAx = new NumberAxis();
 		domainAx.setRange(new Range(0.0, 16.5608));
 		domainAx.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+		NumberAxis rangeAx = new NumberAxis();
+		rangeAx.setRange(new Range(0.0, 8.2296));
+		rangeAx.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		// Configure series rendering options:
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 		renderer.setSeriesLinesVisible(0, true);
