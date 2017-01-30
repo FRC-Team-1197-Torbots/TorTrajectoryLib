@@ -29,10 +29,5 @@ public class StationaryTrajectory extends TorTrajectory{
 	public double lookUpAlpha(long t){
 		return 0.0;
 	}
-	
-	//TODO figure out what to do instead of this:
-//	public void execute(){
-//		TorMotionProfile.INSTANCE.loadTrajectory(this);
-//	}
 
 }

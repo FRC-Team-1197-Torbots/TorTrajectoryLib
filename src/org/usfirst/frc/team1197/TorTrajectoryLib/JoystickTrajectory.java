@@ -44,7 +44,7 @@ public class JoystickTrajectory extends TorTrajectory{
 		tgt_omg = w;
 	}
 	
-	public void execute(double p_init, double v_init, double h_init, double w_init){
+	public void init(double p_init, double v_init, double h_init, double w_init){
 		translation.pos = p_init;
 		translation.vel = v_init;
 		translation.acc = 0.0;

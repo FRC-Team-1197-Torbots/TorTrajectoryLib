@@ -21,6 +21,7 @@ public abstract class TorTrajectory {
 	protected List<MotionState1D> translation;
 	protected List<MotionState1D> rotation;
 	
+	protected boolean isComplete;
 	protected double dt = 0.005;
 	
 	public TorTrajectory(double goal_pos, double goal_head){
@@ -44,6 +45,10 @@ public abstract class TorTrajectory {
 		time = new ArrayList<Long>();
 		translation = new ArrayList<MotionState1D>();
 		rotation = new ArrayList<MotionState1D>();
+		time.add((long)0);
+		translation.add(new MotionState1D(0.0, 0.0, 0.0));
+		rotation.add(new MotionState1D(0.0, 0.0, 0.0));
+		isComplete = false;
 	}
 	
 	// The following magic was adapted from 254's TrajectoryLib.
@@ -145,12 +150,6 @@ public abstract class TorTrajectory {
 		}
 	}
 	
-	public void execute(){
-//		TODO figure out what to do instead of this madness.
-//		Probably the correct answer is to make execute a method of TorMotionProfile.
-//		TorMotionProfile.INSTANCE.loadTrajectory(this);
-	}
-	
 	public double goalPos(){
 		return goal_pos;
 	}
@@ -248,7 +247,7 @@ public abstract class TorTrajectory {
 		return Math.signum(goal_pos)*max;
 	}
 	public double max_jerk(){
-		return Math.signum(goal_pos)*max_jerk;
+		return max_jerk;
 	}
 	public double goal_head(){
 		return goal_head;
@@ -270,9 +269,16 @@ public abstract class TorTrajectory {
 		return Math.signum(goal_head)*max;
 	}
 	public double max_jeta(){
-		return Math.signum(goal_pos)*max_jeta;
+		return max_jeta;
 	}
 	public long totalTime(){
 		return time.get(time.size()-1);
+	}
+	
+	public void setComplete(boolean b){
+		isComplete = b;
+	}
+	public boolean isComplete(){
+		return isComplete;
 	}
 }
