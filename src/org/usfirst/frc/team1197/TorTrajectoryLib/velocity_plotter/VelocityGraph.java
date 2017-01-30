@@ -39,6 +39,9 @@ public class VelocityGraph extends ApplicationFrame {
 		this.trajectory = trajectory;
 		xMin = 0.0;
 		xMax = trajectory.totalTime()*0.001;
+		if (xMax == 0.0){
+			xMax = 1.0; // so we don't try to make an x-axis with zero length.
+		}
 		if (graphType == motionType.Rotation){
 			position = new XYSeries("Heading");
 			velocity = new XYSeries("Omega");
@@ -57,6 +60,9 @@ public class VelocityGraph extends ApplicationFrame {
 												   Math.max(trajectory.max_vel(),
 						    							    trajectory.max_acc()))));
 
+		}
+		if (yMax == 0.0){
+			yMax = 1.0; // so we don't try to make a y-axis with zero length
 		}
 		yMin = -yMax;
 		final XYDataset dataset = createDataset();
