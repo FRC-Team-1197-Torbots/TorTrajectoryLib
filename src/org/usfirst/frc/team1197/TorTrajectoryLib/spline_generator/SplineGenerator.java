@@ -2,11 +2,16 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
+import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph;
+import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph.motionType;
 
 public class SplineGenerator {
 	
 	private static final double ds = 0.005;
 	private static Spline inputSpline;
+	private static SplineTrajectory trajectory;
+	private static VelocityGraph translationGraph;
+	private static VelocityGraph rotationGraph;
 
     public static void main(final String[] args) {
         
@@ -17,7 +22,6 @@ public class SplineGenerator {
         Spline basicSpline = new Spline(0.0, 0.0, 0.0);
         basicSpline.add(line);
         basicSpline.add(arc);
-        
         inputSpline = new Spline(6.0, 2.0, 0.0, true);
         inputSpline.add(basicSpline);
         inputSpline.add(basicSpline);
@@ -28,5 +32,14 @@ public class SplineGenerator {
         	P = inputSpline.positionAt(s);
         	graph.inputPath.add(P.getEntry(0), P.getEntry(1));  	
         }
+        
+        trajectory = new SplineTrajectory(inputSpline);
+        translationGraph = new VelocityGraph(trajectory, motionType.Translation);
+        rotationGraph = new VelocityGraph(trajectory, motionType.Rotation);
+        translationGraph.display();
+        rotationGraph.display();
+        translationGraph.plotData();
+        rotationGraph.plotData();
+        
     }
 }
