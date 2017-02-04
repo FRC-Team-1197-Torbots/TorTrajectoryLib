@@ -12,25 +12,21 @@ public class SplineGenerator {
         
         final PathGraph graph = new PathGraph();
         graph.display();
-        PathSegment line1 = new LineSegment(1.0, 0.0);
-        PathSegment arcA = new ArcSegment(1.0, Math.PI/3.0);
-        PathSegment line2 = new LineSegment(1.0, 0.0);
-        PathSegment arcB = new ArcSegment(1.0, Math.PI/3.0);
-        Spline baseSpline = new Spline(0.0, 0.0, 0.0);
-        baseSpline.add(line1);
-        baseSpline.add(arcA);
-        baseSpline.add(line2);
-        baseSpline.add(arcB);
+        PathSegment line = new LineSegment(1.0, 0.0);
+        PathSegment arc = new ArcSegment(1.0, Math.PI/3.0);
+        Spline basicSpline = new Spline(0.0, 0.0, 0.0);
+        basicSpline.add(line);
+        basicSpline.add(arc);
+        
         inputSpline = new Spline(6.0, 2.0, 0.0, true);
-        inputSpline.add(baseSpline);
-        inputSpline.add(baseSpline);
-        inputSpline.add(baseSpline);
+        inputSpline.add(basicSpline);
+        inputSpline.add(basicSpline);
+        inputSpline.add(line);
         
         RealVector P = new ArrayRealVector(new double[] {0.0, 0.0});
         for (double s = 0.0; s <= inputSpline.length(); s += ds){
         	P = inputSpline.positionAt(s);
-        	graph.inputPath.add(P.getEntry(0), P.getEntry(1));
-        	// graph.outputPath.add(x(t), 0.0);        	
+        	graph.inputPath.add(P.getEntry(0), P.getEntry(1));  	
         }
     }
 }
