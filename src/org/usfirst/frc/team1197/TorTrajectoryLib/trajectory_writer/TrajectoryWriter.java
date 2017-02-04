@@ -1,10 +1,12 @@
-package org.usfirst.frc.team1197.TorTrajectoryLib;
+package org.usfirst.frc.team1197.TorTrajectoryLib.trajectory_writer;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+
+import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 
 public class TrajectoryWriter {
 	private File outputFile;

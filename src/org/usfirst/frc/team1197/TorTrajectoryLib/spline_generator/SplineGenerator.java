@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
-import org.usfirst.frc.team1197.TorTrajectoryLib.TrajectoryWriter;
+import org.usfirst.frc.team1197.TorTrajectoryLib.trajectory_writer.TrajectoryWriter;
 import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph;
 import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph.motionType;
 
@@ -48,6 +48,7 @@ public class SplineGenerator {
 		writer = new TrajectoryWriter(trajectory, new String("testSpline"));
 		try {
 			writer.writeDotJava(new String("org.usfirst.frc.team1197.robot"));
+//			writer.writeDotCSV();
 		} catch (IOException x) {
 			System.err.format("IOException: %s%n", x);
 		}

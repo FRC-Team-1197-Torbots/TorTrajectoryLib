@@ -1,7 +1,9 @@
-package org.usfirst.frc.team1197.TorTrajectoryLib;
+package org.usfirst.frc.team1197.TorTrajectoryLib.trajectory_writer;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+
+import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 
 public abstract class StringWriter {
 	protected BufferedWriter fileWriter;

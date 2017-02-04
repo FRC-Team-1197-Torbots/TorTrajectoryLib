@@ -1,6 +1,8 @@
-package org.usfirst.frc.team1197.TorTrajectoryLib;
+package org.usfirst.frc.team1197.TorTrajectoryLib.trajectory_writer;
 
 import java.io.IOException;
+
+import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 
 public class DotCSVWriter extends StringWriter {
 
