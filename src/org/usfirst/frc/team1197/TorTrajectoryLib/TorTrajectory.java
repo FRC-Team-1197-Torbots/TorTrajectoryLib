@@ -45,7 +45,7 @@ public abstract class TorTrajectory {
 		time = new ArrayList<Long>();
 		translation = new ArrayList<MotionState1D>();
 		rotation = new ArrayList<MotionState1D>();
-		time.add((long)0);
+		time.add((long) 0);
 		translation.add(new MotionState1D(0.0, 0.0, 0.0));
 		rotation.add(new MotionState1D(0.0, 0.0, 0.0));
 		isComplete = false;

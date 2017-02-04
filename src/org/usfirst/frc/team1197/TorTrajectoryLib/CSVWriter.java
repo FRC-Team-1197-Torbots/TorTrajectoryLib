@@ -4,13 +4,12 @@ import java.io.IOException;
 
 public class CSVWriter extends StringWriter {
 
-	private String s;
-
 	public CSVWriter(TorTrajectory t) {
 		super(t);
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public void write() throws IOException {
 		for (long time = 0; time <= trajectory.totalTime(); time += dt) {
 			lookUpData(time);

@@ -16,19 +16,22 @@ public class TrajectoryWriter {
 		trajectory = t;
 		fileName = name;
 	}
+	
 	public TrajectoryWriter() {
 		// TODO Auto-generated constructor stub
 	}
+	
 	public void setFile(String fileName){
 		outputFile = new File(fileName);
 	}
-	public void writeDotJava() throws IOException{
+	
+	public void writeDotJava(String p) throws IOException{
 		String fileNameDotJava = fileName.concat(".java");
 		outputFile = new File(fileNameDotJava);
-		stringWriter = new CSVWriter(trajectory);
+		stringWriter = new NewClassWriter(trajectory, p, fileName);
 		writeTextFile(outputFile, stringWriter);
-		
 	}
+	
 	public void writeDotCSV() throws IOException{
 		String fileNameDotCSV = fileName.concat(".CSV");
 		outputFile = new File(fileNameDotCSV);

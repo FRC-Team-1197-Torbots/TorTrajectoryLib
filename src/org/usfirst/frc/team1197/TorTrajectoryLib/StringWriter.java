@@ -9,6 +9,7 @@ public abstract class StringWriter {
 	protected long dt = 5;
 	protected double pos, vel, acc;
 	protected double head, omg, alf;
+	protected String s;
 	
 	public StringWriter(TorTrajectory t){
 		trajectory = t;
