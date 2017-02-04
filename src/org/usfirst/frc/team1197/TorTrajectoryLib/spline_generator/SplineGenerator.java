@@ -1,7 +1,10 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
+import java.io.IOException;
+
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
+import org.usfirst.frc.team1197.TorTrajectoryLib.TrajectoryWriter;
 import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph;
 import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph.motionType;
 
@@ -12,6 +15,7 @@ public class SplineGenerator {
 	private static SplineTrajectory trajectory;
 	private static VelocityGraph translationGraph;
 	private static VelocityGraph rotationGraph;
+	private static TrajectoryWriter writer;
 
     public static void main(final String[] args) {
         
@@ -40,6 +44,13 @@ public class SplineGenerator {
         rotationGraph.display();
         translationGraph.plotData();
         rotationGraph.plotData();
+        
+        writer = new TrajectoryWriter(trajectory, new String("testSpline"));
+        try {
+			writer.writeDotCSV();
+		} catch (IOException x) {
+			System.err.format("IOException: %s%n", x);
+		}
         
     }
 }

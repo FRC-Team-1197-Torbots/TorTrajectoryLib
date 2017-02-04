@@ -104,7 +104,7 @@ public class VelocityGraph extends ApplicationFrame {
 	}
 	
 	public void plotData(){
-		double dt = 5;
+		long dt = 5;
 		double pos;
 		double vel;
 		double acc;
