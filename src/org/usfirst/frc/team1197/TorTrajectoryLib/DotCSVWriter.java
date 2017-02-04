@@ -2,9 +2,9 @@ package org.usfirst.frc.team1197.TorTrajectoryLib;
 
 import java.io.IOException;
 
-public class CSVWriter extends StringWriter {
+public class DotCSVWriter extends StringWriter {
 
-	public CSVWriter(TorTrajectory t) {
+	public DotCSVWriter(TorTrajectory t) {
 		super(t);
 		// TODO Auto-generated constructor stub
 	}
@@ -13,8 +13,7 @@ public class CSVWriter extends StringWriter {
 	public void write() throws IOException {
 		for (long time = 0; time <= trajectory.totalTime(); time += dt) {
 			lookUpData(time);
-			s = new String("");
-			s = s.concat(String.valueOf(time)).concat(String.valueOf(", "));
+			s = "".concat(String.valueOf(time)).concat(String.valueOf(", "));
 			s = s.concat(String.valueOf(pos)).concat(String.valueOf(", "));
 			s = s.concat(String.valueOf(vel)).concat(String.valueOf(", "));
 			s = s.concat(String.valueOf(acc)).concat(String.valueOf(", "));

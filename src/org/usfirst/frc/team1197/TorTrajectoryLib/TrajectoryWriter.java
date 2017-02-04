@@ -28,14 +28,14 @@ public class TrajectoryWriter {
 	public void writeDotJava(String p) throws IOException{
 		String fileNameDotJava = fileName.concat(".java");
 		outputFile = new File(fileNameDotJava);
-		stringWriter = new NewClassWriter(trajectory, p, fileName);
+		stringWriter = new DotJavaWriter(trajectory, p, fileName);
 		writeTextFile(outputFile, stringWriter);
 	}
 	
 	public void writeDotCSV() throws IOException{
 		String fileNameDotCSV = fileName.concat(".CSV");
 		outputFile = new File(fileNameDotCSV);
-		stringWriter = new CSVWriter(trajectory);
+		stringWriter = new DotCSVWriter(trajectory);
 		writeTextFile(outputFile, stringWriter);
 	}
 	

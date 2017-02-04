@@ -11,7 +11,7 @@ public class VelocityPlotter {
 		PivotTrajectory pivTrajectory = new PivotTrajectory(90);
 		VelocityGraph graph = new VelocityGraph(pivTrajectory, motionType.Rotation);
         graph.display();
-        graph.plotData();
+		graph.plotData();
 	}
 
 }
