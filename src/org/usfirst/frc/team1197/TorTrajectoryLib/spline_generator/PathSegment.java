@@ -25,8 +25,8 @@ public abstract class PathSegment {
 		internalTranslation = new ArrayRealVector(new double[] {0.0, 0.0});
 		externalTranslation = new ArrayRealVector(new double[] {0.0, 0.0});
 		translationVector = new ArrayRealVector(new double[] {0.0, 0.0});
-		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{0.0, 0.0}, 
-																  {0.0, 0.0}});
+		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{1.0, 0.0}, 
+																  {0.0, 1.0}});
 	}
 	
 	public double length(){
@@ -35,7 +35,7 @@ public abstract class PathSegment {
 	
 	// Output transformation stuff:
 	public RealVector outputTransform(RealVector pos){
-		return rotationMatrix.operate(pos).add(translationVector);
+		return rotationMatrix.operate(pos.add(internalTranslation)).add(externalTranslation);
 	}
 	
 	// Rotation

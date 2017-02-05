@@ -24,6 +24,8 @@ public class CornuSpiral extends PathSegment {
 	UnivariateIntegrator y_integrator;
 	UnivariateFunction x_integrand;
 	UnivariateFunction y_integrand;
+	
+	private RealVector endPoint;
 
 	public CornuSpiral(double A, double B, double C, double si, double sf) {
 		super();
@@ -59,6 +61,9 @@ public class CornuSpiral extends PathSegment {
 			arcLength.add(s - si);
 			path.add(new ArrayRealVector(new double[] {x, y}));
 		}
+		RealVector startPoint = path.get(0);
+		translateInternally(startPoint.mapMultiply(-1.0));
+		
 	}
 
 	private CornuSpiral() {
@@ -103,13 +108,13 @@ public class CornuSpiral extends PathSegment {
 
 		DecimalFormat df = new DecimalFormat("0.0000");
 		System.out.println("s = ".concat(df.format(s))
-								 .concat(" --- {x; y} = ").concat(pos_next.toString()));
-		return pos;
+								 .concat(" --- {x; y} = ").concat(pos.toString()));
+		return outputTransform(pos);
 	}
 
 	@Override
 	public double headingAt(double s) {
-		return a * s*s*s + b * s*s + c * s;
+		return totalRotation() + a * s*s*s + b * s*s + c * s;
 	}
 
 	@Override

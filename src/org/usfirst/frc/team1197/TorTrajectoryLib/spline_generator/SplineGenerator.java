@@ -20,7 +20,7 @@ public class SplineGenerator {
 		graph.display();
 		PathSegment line = new LineSegment(1.0, 0.0);
 		PathSegment arc = new ArcSegment(1.0, Math.PI / 3.0);
-		PathSegment eulerSpiral = new CornuSpiral(0, 1, 0, 0, 5);
+		PathSegment eulerSpiral = new CornuSpiral(0, 0.5, 0, 3, 5);
 		Spline basicSpline = new Spline(0.0, 0.0, 0.0);
 		basicSpline.add(line);
 		basicSpline.add(arc);
