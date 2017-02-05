@@ -29,8 +29,6 @@ public class CornuSpiral extends PathSegment {
 		super();
 		arcLength = new ArrayList<Double>();
 		path = new ArrayList<RealVector>();
-		arcLength.add(0.0);
-		path.add(new ArrayRealVector(new double[] {0.0, 0.0}));
 		setConstants(A, B, C, si, sf);
 
 		final double relativeAccuracy = 1.0e-6;
@@ -49,10 +47,15 @@ public class CornuSpiral extends PathSegment {
 				return Math.sin(a * t*t*t + b * t*t + c * t);
 			}
 		};
-		double x = 0.0, y = 0.0;
-		for (double s = si + ds; s <= sf; s += ds) {
-			x = x_integrator.integrate(10000, x_integrand, 0, s);
-			y = y_integrator.integrate(10000, y_integrand, 0, s);
+		double x, y;
+		for (double s = si; s <= sf; s += ds) {
+			if(s == 0){
+				x = 0.0;
+				y = 0.0;
+			} else {
+				x = x_integrator.integrate(10000, x_integrand, 0, s);
+				y = y_integrator.integrate(10000, y_integrand, 0, s);
+			}
 			arcLength.add(s - si);
 			path.add(new ArrayRealVector(new double[] {x, y}));
 		}
