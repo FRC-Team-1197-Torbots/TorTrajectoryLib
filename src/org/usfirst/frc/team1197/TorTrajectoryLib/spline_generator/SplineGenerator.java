@@ -1,10 +1,7 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
-import java.io.IOException;
-
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
-import org.usfirst.frc.team1197.TorTrajectoryLib.trajectory_writer.TrajectoryWriter;
 import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph;
 import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph.motionType;
 
@@ -15,7 +12,7 @@ public class SplineGenerator {
 	private static SplineTrajectory trajectory;
 	private static VelocityGraph translationGraph;
 	private static VelocityGraph rotationGraph;
-	private static TrajectoryWriter writer;
+//	private static TrajectoryWriter writer;
 
 	public static void main(final String[] args) {
 
@@ -23,13 +20,15 @@ public class SplineGenerator {
 		graph.display();
 		PathSegment line = new LineSegment(1.0, 0.0);
 		PathSegment arc = new ArcSegment(1.0, Math.PI / 3.0);
+		PathSegment eulerSpiral = new CornuSpiral(0, 1, 0, 0, 5);
 		Spline basicSpline = new Spline(0.0, 0.0, 0.0);
 		basicSpline.add(line);
 		basicSpline.add(arc);
 		inputSpline = new Spline(6.0, 2.0, 0.0, true);
-		inputSpline.add(basicSpline);
-		inputSpline.add(basicSpline);
-		inputSpline.add(line);
+//		inputSpline.add(basicSpline);
+//		inputSpline.add(basicSpline);
+//		inputSpline.add(line);
+		inputSpline.add(eulerSpiral);
 
 		RealVector P = new ArrayRealVector(new double[] { 0.0, 0.0 });
 		for (double s = 0.0; s <= inputSpline.length(); s += ds) {
@@ -45,13 +44,13 @@ public class SplineGenerator {
 		translationGraph.plotData();
 		rotationGraph.plotData();
 
-		writer = new TrajectoryWriter(trajectory, new String("testSpline"));
-		try {
-			writer.writeDotJava(new String("org.usfirst.frc.team1197.robot"));
-//			writer.writeDotCSV();
-		} catch (IOException x) {
-			System.err.format("IOException: %s%n", x);
-		}
+//		writer = new TrajectoryWriter(trajectory, new String("testSpline"));
+//		try {
+//			writer.writeDotJava(new String("org.usfirst.frc.team1197.robot"));
+////			writer.writeDotCSV();
+//		} catch (IOException x) {
+//			System.err.format("IOException: %s%n", x);
+//		}
 
 	}
 }

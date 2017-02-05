@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
-import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 import org.usfirst.frc.team1197.TorTrajectoryLib.MotionState1D;
+import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 
 public class SplineTrajectory extends TorTrajectory {
 	private PathSegment path;
