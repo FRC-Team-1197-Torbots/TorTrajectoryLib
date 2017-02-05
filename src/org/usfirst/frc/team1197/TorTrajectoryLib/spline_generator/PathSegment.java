@@ -104,27 +104,16 @@ public abstract class PathSegment {
 	public RealVector externalTranslation(){
 		return externalTranslation;
 	}
-	public RealVector totalTranslation(){
-		translateTo(internalTranslation.add(externalTranslation));
-		return translationVector;
-	}
 	public void translateInternally(RealVector i){
 		internalTranslation = i;
-		translateTo(internalTranslation.add(externalTranslation));
 	}
 	public void translateInternally(double x, double y){
 		internalTranslation = new ArrayRealVector(new double[] {x, y});
-		translateTo(internalTranslation.add(externalTranslation));
 	}
 	public void translateExternally(RealVector e){
 		externalTranslation = e;
-		translateTo(internalTranslation.add(externalTranslation));
 	}
 	public void translateExternally(double x, double y){
 		externalTranslation = new ArrayRealVector(new double[] {x, y});
-		translateTo(internalTranslation.add(externalTranslation));
-	}
-	private void translateTo(RealVector v){
-		translationVector = v;
 	}
 }

@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.apache.commons.math3.linear.RealVector;
 
-public class Spline extends PathSegment{
+public class Spline extends PathSegment {
 	private List<PathSegment> path;
-	
-	public Spline(double start_x, double start_y, double start_head){
+
+	public Spline(double start_x, double start_y, double start_head) {
 		translateInternally(start_x, start_y);
 		rotateInternally(start_head);
 		translateExternally(0.0, 0.0);
@@ -16,14 +16,14 @@ public class Spline extends PathSegment{
 		path = new LinkedList<PathSegment>();
 		length = 0.0;
 	}
-	public Spline(double start_x, double start_y, double start_head, boolean isFirst){
-		if (!isFirst){
+
+	public Spline(double start_x, double start_y, double start_head, boolean isFirst) {
+		if (!isFirst) {
 			translateInternally(start_x, start_y);
 			rotateInternally(start_head);
 			translateExternally(0.0, 0.0);
 			rotateExternally(0.0);
-		}
-		else{
+		} else {
 			translateInternally(0.0, 0.0);
 			rotateInternally(0.0);
 			translateExternally(start_x, start_y);
@@ -32,17 +32,13 @@ public class Spline extends PathSegment{
 		path = new LinkedList<PathSegment>();
 		length = 0.0;
 	}
-	
+
 	@Override
 	public String toString() {
 		String s = new String("Spline:\n");
 		int i = 0;
-		for(PathSegment segment:path){
-			s.concat("\tsegment ")
-			 .concat(String.valueOf(i))
-			 .concat(" = ")
-			 .concat(segment.toString())
-			 .concat("\n");
+		for (PathSegment segment : path) {
+			s.concat("\tsegment ").concat(String.valueOf(i)).concat(" = ").concat(segment.toString()).concat("\n");
 			i++;
 		}
 		return s;
@@ -52,39 +48,39 @@ public class Spline extends PathSegment{
 	public PathSegment clone() {
 		RealVector translation = internalTranslation();
 		Spline splineCopy = new Spline(translation.getEntry(0), translation.getEntry(1), internalRotation());
-		for(PathSegment segment:path){
+		for (PathSegment segment : path) {
 			splineCopy.add(segment.clone());
 		}
 		return splineCopy;
 	}
-	
-	public void add(PathSegment segment){
+
+	public void add(PathSegment segment) {
 		segment = segment.clone();
-		if (path.size() > 0){
+		if (path.size() > 0) {
 			RealVector nextStartingPoint = unrotateMatrix()
-												.operate(positionAt(length())
-														 .subtract(totalTranslation()));
-			double nextStartingHeading = headingAt(length)-totalRotation();
+					.operate(positionAt(length()).subtract(externalTranslation()));
+											  // .subtract(totalTranslation()));
+			double nextStartingHeading = headingAt(length) - totalRotation();
 			segment.translateExternally(nextStartingPoint);
 			segment.rotateExternally(nextStartingHeading);
 		}
 		path.add(segment);
 		length += segment.length();
 	}
-	
-	public RealVector positionAt(double s){
+
+	public RealVector positionAt(double s) {
 		double lengthSoFar = 0.0;
-		for (PathSegment segment : path){
+		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length)
-				return outputTransform(segment.positionAt(s-lengthSoFar));
+				return outputTransform(segment.positionAt(s - lengthSoFar));
 			lengthSoFar += segment.length();
 		}
 		return null;
 	}
-	
-	public double headingAt(double s){
+
+	public double headingAt(double s) {
 		double lengthSoFar = 0.0;
-		for (PathSegment segment : path){
+		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length)
 				return totalRotation() + segment.headingAt(s - lengthSoFar);
 			lengthSoFar += segment.length();
@@ -93,9 +89,9 @@ public class Spline extends PathSegment{
 	}
 
 	@Override
-	public double curvatureAt(double s){
+	public double curvatureAt(double s) {
 		double lengthSoFar = 0.0;
-		for (PathSegment segment : path){
+		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length)
 				return segment.curvatureAt(s - lengthSoFar);
 			lengthSoFar += segment.length();

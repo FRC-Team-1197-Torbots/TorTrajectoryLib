@@ -63,6 +63,8 @@ public class CornuSpiral extends PathSegment {
 		}
 		RealVector startPoint = path.get(0);
 		translateInternally(startPoint.mapMultiply(-1.0));
+		double startHeading = headingAt(0.0);
+		rotateInternally(-startHeading);
 		
 	}
 
@@ -106,19 +108,18 @@ public class CornuSpiral extends PathSegment {
 		RealVector pos_next = path.get(i_next);
 		RealVector pos = linearInterpolate(pos_prev, pos_next, s - s_prev);
 
-		DecimalFormat df = new DecimalFormat("0.0000");
-		System.out.println("s = ".concat(df.format(s))
-								 .concat(" --- {x; y} = ").concat(pos.toString()));
 		return outputTransform(pos);
 	}
 
 	@Override
 	public double headingAt(double s) {
+		s = s + si;
 		return totalRotation() + a * s*s*s + b * s*s + c * s;
 	}
 
 	@Override
 	public double curvatureAt(double s) {
+		s = s + si;
 		return A * s*s + B * s + C;
 	}
 
@@ -149,6 +150,10 @@ public class CornuSpiral extends PathSegment {
 			arcLength.add(s);
 			path.add(p.get(i).copy());
 		}
+		RealVector startPoint = path.get(0);
+		translateInternally(startPoint.mapMultiply(-1.0));
+		double startHeading = headingAt(0.0);
+		rotateInternally(-startHeading);
 	}
 	
 	private int getLowerNeighborIndex(double s, List<Double> list){

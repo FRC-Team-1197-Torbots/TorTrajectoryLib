@@ -34,8 +34,4 @@ public class SplineTrajectory extends TorTrajectory {
 			rotation.add(new MotionState1D(head, omg, alf));
 		}
 	}
-
-	public double max_alf() {
-		return 0.0;
-	}
 }
