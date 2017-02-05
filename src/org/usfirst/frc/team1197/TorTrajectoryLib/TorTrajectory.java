@@ -150,13 +150,6 @@ public abstract class TorTrajectory {
 		}
 	}
 	
-	public double goalPos(){
-		return goal_pos;
-	}
-	public double goalHead(){
-		return goal_head;
-	}
-	
 	public double lookUpPosition(long t){
 		if(t < time.get(0)){
 			return 0.0;
@@ -227,32 +220,48 @@ public abstract class TorTrajectory {
 		return avg;
 	}
 	
-	public double goal_pos(){
+	public double goalPos(){
 		return goal_pos;
 	}
-	public double max_vel(){
-		double max = 0.0;
-		for (MotionState1D m:translation){
-			if(Math.abs(m.vel)>max)
-				max = Math.abs(m.vel);
-		}
-		return Math.signum(goal_pos)*max;
+	public double maxVelocity(){
+		return max_vel;
 	}
-	public double max_acc(){
-		double max = 0.0;
-		for (MotionState1D m:translation){
-			if(Math.abs(m.acc)>max)
-				max = Math.abs(m.acc);
-		}
-		return Math.signum(goal_pos)*max;
+	public double maxAcceleration(){
+		return max_acc;
 	}
-	public double max_jerk(){
+	public double maxJerk(){
 		return max_jerk;
 	}
-	public double goal_head(){
+	public double adjustedMaxVelocity(){
+		double max = 0.0;
+		for (MotionState1D m:translation){
+			if(Math.abs(m.vel)>max)
+				max = Math.abs(m.vel);
+		}
+		return Math.signum(goal_pos)*max;
+	}
+	public double adjustedMaxAcceleration(){
+		double max = 0.0;
+		for (MotionState1D m:translation){
+			if(Math.abs(m.acc)>max)
+				max = Math.abs(m.acc);
+		}
+		return Math.signum(goal_pos)*max;
+	}
+	
+	public double goalHead(){
 		return goal_head;
 	}
-	public double max_omg(){
+	public double maxOmega(){
+		return max_omg;
+	}
+	public double maxAlpha(){
+		return max_alf;
+	}
+	public double maxJeta(){
+		return max_jeta;
+	}
+	public double adjustedMaxOmega(){
 		double max = 0.0;
 		for (MotionState1D m : rotation){
 			if(Math.abs(m.vel)>max)
@@ -260,7 +269,7 @@ public abstract class TorTrajectory {
 		}
 		return Math.signum(goal_head)*max;
 	}
-	public double max_alf(){
+	public double adjustedMaxAlpha(){
 		double max = 0.0;
 		for (MotionState1D m : rotation){
 			if(Math.abs(m.acc)>max)
@@ -268,9 +277,7 @@ public abstract class TorTrajectory {
 		}
 		return Math.signum(goal_head)*max;
 	}
-	public double max_jeta(){
-		return max_jeta;
-	}
+	
 	public long totalTime(){
 		return time.get(time.size()-1);
 	}

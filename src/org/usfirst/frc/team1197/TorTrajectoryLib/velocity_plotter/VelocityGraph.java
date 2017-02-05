@@ -24,6 +24,11 @@ public class VelocityGraph extends ApplicationFrame {
 	XYSeries position;
 	XYSeries velocity;
 	XYSeries acceleration;
+	XYSeries posLimit;
+	XYSeries positiveVelLimit;
+	XYSeries negativeVelLimit;
+	XYSeries positiveAccLimit;
+	XYSeries negativeAccLimit;
 	static ChartPanel chartPanel;
 	BufferedImage backgroundImage;
 	double xMin;
@@ -46,19 +51,50 @@ public class VelocityGraph extends ApplicationFrame {
 			position = new XYSeries("Heading");
 			velocity = new XYSeries("Omega");
 			acceleration = new XYSeries("Alpha");
+			posLimit = new XYSeries("Heading Limit");
+			positiveVelLimit = new XYSeries("Positive Omega Limit");
+			negativeVelLimit = new XYSeries("Negative Omega Limit");
+			positiveAccLimit = new XYSeries("Positive Alpha Limit");
+			negativeAccLimit = new XYSeries("Negative Alpha Limit");
+			posLimit.add(xMin, trajectory.goalHead()*180.0/Math.PI);
+			posLimit.add(xMax, trajectory.goalHead()*180.0/Math.PI);
+			positiveVelLimit.add(xMin, trajectory.maxOmega()*180.0/Math.PI);
+			positiveVelLimit.add(xMax, trajectory.maxOmega()*180.0/Math.PI);
+			negativeVelLimit.add(xMin, -trajectory.maxOmega()*180.0/Math.PI);
+			negativeVelLimit.add(xMax, -trajectory.maxOmega()*180.0/Math.PI);
+			positiveAccLimit.add(xMin, trajectory.maxAlpha()*180.0/Math.PI);
+			positiveAccLimit.add(xMax, trajectory.maxAlpha()*180.0/Math.PI);
+			negativeAccLimit.add(xMin, -trajectory.maxAlpha()*180.0/Math.PI);
+			negativeAccLimit.add(xMax, -trajectory.maxAlpha()*180.0/Math.PI);
 			yMax = 1.25*Math.abs(Math.max(0.0,  
-								 		  Math.max(trajectory.goal_head(),
-								 				   Math.max(trajectory.max_omg(),
-								 						    trajectory.max_alf()))));
+								 		  Math.max(trajectory.goalHead(),
+								 				   Math.max(trajectory.adjustedMaxOmega(),
+								 						    trajectory.adjustedMaxAlpha()))));
 			yMax *= 180.0/Math.PI;
 		} else {
 			position = new XYSeries("Position");
 			velocity = new XYSeries("Velocity");
 			acceleration = new XYSeries("Acceleration");
+			posLimit = new XYSeries("Position Limit");
+			positiveVelLimit = new XYSeries("Positive Velocity Limit");
+			negativeVelLimit = new XYSeries("Negative Velocity Limit");
+			positiveAccLimit = new XYSeries("Positive Acceleration Limit");
+			negativeAccLimit = new XYSeries("Negative Acceleration Limit");
+			
+			posLimit.add(xMin, trajectory.goalPos());
+			posLimit.add(xMax, trajectory.goalPos());
+			positiveVelLimit.add(xMin, trajectory.maxVelocity());
+			positiveVelLimit.add(xMax, trajectory.maxVelocity());
+			negativeVelLimit.add(xMin, -trajectory.maxVelocity());
+			negativeVelLimit.add(xMax, -trajectory.maxVelocity());
+			positiveAccLimit.add(xMin, trajectory.maxAcceleration());
+			positiveAccLimit.add(xMax, trajectory.maxAcceleration());
+			negativeAccLimit.add(xMin, -trajectory.maxAcceleration());
+			negativeAccLimit.add(xMax, -trajectory.maxAcceleration());
 			yMax = 1.25*Math.abs(Math.max(0.0,
-										  Math.max(trajectory.goal_pos(),
-												   Math.max(trajectory.max_vel(),
-						    							    trajectory.max_acc()))));
+										  Math.max(trajectory.goalPos(),
+												   Math.max(trajectory.adjustedMaxVelocity(),
+						    							    trajectory.adjustedMaxAcceleration()))));
 
 		}
 		if (yMax == 0.0){
@@ -78,12 +114,34 @@ public class VelocityGraph extends ApplicationFrame {
 		renderer.setSeriesLinesVisible(0, true);
 		renderer.setSeriesShapesVisible(0, false);
 		renderer.setSeriesPaint(0, new Color(0x00, 0x00, 0x00));
+		
 		renderer.setSeriesLinesVisible(1, true);
 		renderer.setSeriesShapesVisible(1, false);
 		renderer.setSeriesPaint(1, new Color(0xFF, 0x00, 0x00));
+		
 		renderer.setSeriesLinesVisible(2, true);
 		renderer.setSeriesShapesVisible(2, false);
 		renderer.setSeriesPaint(2, new Color(0x00, 0x00, 0xFF));
+		
+		renderer.setSeriesLinesVisible(3, true);
+		renderer.setSeriesShapesVisible(3, false);
+		renderer.setSeriesPaint(3, new Color(0xC0, 0xC0, 0xC0));
+		
+		renderer.setSeriesLinesVisible(4, true);
+		renderer.setSeriesShapesVisible(4, false);
+		renderer.setSeriesPaint(4, new Color(0xFF, 0xC0, 0xC0));
+		renderer.setSeriesLinesVisible(5, true);
+		renderer.setSeriesShapesVisible(5, false);
+		renderer.setSeriesPaint(5, new Color(0xFF, 0xC0, 0xC0));
+		
+		renderer.setSeriesLinesVisible(6, true);
+		renderer.setSeriesShapesVisible(6, false);
+		renderer.setSeriesPaint(6, new Color(0xC0, 0xC0, 0xFF));
+		renderer.setSeriesLinesVisible(7, true);
+		renderer.setSeriesShapesVisible(7, false);
+		renderer.setSeriesPaint(7, new Color(0xC0, 0xC0, 0xFF));
+		
+		
 		// Create and configure the plot:
 		XYPlot plot = new XYPlot(dataset, domainAx, rangeAx, renderer);
 //		plot.setOrientation(PlotOrientation.VERTICAL);
@@ -131,12 +189,14 @@ public class VelocityGraph extends ApplicationFrame {
 	
 	private XYDataset createDataset() {
 		final XYSeriesCollection dataset = new XYSeriesCollection();
-		dataset.addSeries(position);
-		dataset.addSeries(velocity);
-		dataset.addSeries(acceleration);
-//		border.add(0.0,8.2296);
-//		border.add(16.5608,8.2296);
-//		border.add(16.5608,0.0);
+		dataset.addSeries(position);			//0
+		dataset.addSeries(velocity);			//1
+		dataset.addSeries(acceleration);		//2
+		dataset.addSeries(posLimit);			//3
+		dataset.addSeries(positiveVelLimit);	//4
+		dataset.addSeries(negativeVelLimit);	//5
+		dataset.addSeries(positiveAccLimit);	//6
+		dataset.addSeries(negativeAccLimit);	//7
 		return dataset;
 	}
 

@@ -23,8 +23,8 @@ public class DotJavaWriter extends StringWriter {
 		s = s.concat("public class ").concat(className).concat(" extends TorTrajectory {\n\n");
 		fileWriter.write(s, 0, s.length());
 		s = "\tpublic ".concat(className).concat("() {\n");
-		s = s.concat("\t\tsuper(").concat(df.format(trajectory.goal_pos())).concat(", ")
-				.concat(df.format(trajectory.goal_head())).concat(");\n");
+		s = s.concat("\t\tsuper(").concat(df.format(trajectory.goalPos())).concat(", ")
+				.concat(df.format(trajectory.goalHead())).concat(");\n");
 		s = s.concat("\t\ttime.clear();\n\t\ttranslation.clear();\n\t\trotation.clear();\n");
 		fileWriter.write(s, 0, s.length());
 
