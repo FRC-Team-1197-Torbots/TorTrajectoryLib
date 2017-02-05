@@ -36,7 +36,10 @@ public class LineSegment extends PathSegment{
 
 	@Override
 	public LineSegment clone() {
-		return new LineSegment(length, internalRotation());
+		LineSegment lineCopy = new LineSegment(length, internalRotation());
+		lineCopy.translateInternally(internalTranslation());
+		lineCopy.rotateInternally(internalRotation());
+		return lineCopy;
 	}
 
 }

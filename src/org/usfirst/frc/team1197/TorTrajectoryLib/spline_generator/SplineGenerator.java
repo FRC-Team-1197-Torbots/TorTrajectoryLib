@@ -20,15 +20,17 @@ public class SplineGenerator {
 		graph.display();
 		PathSegment line = new LineSegment(1.0, 0.0);
 		PathSegment arc = new ArcSegment(1.0, Math.PI / 3.0);
-		PathSegment eulerSpiral = new CornuSpiral(0, 0.5, 0, 3, 5);
+		arc.translateInternally(1.0, 0.0);
+		arc.rotateInternally(-Math.PI / 3.0);
+//		PathSegment eulerSpiral = new CornuSpiral(0, 0.5, 0, 3, 5);
 		TorSpline basicSpline = new TorSpline(0.0, 0.0, 0.0);
 		basicSpline.add(line);
 		basicSpline.add(arc);
-		inputSpline = new TorSpline(6.0, 2.0, 0.0, true);
-//		inputSpline.add(basicSpline);
-//		inputSpline.add(basicSpline);
-//		inputSpline.add(line);
-		inputSpline.add(eulerSpiral);
+		inputSpline = new TorSpline(6.0, 2.0, Math.PI / 3.0, true);
+		inputSpline.add(basicSpline);
+		inputSpline.add(basicSpline);
+		inputSpline.add(line);
+//		inputSpline.add(eulerSpiral);
 
 		RealVector P = new ArrayRealVector(new double[] { 0.0, 0.0 });
 		for (double s = 0.0; s <= inputSpline.length(); s += ds) {

@@ -17,7 +17,7 @@ public class SplineTrajectory extends TorTrajectory {
 		walk();
 	}
 
-	void walk() {
+	private void walk() {
 		double s = 0.0;
 		double v = 0.0;
 		double head = 0.0;
@@ -33,5 +33,10 @@ public class SplineTrajectory extends TorTrajectory {
 			alf = (omg - last_omg) / dt;
 			rotation.add(new MotionState1D(head, omg, alf));
 		}
+	}
+	
+	@Override
+	public double adjustedMaxAlpha(){
+		return 0.0;
 	}
 }
