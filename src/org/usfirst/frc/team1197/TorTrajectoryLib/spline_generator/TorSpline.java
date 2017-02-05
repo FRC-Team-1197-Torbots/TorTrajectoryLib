@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.apache.commons.math3.linear.RealVector;
 
-public class Spline extends PathSegment {
+public class TorSpline extends PathSegment {
 	private List<PathSegment> path;
 
-	public Spline(double start_x, double start_y, double start_head) {
+	public TorSpline(double start_x, double start_y, double start_head) {
 		translateInternally(start_x, start_y);
 		rotateInternally(start_head);
 		translateExternally(0.0, 0.0);
@@ -17,7 +17,7 @@ public class Spline extends PathSegment {
 		length = 0.0;
 	}
 
-	public Spline(double start_x, double start_y, double start_head, boolean isFirst) {
+	public TorSpline(double start_x, double start_y, double start_head, boolean isFirst) {
 		if (!isFirst) {
 			translateInternally(start_x, start_y);
 			rotateInternally(start_head);
@@ -47,7 +47,7 @@ public class Spline extends PathSegment {
 	@Override
 	public PathSegment clone() {
 		RealVector translation = internalTranslation();
-		Spline splineCopy = new Spline(translation.getEntry(0), translation.getEntry(1), internalRotation());
+		TorSpline splineCopy = new TorSpline(translation.getEntry(0), translation.getEntry(1), internalRotation());
 		for (PathSegment segment : path) {
 			splineCopy.add(segment.clone());
 		}

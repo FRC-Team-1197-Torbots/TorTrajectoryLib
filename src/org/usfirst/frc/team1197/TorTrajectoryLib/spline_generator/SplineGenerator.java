@@ -8,7 +8,7 @@ import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph.
 public class SplineGenerator {
 
 	private static final double ds = 0.005;
-	private static Spline inputSpline;
+	private static TorSpline inputSpline;
 	private static SplineTrajectory trajectory;
 	private static VelocityGraph translationGraph;
 	private static VelocityGraph rotationGraph;
@@ -21,10 +21,10 @@ public class SplineGenerator {
 		PathSegment line = new LineSegment(1.0, 0.0);
 		PathSegment arc = new ArcSegment(1.0, Math.PI / 3.0);
 		PathSegment eulerSpiral = new CornuSpiral(0, 0.5, 0, 3, 5);
-		Spline basicSpline = new Spline(0.0, 0.0, 0.0);
+		TorSpline basicSpline = new TorSpline(0.0, 0.0, 0.0);
 		basicSpline.add(line);
 		basicSpline.add(arc);
-		inputSpline = new Spline(6.0, 2.0, 0.0, true);
+		inputSpline = new TorSpline(6.0, 2.0, 0.0, true);
 //		inputSpline.add(basicSpline);
 //		inputSpline.add(basicSpline);
 //		inputSpline.add(line);
