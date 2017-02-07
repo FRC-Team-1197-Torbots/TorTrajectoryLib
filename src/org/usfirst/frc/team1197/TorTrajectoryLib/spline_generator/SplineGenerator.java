@@ -32,12 +32,14 @@ public class SplineGenerator {
 //		move2Left.add(new LineSegment(0.5, 0.0));
 		
 		inputSpline = new TorSpline(0.0, 0.0, 0.0);
+//		inputSpline.add(new LineSegment(0.5, 0.0));
 		inputSpline.add(move1Left);
 //		inputSpline.add(eulerSpiral);
 
 		RealVector P = new ArrayRealVector(new double[] { 0.0, 0.0 });
 		for (double s = 0.0; s <= inputSpline.length(); s += ds) {
 			P = inputSpline.positionAt(s);
+			System.out.println(P);
 			graph.inputPath.add(P.getEntry(0), P.getEntry(1));
 		}
 

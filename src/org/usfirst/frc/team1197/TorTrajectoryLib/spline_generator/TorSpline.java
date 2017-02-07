@@ -1,17 +1,16 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
 public class TorSpline extends PathSegment {
+	
 	private List<PathSegment> path;
 
 	public TorSpline(double start_x, double start_y, double start_head) {
 		super(start_x, start_y, start_head);
-		path = new LinkedList<PathSegment>();
+		path = new ArrayList<PathSegment>();
 		length = 0.0;
 	}
 
@@ -20,7 +19,7 @@ public class TorSpline extends PathSegment {
 		String s = new String("Spline:\n");
 		int i = 0;
 		for (PathSegment segment : path) {
-			s.concat("\tsegment ").concat(String.valueOf(i)).concat(" = ").concat(segment.toString()).concat("\n");
+			s = s.concat("Segment ").concat(String.valueOf(i)).concat(" = ").concat(segment.toString()).concat("\n");
 			i++;
 		}
 		return s;
@@ -28,10 +27,11 @@ public class TorSpline extends PathSegment {
 
 	@Override
 	public PathSegment clone() {
-		RealVector translation = internalTranslation();
-		TorSpline splineCopy = new TorSpline(translation.getEntry(0), translation.getEntry(1), internalRotation());
+		TorSpline splineCopy = new TorSpline(internalTranslation().getEntry(0),
+											 internalTranslation().getEntry(1),
+											 internalRotation());
 		for (PathSegment segment : path) {
-			splineCopy.add(segment.clone());
+			splineCopy.add(segment);
 		}
 		return splineCopy;
 	}
@@ -44,8 +44,8 @@ public class TorSpline extends PathSegment {
 			segment.translateExternally(nextStartingPoint);
 			segment.rotateExternally(nextStartingHeading);
 		}
-		path.add(segment);
 		length += segment.length();
+		path.add(segment);
 	}
 
 	@Override

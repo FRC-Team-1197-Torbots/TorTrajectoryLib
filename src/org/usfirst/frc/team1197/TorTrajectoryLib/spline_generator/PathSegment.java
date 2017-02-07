@@ -24,14 +24,14 @@ public abstract class PathSegment {
 		translateInternally(internalTranslation);
 		rotateInternally(internalRotation);
 		rotateExternally(0.0);
-		translateExternally(0, 0);
+		translateExternally(0.0, 0.0);
 	}
 	
 	public PathSegment(double x, double y, double internalRotation){
 		translateInternally(x, y);
 		rotateInternally(internalRotation);
 		rotateExternally(0.0);
-		translateExternally(0, 0);
+		translateExternally(0.0, 0.0);
 	}
 	
 	public RealVector positionAt(double s){
@@ -68,7 +68,7 @@ public abstract class PathSegment {
 	}
 	public void rotateExternally(double r){
 		externalRotation = r;
-		internalRotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+		externalRotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
 			  															  {Math.sin(r), Math.cos(r)}});		
 	}
 	public RealMatrix internalRotationMatrix(){

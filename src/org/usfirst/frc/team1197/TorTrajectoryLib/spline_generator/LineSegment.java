@@ -22,7 +22,7 @@ public class LineSegment extends PathSegment{
 	@Override
 	protected RealVector rawPositionAt(double s) {
 		position.setEntry(0, s);
-		position.setEntry(0, 0.0);
+		position.setEntry(1, 0.0);
 		return internalTransform(position);
 	}
 
