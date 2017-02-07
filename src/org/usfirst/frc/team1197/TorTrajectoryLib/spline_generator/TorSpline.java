@@ -57,11 +57,11 @@ public class TorSpline extends PathSegment {
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length())
-				return internalTransform(segment.positionAt(s - lengthSoFar));
+				return internalTransform(segment.rawPositionAt(s - lengthSoFar));
 			lengthSoFar += segment.length();
 		}
 		PathSegment lastSegment = path.get(path.size() - 1);
-		return internalTransform(lastSegment.positionAt(lastSegment.length()));
+		return internalTransform(lastSegment.rawPositionAt(lastSegment.length()));
 	}
 
 	@Override
@@ -69,11 +69,11 @@ public class TorSpline extends PathSegment {
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length())
-				return internalRotation() + segment.headingAt(s - lengthSoFar);
+				return internalRotation() + segment.rawHeadingAt(s - lengthSoFar);
 			lengthSoFar += segment.length();
 		}
 		PathSegment lastSegment = path.get(path.size() - 1);
-		return internalRotation() + lastSegment.headingAt(lastSegment.length());
+		return internalRotation() + lastSegment.rawHeadingAt(lastSegment.length());
 	}
 
 	@Override

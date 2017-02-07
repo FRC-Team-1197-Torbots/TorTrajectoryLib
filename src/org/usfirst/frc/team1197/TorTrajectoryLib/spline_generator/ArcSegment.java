@@ -24,7 +24,7 @@ public class ArcSegment extends PathSegment {
 	}
 	
 	public ArcSegment clone(){
-		ArcSegment arcCopy = new ArcSegment((1.0/curvature), totalAngle);
+		ArcSegment arcCopy = new ArcSegment(Math.abs((1.0/curvature)), totalAngle);
 		arcCopy.translateInternally(internalTranslation());
 		arcCopy.rotateInternally(internalRotation());
 		return arcCopy;
