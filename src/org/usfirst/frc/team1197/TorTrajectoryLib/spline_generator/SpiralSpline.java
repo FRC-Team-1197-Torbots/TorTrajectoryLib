@@ -18,18 +18,18 @@ public class SpiralSpline extends TorSpline {
 	double[] B;
 	double[] C;
 
-	public SpiralSpline(double angle, double max_curvature) {
+	public SpiralSpline(double angle, double min_radius) {
 		super(0.0, 0.0, 0.0);
 		s = new double[8];
 		A = new double[7];
 		B = new double[7];
 		C = new double[7];
 		totalAngle = angle;
-		build(max_curvature);
+		build(min_radius);
 	}
 	
-	public void build(double max_curvature){
-		setConstants(max_curvature);
+	public void build(double min_radius){
+		setConstants(1.0/min_radius);
 		this.clear();
 		for (int i = 0; i < 7; i++){
 			if (Math.abs(s[i+1] - s[i]) > ds) {

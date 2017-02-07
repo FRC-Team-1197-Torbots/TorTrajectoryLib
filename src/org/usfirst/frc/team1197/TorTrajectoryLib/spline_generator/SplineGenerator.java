@@ -37,7 +37,7 @@ public class SplineGenerator {
 		
 		TorSpline testSpline = new TorSpline(1.0, 1.0, 0.0);
 		testSpline.add(new LineSegment(1.0, 0.0));
-		testSpline.add(new SpiralSpline((-Math.PI/2.0), 1.0/2.0));
+		testSpline.add(new SpiralSpline((2.0*Math.PI/3.0), 0.5));
 		testSpline.add(new LineSegment(1.0, 0.0));
 		inputSpline.add(testSpline);
 		
