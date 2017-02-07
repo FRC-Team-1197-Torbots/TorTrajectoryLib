@@ -11,9 +11,9 @@ public class ArcSegment extends PathSegment {
 
 	public ArcSegment(double radius, double angle){
 		super(0.0, 0.0, 0.0);
-		curvature = 1.0/radius;
+		curvature = Math.signum(angle)/radius;
 		totalAngle = angle;
-		length = radius * totalAngle;
+		setLength(Math.abs(radius * totalAngle));
 	}
 	@Override
 	public String toString() {

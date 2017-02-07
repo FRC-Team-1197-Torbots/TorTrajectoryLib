@@ -137,7 +137,7 @@ public class CornuSpiral extends PathSegment {
 		a = A / 3.0;
 		b = B / 2.0;
 		c = C;
-		length = sf - si;
+		setLength(sf - si);
 	}
 	
 	private void setLists(List<RealVector> p, List<Double> a) {

@@ -6,7 +6,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
 public abstract class PathSegment {
-	protected double length;
+	private double length;
 	private double internalRotation;
 	private double externalRotation;
 	private RealMatrix internalRotationMatrix;
@@ -44,6 +44,12 @@ public abstract class PathSegment {
 	
 	public double length(){
 		return length;
+	}
+	public void setLength(double l){
+		length = l;
+	}
+	public void addToLength(double delta_l){
+		length += delta_l;
 	}
 	
 	// Output transformation stuff:

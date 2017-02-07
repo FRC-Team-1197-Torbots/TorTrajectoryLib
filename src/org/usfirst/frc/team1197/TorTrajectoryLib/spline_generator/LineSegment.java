@@ -9,11 +9,11 @@ public class LineSegment extends PathSegment{
 	
 	public LineSegment(double l, double r){
 		super(0.0, 0.0, r);
-		length = l;
+		setLength(l);
 	}
 	
 	public String toString(){
-		return "LineSegment[length=".concat(String.valueOf(length))
+		return "LineSegment[length=".concat(String.valueOf(length()))
 									  .concat(", rotation=")
 									  .concat(String.valueOf(internalRotation()))
 									  .concat("]") ;
@@ -38,7 +38,7 @@ public class LineSegment extends PathSegment{
 
 	@Override
 	public LineSegment clone() {
-		LineSegment lineCopy = new LineSegment(length, internalRotation());
+		LineSegment lineCopy = new LineSegment(length(), internalRotation());
 		lineCopy.translateInternally(internalTranslation());
 		return lineCopy;
 	}
