@@ -5,10 +5,11 @@ import org.apache.commons.math3.linear.RealVector;
 
 public class LineSegment extends PathSegment{
 	
+	final RealVector position = new ArrayRealVector(new double[] {0.0, 0.0});
+	
 	public LineSegment(double l, double r){
-		super();
+		super(0.0, 0.0, r);
 		length = l;
-		rotateInternally(r);
 	}
 	
 	public String toString(){
@@ -19,14 +20,15 @@ public class LineSegment extends PathSegment{
 	}
 
 	@Override
-	public RealVector positionAt(double s) {
-		RealVector pos = new ArrayRealVector(new double[] {s, 0.0});
-		return outputTransform(pos);
+	protected RealVector rawPositionAt(double s) {
+		position.setEntry(0, s);
+		position.setEntry(0, 0.0);
+		return internalTransform(position);
 	}
 
 	@Override
-	public double headingAt(double s) {
-		return totalRotation();
+	protected double rawHeadingAt(double s) {
+		return internalRotation();
 	}
 
 	@Override
@@ -38,7 +40,6 @@ public class LineSegment extends PathSegment{
 	public LineSegment clone() {
 		LineSegment lineCopy = new LineSegment(length, internalRotation());
 		lineCopy.translateInternally(internalTranslation());
-		lineCopy.rotateInternally(internalRotation());
 		return lineCopy;
 	}
 

@@ -9,7 +9,7 @@ public class ArcSegment extends PathSegment {
 	private double totalAngle;
 
 	public ArcSegment(double radius, double angle){
-		super();
+		super(0.0, 0.0, 0.0);
 		curvature = 1.0/radius;
 		totalAngle = angle;
 		length = radius * totalAngle;
@@ -30,16 +30,16 @@ public class ArcSegment extends PathSegment {
 	}
 
 	@Override
-	public RealVector positionAt(double s) {
+	public RealVector rawPositionAt(double s) {
 		double x = (1.0/curvature)*Math.sin(curvature*s);
 		double y = (1.0/curvature)*(1-Math.cos(curvature*s));
 		RealVector pos = new ArrayRealVector(new double[] {x, y});
-		return outputTransform(pos);
+		return internalTransform(pos);
 	}
 
 	@Override
-	public double headingAt(double s) {
-		return totalRotation()+curvature*s;
+	public double rawHeadingAt(double s) {
+		return internalRotation()+curvature*s;
 	}
 
 	@Override

@@ -18,18 +18,21 @@ public class SplineGenerator {
 
 		final PathGraph graph = new PathGraph();
 		graph.display();
-		PathSegment line = new LineSegment(1.0, 0.0);
-		PathSegment arc = new ArcSegment(1.0, Math.PI / 3.0);
-		arc.translateInternally(1.0, 0.0);
-		arc.rotateInternally(-Math.PI / 3.0);
 //		PathSegment eulerSpiral = new CornuSpiral(0, 0.5, 0, 3, 5);
-		TorSpline basicSpline = new TorSpline(0.0, 0.0, 0.0);
-		basicSpline.add(line);
-		basicSpline.add(arc);
-		inputSpline = new TorSpline(6.0, 2.0, Math.PI / 3.0, true);
-		inputSpline.add(basicSpline);
-		inputSpline.add(basicSpline);
-		inputSpline.add(line);
+		TorSpline move1Left = new TorSpline(0.375, 6.070, 0.0);
+		move1Left.add(new LineSegment(1.697, 0.0));
+		move1Left.add(new ArcSegment(0.943, -60*(Math.PI/180.0)));
+		move1Left.add(new LineSegment(0.5, 0.0));
+		
+//		TorSpline move2Left = new TorSpline(3.139, 5.165, 2.0*Math.PI/3.0);
+//		move2Left.add(new LineSegment(0.5, 0.0));
+//		move2Left.add(new ArcSegment(0.75, 150.0*(Math.PI/180.0)));
+//		move2Left.add(new LineSegment(3.025, 0.0));
+//		move2Left.add(new ArcSegment(1.654, 40.0*(Math.PI/180.0)));
+//		move2Left.add(new LineSegment(0.5, 0.0));
+		
+		inputSpline = new TorSpline(0.0, 0.0, 0.0);
+		inputSpline.add(move1Left);
 //		inputSpline.add(eulerSpiral);
 
 		RealVector P = new ArrayRealVector(new double[] { 0.0, 0.0 });
@@ -53,6 +56,6 @@ public class SplineGenerator {
 //		} catch (IOException x) {
 //			System.err.format("IOException: %s%n", x);
 //		}
-
 	}
+
 }

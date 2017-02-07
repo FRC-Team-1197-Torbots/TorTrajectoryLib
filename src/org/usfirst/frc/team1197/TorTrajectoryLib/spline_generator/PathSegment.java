@@ -9,24 +9,37 @@ public abstract class PathSegment {
 	protected double length;
 	private double internalRotation;
 	private double externalRotation;
-	private double totalRotation;
-	private RealMatrix rotationMatrix;
+	private RealMatrix internalRotationMatrix;
+	private RealMatrix externalRotationMatrix;
 	private RealVector internalTranslation;
 	private RealVector externalTranslation;
-	private RealVector translationVector;
 	public abstract String toString();
 	public abstract PathSegment clone();
-	public abstract RealVector positionAt(double s);
-	public abstract double headingAt(double s);
 	public abstract double curvatureAt(double s);
+	protected abstract RealVector rawPositionAt(double s);
+	protected abstract double rawHeadingAt(double s);
 	
 	
-	public PathSegment(){
-		internalTranslation = new ArrayRealVector(new double[] {0.0, 0.0});
-		externalTranslation = new ArrayRealVector(new double[] {0.0, 0.0});
-		translationVector = new ArrayRealVector(new double[] {0.0, 0.0});
-		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{1.0, 0.0}, 
-																  {0.0, 1.0}});
+	public PathSegment(RealVector internalTranslation, double internalRotation){
+		translateInternally(internalTranslation);
+		rotateInternally(internalRotation);
+		rotateExternally(0.0);
+		translateExternally(0, 0);
+	}
+	
+	public PathSegment(double x, double y, double internalRotation){
+		translateInternally(x, y);
+		rotateInternally(internalRotation);
+		rotateExternally(0.0);
+		translateExternally(0, 0);
+	}
+	
+	public RealVector positionAt(double s){
+		return externalTransform(rawPositionAt(s));
+	}
+	
+	public double headingAt(double s){
+		return externalRotation + rawHeadingAt(s);
 	}
 	
 	public double length(){
@@ -34,8 +47,11 @@ public abstract class PathSegment {
 	}
 	
 	// Output transformation stuff:
-	public RealVector outputTransform(RealVector pos){
-		return rotationMatrix.operate(pos.add(internalTranslation)).add(externalTranslation);
+	public RealVector internalTransform(RealVector pos){
+		return internalRotationMatrix.operate(pos.add(internalTranslation));
+	}
+	public RealVector externalTransform(RealVector pos){
+		return externalRotationMatrix.operate(pos).add(externalTranslation);
 	}
 	
 	// Rotation
@@ -45,44 +61,21 @@ public abstract class PathSegment {
 	public double externalRotation(){
 		return externalRotation;
 	}
-	public double totalRotation(){
-		totalRotation = internalRotation + externalRotation;
-		return totalRotation;
+	public void rotateInternally(double r){
+		internalRotation = r;
+		internalRotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  															  {Math.sin(r), Math.cos(r)}});
 	}
-	public RealMatrix externalUnrotateMatrix(){
-		double r = -externalRotation;
-		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
-			  													{Math.sin(r), Math.cos(r)}});
-		return m;
-	}
-	public void rotateInternally(double i){
-		internalRotation = i;
-		totalRotation = internalRotation + externalRotation;
-		rotateTo(totalRotation);
-	}
-	public void rotateExternally(double e){
-		externalRotation = e;
-		totalRotation = internalRotation + externalRotation;
-		rotateTo(totalRotation);
-	}
-	private void rotateTo(double r){
-		rotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
-			  													  {Math.sin(r), Math.cos(r)}});
-	}
-	public RealMatrix rotationMatrix(){
-		return rotationMatrix;
-	}
-	public RealMatrix unrotateMatrix(){
-		double r = -totalRotation;
-		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
-			  													{Math.sin(r), Math.cos(r)}});
-		return m;
+	public void rotateExternally(double r){
+		externalRotation = r;
+		internalRotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  															  {Math.sin(r), Math.cos(r)}});		
 	}
 	public RealMatrix internalRotationMatrix(){
-		double r = internalRotation;
-		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
-			  													{Math.sin(r), Math.cos(r)}});
-		return m;
+		return internalRotationMatrix;
+	}
+	public RealMatrix externalRotationMatrix(){
+		return externalRotationMatrix;
 	}
 	public RealMatrix internalUnrotateMatrix(){
 		double r = -internalRotation;
@@ -90,8 +83,8 @@ public abstract class PathSegment {
 			  													{Math.sin(r), Math.cos(r)}});
 		return m;
 	}
-	public RealMatrix externalRotationMatrix(){
-		double r = externalRotation;
+	public RealMatrix externalUnrotateMatrix(){
+		double r = -externalRotation;
 		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
 			  													{Math.sin(r), Math.cos(r)}});
 		return m;
