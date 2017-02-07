@@ -21,9 +21,9 @@ public class SpiralSpline extends TorSpline {
 	
 	public void build(double max_curvature){
 		setConstants(max_curvature);
-		path.clear();
-		for (int i = 0; i < 8; i++){
-			path.add(new CornuSpiral(A[i], B[i], C[i], s[i], s[i+1]));
+		this.clear();
+		for (int i = 0; i < 7; i++){
+			this.add(new CornuSpiral(A[i], B[i], C[i], s[i], s[i+1]));
 		}
 	}
 	
@@ -70,7 +70,7 @@ public class SpiralSpline extends TorSpline {
 		C[1] = -(B[1] * B[1]) / (4 * A[0]);
 		
 		A[2] = -A[0];
-		B[2] = -2 * A[2] * s[2];
+		B[2] = -2 * A[2] * s[3];
 		C[2] = kMax + A[2] * s[3] * s[3];
 		
 		A[3] = 0.0;

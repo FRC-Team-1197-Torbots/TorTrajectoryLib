@@ -36,6 +36,10 @@ public class TorSpline extends PathSegment {
 		}
 		return splineCopy;
 	}
+	public void clear(){
+		path.clear();
+		setLength(0.0);
+	}
 
 	public void add(PathSegment s) {
 		PathSegment segment = s.clone();

@@ -26,14 +26,20 @@ public class SplineGenerator {
 //		move1Left.add(new LineSegment(0.5, 0.0));
 //		inputSpline.add(move1Left);
 		
-		TorSpline move2Left = new TorSpline(3.139, 5.165, 0.0);
-		move2Left.add(new LineSegment(0.5, 2.0*Math.PI/3.0));
-		move2Left.add(new ArcSegment(0.75, 150.0*(Math.PI/180.0)));
-		move2Left.add(new LineSegment(3.025, 0.0));
-		move2Left.add(new ArcSegment(1.654, -40.0*(Math.PI/180.0)));
-		move2Left.add(new LineSegment(0.5, 0.0));
-		inputSpline.add(move2Left);
-
+//		TorSpline move2Left = new TorSpline(3.139, 5.165, 0.0);
+//		move2Left.add(new LineSegment(0.5, 2.0*Math.PI/3.0));
+//		move2Left.add(new ArcSegment(0.75, 150.0*(Math.PI/180.0)));
+//		move2Left.add(new LineSegment(3.025, 0.0));
+//		move2Left.add(new ArcSegment(1.654, -40.0*(Math.PI/180.0)));
+//		move2Left.add(new LineSegment(0.5, 0.0));
+//		inputSpline.add(move2Left);
+		
+		TorSpline testSpline = new TorSpline(1.0, 1.0, 0.0);
+		testSpline.add(new LineSegment(1.0, 0.0));
+		testSpline.add(new SpiralSpline((Math.PI/2.0), 1.0));
+		testSpline.add(new LineSegment(1.0, 0.0));
+		inputSpline.add(testSpline);
+		
 		RealVector P = new ArrayRealVector(new double[] { 0.0, 0.0 });
 		for (double s = 0.0; s <= inputSpline.length(); s += ds) {
 			P = inputSpline.positionAt(s);

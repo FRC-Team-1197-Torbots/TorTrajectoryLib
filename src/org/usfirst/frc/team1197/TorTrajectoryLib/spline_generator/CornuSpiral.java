@@ -18,7 +18,7 @@ public class CornuSpiral extends PathSegment {
 	
 	private double ds = 0.0001;
 	private List<RealVector> positionData;
-	private List<Double> arcLength;
+	private List<Double> lengthData;
 
 	UnivariateIntegrator x_integrator;
 	UnivariateIntegrator y_integrator;
@@ -27,7 +27,7 @@ public class CornuSpiral extends PathSegment {
 
 	public CornuSpiral(double A, double B, double C, double si, double sf) {
 		super(0.0, 0.0, 0.0);
-		arcLength = new ArrayList<Double>();
+		lengthData = new ArrayList<Double>();
 		positionData = new ArrayList<RealVector>();
 		setConstants(A, B, C, si, sf);
 
@@ -56,21 +56,25 @@ public class CornuSpiral extends PathSegment {
 				x = x_integrator.integrate(10000, x_integrand, 0, s);
 				y = y_integrator.integrate(10000, y_integrand, 0, s);
 			}
-			arcLength.add(s - si);
+			lengthData.add(s - si);
 			positionData.add(new ArrayRealVector(new double[] {x, y}));
 		}
-		RealVector startPoint = positionData.get(0);
+		RealVector startPoint = new ArrayRealVector(new double[] {0.0, 0.0});
+		double startHeading = 0.0;
+		if (Math.abs(length()) > ds){
+			startPoint = positionData.get(0);
+			startHeading = rawHeadingAt(0.0);
+		}
 		translateInternally(startPoint.mapMultiply(-1.0));
-		double startHeading = rawHeadingAt(0.0);
 		rotateInternally(-startHeading);
 		
 	}
 
 	private CornuSpiral() {
 		super(0.0, 0.0, 0.0);
-		arcLength = new ArrayList<Double>();
+		lengthData = new ArrayList<Double>();
 		positionData = new ArrayList<RealVector>();
-		arcLength.add(0.0);
+		lengthData.add(0.0);
 		positionData.add(new ArrayRealVector(new double [] {0.0 , 0.0}));
 	}
 
@@ -90,19 +94,19 @@ public class CornuSpiral extends PathSegment {
 		// CornuSpiral cornuCopy = new Corn
 		CornuSpiral cornuCopya = new CornuSpiral(); // hehe
 		cornuCopya.setConstants(A, B, C, si, sf);
-		cornuCopya.setLists(positionData, arcLength);
+		cornuCopya.setLists(positionData, lengthData);
 		return cornuCopya;
 	}
 
 	@Override
 	public RealVector rawPositionAt(double s) {
-		int i_prev = getLowerNeighborIndex(s, arcLength);
+		int i_prev = getLowerNeighborIndex(s, lengthData);
 		int i_next = i_prev+1;
 		if (i_next >= positionData.size()){
 			i_prev = positionData.size()-2;
 			i_next = positionData.size()-1;
 		}
-		double s_prev = arcLength.get(i_prev);
+		double s_prev = lengthData.get(i_prev);
 		RealVector pos_prev = positionData.get(i_prev);
 		RealVector pos_next = positionData.get(i_next);
 		RealVector pos = linearInterpolate(pos_prev, pos_next, s - s_prev);
@@ -141,17 +145,21 @@ public class CornuSpiral extends PathSegment {
 	}
 	
 	private void setLists(List<RealVector> p, List<Double> a) {
-		arcLength.clear();
+		lengthData.clear();
 		positionData.clear();
 		int i;
 		for (double s : a) {
 			i = a.indexOf(s);
-			arcLength.add(s);
+			lengthData.add(s);
 			positionData.add(p.get(i).copy());
 		}
-		RealVector startPoint = positionData.get(0);
+		RealVector startPoint = new ArrayRealVector(new double[] {0.0, 0.0});
+		double startHeading = 0.0;
+		if (Math.abs(length()) > ds){
+			startPoint = positionData.get(0);
+			startHeading = rawHeadingAt(0.0);
+		}
 		translateInternally(startPoint.mapMultiply(-1.0));
-		double startHeading = headingAt(0.0);
 		rotateInternally(-startHeading);
 	}
 	
