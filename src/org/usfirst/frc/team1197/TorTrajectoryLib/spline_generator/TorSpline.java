@@ -7,7 +7,7 @@ import org.apache.commons.math3.linear.RealVector;
 
 public class TorSpline extends PathSegment {
 	
-	private List<PathSegment> path;
+	protected List<PathSegment> path;
 
 	public TorSpline(double start_x, double start_y, double start_head) {
 		super(start_x, start_y, start_head);

@@ -1,7 +1,8 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
 public class SpiralSpline extends TorSpline {
-	private double kMax, totalAngle;
+	private double totalAngle;
+	private double kMax;
 	private double max_vel, max_omg, max_alf, max_jeta;
 	double[] s;
 	double[] A;
@@ -20,6 +21,10 @@ public class SpiralSpline extends TorSpline {
 	
 	public void build(double max_curvature){
 		setConstants(max_curvature);
+		path.clear();
+		for (int i = 0; i < 8; i++){
+			path.add(new CornuSpiral(A[i], B[i], C[i], s[i], s[i+1]));
+		}
 	}
 	
 	private void setConstants(double max_curvature){
