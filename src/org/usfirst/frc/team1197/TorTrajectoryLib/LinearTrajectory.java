@@ -9,5 +9,17 @@ public class LinearTrajectory extends TorTrajectory{
 		rotation.clear();
 		build(goal_pos, max_vel, max_acc, max_jerk, translation);
 	}
+	
+	public double lookUpHeading(long t){
+		return 0.0;
+	}
+	
+	public double lookUpOmega(long t){
+		return 0.0;
+	}
+	
+	public double lookUpAlpha(long t){
+		return 0.0;
+	}
 
 }

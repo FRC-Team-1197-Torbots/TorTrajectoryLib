@@ -61,10 +61,16 @@ public class CornuSpiral extends PathSegment {
 		}
 		RealVector startPoint = new ArrayRealVector(new double[] {0.0, 0.0});
 		double startHeading = 0.0;
-		if (Math.abs(length()) > ds){
-			startPoint = positionData.get(0);
-			startHeading = rawHeadingAt(0.0);
+		if (lengthData.size() < 2){
+			lengthData.clear();
+			positionData.clear();
+			lengthData.add(0.0);
+			positionData.add(new ArrayRealVector(new double [] {0.0 , 0.0}));
+			lengthData.add(ds);
+			positionData.add(new ArrayRealVector(new double [] {ds , 0.0}));
 		}
+		startPoint = positionData.get(0);
+		startHeading = rawHeadingAt(0.0);
 		translateInternally(startPoint.mapMultiply(-1.0));
 		rotateInternally(-startHeading);
 		
@@ -100,9 +106,12 @@ public class CornuSpiral extends PathSegment {
 
 	@Override
 	public RealVector rawPositionAt(double s) {
-		int i_prev = getLowerNeighborIndex(s, lengthData);
+		int i_prev = getLowerNeighborIndex(s);
 		int i_next = i_prev+1;
-		if (i_next >= positionData.size()){
+		if (i_prev < 0){
+			i_prev = 0;
+			i_next = 1;
+		} else if (i_next >= positionData.size()) {
 			i_prev = positionData.size()-2;
 			i_next = positionData.size()-1;
 		}
@@ -110,7 +119,6 @@ public class CornuSpiral extends PathSegment {
 		RealVector pos_prev = positionData.get(i_prev);
 		RealVector pos_next = positionData.get(i_next);
 		RealVector pos = linearInterpolate(pos_prev, pos_next, s - s_prev);
-
 		return internalTransform(pos);
 	}
 
@@ -155,15 +163,24 @@ public class CornuSpiral extends PathSegment {
 		}
 		RealVector startPoint = new ArrayRealVector(new double[] {0.0, 0.0});
 		double startHeading = 0.0;
-		if (Math.abs(length()) > ds){
-			startPoint = positionData.get(0);
-			startHeading = rawHeadingAt(0.0);
+		if (lengthData.size() < 2){
+			lengthData.clear();
+			positionData.clear();
+			lengthData.add(0.0);
+			positionData.add(new ArrayRealVector(new double [] {0.0 , 0.0}));
+			lengthData.add(ds);
+			positionData.add(new ArrayRealVector(new double [] {ds , 0.0}));
 		}
+		startPoint = positionData.get(0);
+		startHeading = rawHeadingAt(0.0);
 		translateInternally(startPoint.mapMultiply(-1.0));
 		rotateInternally(-startHeading);
 	}
 	
-	private int getLowerNeighborIndex(double s, List<Double> list){
+	private int getLowerNeighborIndex(double s){
+		if (s<0.0){
+			return 0;
+		}
 		return (int)(s/ds);
 	}
 

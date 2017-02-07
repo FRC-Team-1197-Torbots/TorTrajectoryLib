@@ -9,5 +9,17 @@ public class PivotTrajectory extends TorTrajectory {
 		rotation.clear();
 		build(goal_head, max_omg, max_alf, max_jeta, rotation);
 	}
+	
+	public double lookUpPosition(long t){
+		return 0.0;
+	}
+	
+	public double lookUpVelocity(long t){
+		return 0.0;
+	}
+	
+	public double lookUpAcceleration(long t){
+		return 0.0;
+	}
 
 }

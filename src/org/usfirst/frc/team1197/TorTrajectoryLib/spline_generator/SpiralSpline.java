@@ -3,7 +3,16 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 public class SpiralSpline extends TorSpline {
 	private double totalAngle;
 	private double kMax;
-	private double max_vel, max_omg, max_alf, max_jeta;
+	private double max_alf = 9.0;
+	private double max_jeta = 40.0;
+	private double ds = 0.0001;
+	
+	private double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
+	private double absoluteMinTurnRadius = 0.5;
+	private double maxThrottle = 0.6 * (absoluteMinTurnRadius/(absoluteMinTurnRadius+0.2858)); // (38%???)
+	private double max_vel = maxThrottle * absoluteMaxVel;
+	private double max_omg = max_vel/absoluteMinTurnRadius;
+	
 	double[] s;
 	double[] A;
 	double[] B;
@@ -23,7 +32,9 @@ public class SpiralSpline extends TorSpline {
 		setConstants(max_curvature);
 		this.clear();
 		for (int i = 0; i < 7; i++){
-			this.add(new CornuSpiral(A[i], B[i], C[i], s[i], s[i+1]));
+			if (Math.abs(s[i+1] - s[i]) > ds) {
+				this.add(new CornuSpiral(A[i], B[i], C[i], s[i], s[i+1]));
+			}
 		}
 	}
 	
@@ -35,11 +46,9 @@ public class SpiralSpline extends TorSpline {
 	
 	private void setMotionLimits(double max_curvature){
 		double absAngle = Math.abs(totalAngle);
-		kMax = Math.min(max_curvature, 1.0/SplineTrajectory.absoluteMinTurnRadius);
-		max_vel = SplineTrajectory.max_vel;
-		max_omg = Math.min(SplineTrajectory.max_omg, kMax*max_vel);
-		max_jeta = SplineTrajectory.max_jeta;
-		max_alf = Math.min(SplineTrajectory.max_alf,
+		kMax = Math.min(max_curvature, 1.0/absoluteMinTurnRadius);
+		max_omg = Math.min(max_omg, max_curvature*max_vel);
+		max_alf = Math.min(max_alf,
 				   		   Math.min(Math.sqrt(max_omg * max_jeta),
 				   				    Math.pow((0.5 * absAngle * max_jeta * max_jeta), (1.0/3.0))));
 		max_omg = Math.min(max_omg,
@@ -47,6 +56,8 @@ public class SpiralSpline extends TorSpline {
 							+ 4 * max_jeta * max_jeta * max_alf * absAngle)) 
 						    / (2 * max_jeta) );
 		kMax = max_omg / max_vel;
+		System.out.println(max_vel);
+		System.out.println(max_omg);
 	}
 	
 	private void setArclengthNodes(){

@@ -2,6 +2,7 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
+import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph;
 import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph.motionType;
 
@@ -9,7 +10,7 @@ public class SplineGenerator {
 
 	private static final double ds = 0.005;
 	private static TorSpline inputSpline;
-	private static SplineTrajectory trajectory;
+	private static TorTrajectory trajectory;
 	private static VelocityGraph translationGraph;
 	private static VelocityGraph rotationGraph;
 //	private static TrajectoryWriter writer;
@@ -36,7 +37,7 @@ public class SplineGenerator {
 		
 		TorSpline testSpline = new TorSpline(1.0, 1.0, 0.0);
 		testSpline.add(new LineSegment(1.0, 0.0));
-		testSpline.add(new SpiralSpline((Math.PI/2.0), 1.0));
+		testSpline.add(new SpiralSpline((Math.PI/2.0), 1.0/3.0));
 		testSpline.add(new LineSegment(1.0, 0.0));
 		inputSpline.add(testSpline);
 		

@@ -10,12 +10,12 @@ public abstract class TorTrajectory {
 	protected double goal_head = 0.0;
 	
 	protected double max_vel = 4.5; //4.5
-	public final static double max_acc = 6.0; //6.0 
-	public final static double max_jerk = 20.0; //20.0
+	protected double max_acc = 6.0; //6.0 
+	protected double max_jerk = 20.0; //20.0
 	
 	protected double max_omg = 8.0; //8.0
-	public final static double max_alf = 9.0; //10.0
-	public final static double max_jeta = 40.0; //40.0
+	protected double max_alf = 9.0; //10.0
+	protected double max_jeta = 40.0; //40.0
 	
 	protected List<Long> time;
 	protected List<MotionState1D> translation;
@@ -31,6 +31,10 @@ public abstract class TorTrajectory {
 		time = new ArrayList<Long>();
 		translation = new ArrayList<MotionState1D>();
 		rotation = new ArrayList<MotionState1D>();
+		time.add((long) 0);
+		translation.add(new MotionState1D(0.0, 0.0, 0.0));
+		rotation.add(new MotionState1D(0.0, 0.0, 0.0));
+		isComplete = false;
 	}
 	
 	public TorTrajectory(){
