@@ -38,13 +38,13 @@ public class SpiralSpline extends TorSpline {
 		}
 	}
 	
-	private void setConstants(double max_curvature){
+	private void setConstants(double max_curvature) {
 		setMotionLimits(max_curvature);
 		setArclengthNodes();
 		setSpiralCoefficients();
 	}
 	
-	private void setMotionLimits(double max_curvature){
+	private void setMotionLimits(double max_curvature) {
 		double absAngle = Math.abs(totalAngle);
 		kMax = Math.min(max_curvature, 1.0/absoluteMinTurnRadius);
 		max_omg = Math.min(max_omg, max_curvature*max_vel);
@@ -56,8 +56,6 @@ public class SpiralSpline extends TorSpline {
 							+ 4 * max_jeta * max_jeta * max_alf * absAngle)) 
 						    / (2 * max_jeta) );
 		kMax = max_omg / max_vel;
-		System.out.println(max_vel);
-		System.out.println(max_omg);
 	}
 	
 	private void setArclengthNodes(){
@@ -99,6 +97,14 @@ public class SpiralSpline extends TorSpline {
 		A[6] = A[0];
 		B[6] = -2 * A[6] * s[7];
 		C[6] = A[6] * s[7] * s[7];
+		
+		if (totalAngle < 0.0) {
+			for (int i = 0; i < 7; i++){
+				A[i] = -A[i];
+				B[i] = -B[i];
+				C[i] = -C[i];
+			}
+		}
 	}
 
 }

@@ -234,7 +234,7 @@ public abstract class TorTrajectory {
 			if(Math.abs(m.vel)>max)
 				max = Math.abs(m.vel);
 		}
-		return Math.signum(goal_pos)*max;
+		return max;
 	}
 	public double adjustedMaxAcceleration(){
 		double max = 0.0;
@@ -242,7 +242,7 @@ public abstract class TorTrajectory {
 			if(Math.abs(m.acc)>max)
 				max = Math.abs(m.acc);
 		}
-		return Math.signum(goal_pos)*max;
+		return max;
 	}
 	
 	public double goalHead(){
@@ -260,18 +260,18 @@ public abstract class TorTrajectory {
 	public double adjustedMaxOmega(){
 		double max = 0.0;
 		for (MotionState1D m : rotation){
-			if(Math.abs(m.vel)>max)
+			if(Math.abs(m.vel) > max)
 				max = Math.abs(m.vel);
 		}
-		return Math.signum(goal_head)*max;
+		return max;
 	}
 	public double adjustedMaxAlpha(){
 		double max = 0.0;
 		for (MotionState1D m : rotation){
-			if(Math.abs(m.acc)>max)
+			if(Math.abs(m.acc) > max)
 				max = Math.abs(m.acc);
 		}
-		return Math.signum(goal_head)*max;
+		return max;
 	}
 	
 	public long totalTime(){
