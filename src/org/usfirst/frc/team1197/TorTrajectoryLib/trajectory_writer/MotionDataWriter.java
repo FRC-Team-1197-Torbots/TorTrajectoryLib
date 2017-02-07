@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 
-public abstract class StringWriter {
+public abstract class MotionDataWriter {
 	protected BufferedWriter fileWriter;
 	protected TorTrajectory trajectory;
 	protected long dt = 5;
@@ -13,7 +13,7 @@ public abstract class StringWriter {
 	protected double head, omg, alf;
 	protected String s;
 	
-	public StringWriter(TorTrajectory t){
+	public MotionDataWriter(TorTrajectory t){
 		trajectory = t;
 	}
 	

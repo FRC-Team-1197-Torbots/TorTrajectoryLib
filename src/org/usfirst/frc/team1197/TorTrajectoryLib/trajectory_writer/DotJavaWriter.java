@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 
 import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 
-public class DotJavaWriter extends StringWriter {
+public class DotJavaWriter extends MotionDataWriter {
 	private String packageName;
 	private String className;
 	private final DecimalFormat df = new DecimalFormat("0.####");

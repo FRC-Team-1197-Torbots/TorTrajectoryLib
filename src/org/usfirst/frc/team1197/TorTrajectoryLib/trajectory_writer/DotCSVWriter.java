@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 
-public class DotCSVWriter extends StringWriter {
+public class DotCSVWriter extends MotionDataWriter {
 
 	public DotCSVWriter(TorTrajectory t) {
 		super(t);

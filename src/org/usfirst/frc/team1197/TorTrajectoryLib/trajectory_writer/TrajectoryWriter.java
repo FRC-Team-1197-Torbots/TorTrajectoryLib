@@ -12,7 +12,7 @@ public class TrajectoryWriter {
 	private File outputFile;
 	private String fileName;
 	private TorTrajectory trajectory;
-	private StringWriter stringWriter;
+	private MotionDataWriter stringWriter;
 	
 	public TrajectoryWriter(TorTrajectory t, String name){
 		trajectory = t;
@@ -41,7 +41,7 @@ public class TrajectoryWriter {
 		writeTextFile(outputFile, stringWriter);
 	}
 	
-	private void writeTextFile(File outputFile, StringWriter stringWriter) throws IOException{
+	private void writeTextFile(File outputFile, MotionDataWriter stringWriter) throws IOException{
 		Charset charset = Charset.forName("US-ASCII");
 		BufferedWriter fileWriter = null;
 		try {
