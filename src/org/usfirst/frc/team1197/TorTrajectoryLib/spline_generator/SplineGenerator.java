@@ -26,7 +26,6 @@ public class SplineGenerator {
 //		move1Left.add(new LineSegment(0.5, 0.0));
 //		inputSpline.add(move1Left);
 		
-//		TorSpline move2Left = new TorSpline(3.139, 5.165, 2.0*Math.PI/3.0);
 		TorSpline move2Left = new TorSpline(3.139, 5.165, 0.0);
 		move2Left.add(new LineSegment(0.5, 2.0*Math.PI/3.0));
 		move2Left.add(new ArcSegment(0.75, 150.0*(Math.PI/180.0)));

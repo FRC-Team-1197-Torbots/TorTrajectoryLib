@@ -8,6 +8,10 @@ public class SplineTrajectory extends TorTrajectory {
 
 	public SplineTrajectory(PathSegment p) {
 		path = p.clone();
+		double absoluteMaxVel = 5.056; // See formulas in TorCAN
+		double maxThrottle = 0.6 * (0.5/(0.5+0.2858)); // See formula in TorDrive constructor (38%???)
+		max_vel = maxThrottle * absoluteMaxVel;
+		max_omg = max_vel/0.5;
 		goal_pos = path.length();
 		goal_head = path.headingAt(goal_pos);
 		time.clear();

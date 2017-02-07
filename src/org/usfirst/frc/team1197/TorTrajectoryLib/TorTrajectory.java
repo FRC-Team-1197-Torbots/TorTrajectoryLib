@@ -9,13 +9,13 @@ public abstract class TorTrajectory {
 	protected double goal_pos = 0.0;
 	protected double goal_head = 0.0;
 	
-	protected double max_vel = 1.0;
-	protected double max_acc = 1.0;
-	protected double max_jerk = 1.0;
+	protected double max_vel = 4.5; //4.5
+	protected double max_acc = 6.0; //6.0 
+	protected double max_jerk = 20.0; //20.0
 	
-	protected double max_omg = 1.0;
-	protected double max_alf = 1.0;
-	protected double max_jeta = 1.0;
+	protected double max_omg = 8.0; //8.0
+	protected double max_alf = 9.0; //10.0
+	protected double max_jeta = 40.0; //40.0
 	
 	protected List<Long> time;
 	protected List<MotionState1D> translation;
@@ -27,14 +27,6 @@ public abstract class TorTrajectory {
 	public TorTrajectory(double goal_pos, double goal_head){
 		this.goal_pos = goal_pos;
 		this.goal_head = goal_head;
-		
-		max_vel = 4.5; //2.5
-		max_acc = 6.0; //6.0 
-		max_jerk = 25.0; //12.0
-		
-		max_omg = 8.0; //14.0
-		max_alf = 18; //16.0
-		max_jeta = 100.0; //22.0
 		
 		time = new ArrayList<Long>();
 		translation = new ArrayList<MotionState1D>();
