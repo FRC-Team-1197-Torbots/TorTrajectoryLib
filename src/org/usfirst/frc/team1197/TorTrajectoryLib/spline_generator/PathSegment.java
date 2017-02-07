@@ -59,41 +59,11 @@ public abstract class PathSegment {
 	public RealVector externalTransform(RealVector pos){
 		return externalRotationMatrix.operate(pos).add(externalTranslation);
 	}
-	
-	// Rotation
-	public double internalRotation(){
-		return internalRotation;
+	public RealVector reverseInternalTransform(RealVector pos){
+		return internalUnrotateMatrix().operate(pos).subtract(internalTranslation);
 	}
-	public double externalRotation(){
-		return externalRotation;
-	}
-	public void rotateInternally(double r){
-		internalRotation = r;
-		internalRotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
-			  															  {Math.sin(r), Math.cos(r)}});
-	}
-	public void rotateExternally(double r){
-		externalRotation = r;
-		externalRotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
-			  															  {Math.sin(r), Math.cos(r)}});		
-	}
-	public RealMatrix internalRotationMatrix(){
-		return internalRotationMatrix;
-	}
-	public RealMatrix externalRotationMatrix(){
-		return externalRotationMatrix;
-	}
-	public RealMatrix internalUnrotateMatrix(){
-		double r = -internalRotation;
-		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
-			  													{Math.sin(r), Math.cos(r)}});
-		return m;
-	}
-	public RealMatrix externalUnrotateMatrix(){
-		double r = -externalRotation;
-		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
-			  													{Math.sin(r), Math.cos(r)}});
-		return m;
+	public RealVector reverseExternalTransform(RealVector pos){
+		return externalUnrotateMatrix().operate(pos.subtract(externalTranslation));
 	}
 	
 	// Translation
@@ -114,5 +84,42 @@ public abstract class PathSegment {
 	}
 	public void translateExternally(double x, double y){
 		externalTranslation = new ArrayRealVector(new double[] {x, y});
+	}
+	
+	// Rotation
+	public double internalRotation(){
+		return internalRotation;
+	}
+	public double externalRotation(){
+		return externalRotation;
+	}
+	public void rotateInternally(double r){
+		internalRotation = r;
+		internalRotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  															  {Math.sin(r), Math.cos(r)}});
+	}
+	public void rotateExternally(double r){
+		externalRotation = r;
+		externalRotationMatrix = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  															  {Math.sin(r), Math.cos(r)}});		
+	}
+	
+	public RealMatrix internalRotationMatrix(){
+		return internalRotationMatrix;
+	}
+	public RealMatrix externalRotationMatrix(){
+		return externalRotationMatrix;
+	}
+	private RealMatrix internalUnrotateMatrix(){
+		double r = -internalRotation;
+		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  													{Math.sin(r), Math.cos(r)}});
+		return m;
+	}
+	private RealMatrix externalUnrotateMatrix(){
+		double r = -externalRotation;
+		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
+			  													{Math.sin(r), Math.cos(r)}});
+		return m;
 	}
 }

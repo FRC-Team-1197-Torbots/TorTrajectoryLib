@@ -41,15 +41,13 @@ public class TorSpline extends PathSegment {
 	public void add(PathSegment s) {
 		PathSegment segment = s.clone();
 		if (path.size() > 0) {
-			RealVector nextStartingPoint = rawPositionAt(length());
-			double nextStartingHeading = rawHeadingAt(length());
+			RealVector nextStartingPoint = reverseInternalTransform(rawPositionAt(length()));
+			double nextStartingHeading = rawHeadingAt(length())-internalRotation();
 			segment.translateExternally(nextStartingPoint);
 			segment.rotateExternally(nextStartingHeading);
 		}
 		addToLength(segment.length());
 		path.add(segment);
-		System.out.println(segment);
-		System.out.println(segment.length());
 	}
 
 	@Override
@@ -57,11 +55,11 @@ public class TorSpline extends PathSegment {
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length())
-				return internalTransform(segment.rawPositionAt(s - lengthSoFar));
+				return internalTransform(segment.positionAt(s - lengthSoFar));
 			lengthSoFar += segment.length();
 		}
 		PathSegment lastSegment = path.get(path.size() - 1);
-		return internalTransform(lastSegment.rawPositionAt(lastSegment.length()));
+		return internalTransform(lastSegment.positionAt(lastSegment.length()));
 	}
 
 	@Override
@@ -69,11 +67,11 @@ public class TorSpline extends PathSegment {
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length())
-				return internalRotation() + segment.rawHeadingAt(s - lengthSoFar);
+				return internalRotation() + segment.headingAt(s - lengthSoFar);
 			lengthSoFar += segment.length();
 		}
 		PathSegment lastSegment = path.get(path.size() - 1);
-		return internalRotation() + lastSegment.rawHeadingAt(lastSegment.length());
+		return internalRotation() + lastSegment.headingAt(lastSegment.length());
 	}
 
 	@Override
