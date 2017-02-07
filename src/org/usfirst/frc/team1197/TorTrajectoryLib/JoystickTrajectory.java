@@ -10,7 +10,6 @@ public class JoystickTrajectory extends TorTrajectory{
 	
 	public JoystickTrajectory(){
 		super(0.0, 0.0);
-		max_alf = 1000.0;
 		translation = new MotionState1D(0.0, 0.0, 0.0);
 		rotation = new MotionState1D(0.0, 0.0, 0.0);
 	}

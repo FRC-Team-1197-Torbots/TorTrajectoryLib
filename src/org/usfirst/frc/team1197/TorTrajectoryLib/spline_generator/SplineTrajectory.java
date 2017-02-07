@@ -5,13 +5,15 @@ import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 
 public class SplineTrajectory extends TorTrajectory {
 	private PathSegment path;
+	public final static double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
+	public final static double absoluteMinTurnRadius = 0.5;
+	public final static double maxThrottle = 0.6 * (absoluteMinTurnRadius/(absoluteMinTurnRadius+0.2858)); // (38%???)
+	public final static double max_vel = maxThrottle * absoluteMaxVel;
+	public final static double max_omg = max_vel/absoluteMinTurnRadius;
+	
 
 	public SplineTrajectory(PathSegment p) {
 		path = p.clone();
-		double absoluteMaxVel = 5.056; // See formulas in TorCAN
-		double maxThrottle = 0.6 * (0.5/(0.5+0.2858)); // See formula in TorDrive constructor (38%???)
-		max_vel = maxThrottle * absoluteMaxVel;
-		max_omg = max_vel/0.5;
 		goal_pos = path.length();
 		goal_head = path.headingAt(goal_pos);
 		time.clear();
