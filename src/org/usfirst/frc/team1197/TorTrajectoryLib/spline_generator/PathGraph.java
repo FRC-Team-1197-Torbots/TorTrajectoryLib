@@ -23,8 +23,8 @@ import org.jfree.ui.RefineryUtilities;
 public class PathGraph extends ApplicationFrame {
 
 	private static final long serialVersionUID = 4784689670538172011L;
-	final XYSeries inputPath = new XYSeries("Input Path", false);	// "false" to disable auto-sort
-	final XYSeries outputPath = new XYSeries("Output Path", false);	// so points plot in the order
+	final XYSeries outputPath = new XYSeries("Output Path", false);	// "false" to disable auto-sort
+	final XYSeries inputPath = new XYSeries("Input Path", false);	// so points plot in the order
 	private final XYSeries border = new XYSeries("Border", false);	// they were added.
 	static ChartPanel chartPanel;
 	BufferedImage backgroundImage;
@@ -45,10 +45,10 @@ public class PathGraph extends ApplicationFrame {
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 		renderer.setSeriesLinesVisible(0, true);
 		renderer.setSeriesShapesVisible(0, false);
-		renderer.setSeriesPaint(0, new Color(0x00, 0x00, 0x00));
+		renderer.setSeriesPaint(0, new Color(0x00, 0xFF, 0x00));
 		renderer.setSeriesLinesVisible(1, true);
 		renderer.setSeriesShapesVisible(1, false);
-		renderer.setSeriesPaint(1, new Color(0x00, 0xFF, 0x00));
+		renderer.setSeriesPaint(1, new Color(0x00, 0x00, 0x00));
 		renderer.setSeriesLinesVisible(2, true);
 		renderer.setSeriesShapesVisible(2, false);
 		renderer.setSeriesPaint(2, new Color(0x00, 0x00, 0x00));
@@ -88,8 +88,8 @@ public class PathGraph extends ApplicationFrame {
 
 	private XYDataset createDataset() {
 		final XYSeriesCollection dataset = new XYSeriesCollection();
-		dataset.addSeries(inputPath);
 		dataset.addSeries(outputPath);
+		dataset.addSeries(inputPath);
 		dataset.addSeries(border);
 		border.add(0.0,8.2296);
 		border.add(16.5608,8.2296);

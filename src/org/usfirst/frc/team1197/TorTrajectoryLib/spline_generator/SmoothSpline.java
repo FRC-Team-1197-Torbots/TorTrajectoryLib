@@ -14,7 +14,7 @@ public class SmoothSpline extends TorSpline {
 	double computedXLength;
 	
 	public SmoothSpline(TorSpline s) {
-		super(0.0, 0.0, 0.0);
+		super(s.internalTranslation().getEntry(0), s.internalTranslation().getEntry(1), s.internalRotation());
 		inputSpline = s.clone();
 		optimizingSpline  = new HalfSpiralSpline();
 		PathSegment segment, next_segment;
@@ -22,6 +22,7 @@ public class SmoothSpline extends TorSpline {
 			segment = inputSpline.path.get(i);
 			if (i + 1 < inputSpline.path.size()){
 				next_segment = inputSpline.path.get(i+1);
+				System.out.println("Hello");
 			} else {
 				next_segment = new ArcSegment(1.0, 1.0);
 			}
