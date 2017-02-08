@@ -48,7 +48,7 @@ public class PathGraph extends ApplicationFrame {
 		renderer.setSeriesPaint(0, new Color(0x00, 0x00, 0x00));
 		renderer.setSeriesLinesVisible(1, true);
 		renderer.setSeriesShapesVisible(1, false);
-		renderer.setSeriesPaint(1, new Color(0xFF, 0x00, 0x00));
+		renderer.setSeriesPaint(1, new Color(0x00, 0xFF, 0x00));
 		renderer.setSeriesLinesVisible(2, true);
 		renderer.setSeriesShapesVisible(2, false);
 		renderer.setSeriesPaint(2, new Color(0x00, 0x00, 0x00));

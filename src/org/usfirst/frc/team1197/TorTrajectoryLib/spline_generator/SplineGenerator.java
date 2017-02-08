@@ -10,6 +10,7 @@ public class SplineGenerator {
 
 	private static final double ds = 0.005;
 	private static TorSpline inputSpline;
+	private static TorSpline outputSpline;
 	private static TorTrajectory trajectory;
 	private static VelocityGraph translationGraph;
 	private static VelocityGraph rotationGraph;
@@ -27,27 +28,33 @@ public class SplineGenerator {
 //		move1Left.add(new LineSegment(0.5, 0.0));
 //		inputSpline.add(move1Left);
 		
-//		TorSpline move2Left = new TorSpline(3.139, 5.165, 0.0);
-//		move2Left.add(new LineSegment(0.5, 2.0*Math.PI/3.0));
-//		move2Left.add(new ArcSegment(0.75, 150.0*(Math.PI/180.0)));
-//		move2Left.add(new LineSegment(3.025, 0.0));
-//		move2Left.add(new ArcSegment(1.654, -40.0*(Math.PI/180.0)));
-//		move2Left.add(new LineSegment(0.5, 0.0));
-//		inputSpline.add(move2Left);
+		TorSpline move2Left = new TorSpline(3.139, 5.165, 0.0);
+		move2Left.add(new LineSegment(0.5, 2.0*Math.PI/3.0));
+		move2Left.add(new ArcSegment(0.75, 150.0*(Math.PI/180.0)));
+		move2Left.add(new LineSegment(3.025, 0.0));
+		move2Left.add(new ArcSegment(1.654, -40.0*(Math.PI/180.0)));
+		move2Left.add(new LineSegment(0.5, 0.0));
+		inputSpline.add(move2Left);
 		
-		TorSpline testSpline = new TorSpline(1.0, 1.0, 0.0);
-		testSpline.add(new LineSegment(1.0, 0.0));
-		testSpline.add(new SpiralSpline((2.0*Math.PI/3.0), 0.5));
-		testSpline.add(new LineSegment(1.0, 0.0));
-		inputSpline.add(testSpline);
+		outputSpline = new SmoothSpline(inputSpline);
+		
+//		TorSpline testSpline = new TorSpline(1.0, 1.0, 0.0);
+//		testSpline.add(new LineSegment(1.0, 0.0));
+//		testSpline.add(new SpiralSpline((2.0*Math.PI/3.0), 0.5));
+//		testSpline.add(new LineSegment(1.0, 0.0));
+//		inputSpline.add(testSpline);
 		
 		RealVector P = new ArrayRealVector(new double[] { 0.0, 0.0 });
+		RealVector Q = new ArrayRealVector(new double[] { 0.0, 0.0 });
 		for (double s = 0.0; s <= inputSpline.length(); s += ds) {
 			P = inputSpline.positionAt(s);
+			Q = outputSpline.positionAt(s);
 			graph.inputPath.add(P.getEntry(0), P.getEntry(1));
+			graph.outputPath.add(Q.getEntry(0), Q.getEntry(1));
 		}
 
-		trajectory = new SplineTrajectory(inputSpline);
+//		trajectory = new SplineTrajectory(inputSpline);
+		trajectory = new SplineTrajectory(outputSpline);
 		translationGraph = new VelocityGraph(trajectory, motionType.Translation);
 		rotationGraph = new VelocityGraph(trajectory, motionType.Rotation);
 		translationGraph.display();
