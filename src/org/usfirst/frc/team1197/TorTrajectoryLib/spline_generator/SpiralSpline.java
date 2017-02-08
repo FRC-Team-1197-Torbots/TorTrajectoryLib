@@ -1,11 +1,14 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealVector;
+
 public class SpiralSpline extends TorSpline {
-	private double totalAngle;
+	protected double totalAngle;
 	private double kMax;
 	private double max_alf = 9.0;
 	private double max_jeta = 40.0;
-	private double ds = 0.0001;
+	protected double ds = 0.0001;
 	
 	private double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
 	private double absoluteMinTurnRadius = 0.5;
@@ -28,6 +31,14 @@ public class SpiralSpline extends TorSpline {
 		build(min_radius);
 	}
 	
+	public SpiralSpline() {
+		super(0.0, 0.0, 0.0);
+		s = new double[8];
+		A = new double[7];
+		B = new double[7];
+		C = new double[7];
+	}
+	
 	public void build(double min_radius){
 		setConstants(1.0/min_radius);
 		this.clear();
@@ -38,7 +49,16 @@ public class SpiralSpline extends TorSpline {
 		}
 	}
 	
-	private void setConstants(double max_curvature) {
+	public RealVector rawPivotCoordinatesAt(double s){
+		double radius = 1.0 / curvatureAt(s);
+		double angle = rawHeadingAt(s) + Math.signum(totalAngle)*(Math.PI/2.0);
+		RealVector pos = new ArrayRealVector(new double[] {Math.cos(angle), Math.sin(angle)});
+		pos.mapMultiply(radius);
+		pos.add(rawPositionAt(s));
+		return pos;
+	}
+	
+	protected void setConstants(double max_curvature) {
 		setMotionLimits(max_curvature);
 		setArclengthNodes();
 		setSpiralCoefficients();
