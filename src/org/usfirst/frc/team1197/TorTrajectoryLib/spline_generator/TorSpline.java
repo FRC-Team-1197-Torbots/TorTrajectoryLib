@@ -12,7 +12,6 @@ public class TorSpline extends PathSegment {
 	public TorSpline(double start_x, double start_y, double start_head) {
 		super(start_x, start_y, start_head);
 		path = new ArrayList<PathSegment>();
-		setLength(0.0);
 	}
 
 	@Override
@@ -25,9 +24,13 @@ public class TorSpline extends PathSegment {
 		}
 		return s;
 	}
+	
+	public SegmentType type(){
+		return SegmentType.SPLINE;
+	}
 
 	@Override
-	public PathSegment clone() {
+	public TorSpline clone() {
 		TorSpline splineCopy = new TorSpline(internalTranslation().getEntry(0),
 											 internalTranslation().getEntry(1),
 											 internalRotation());
@@ -36,6 +39,7 @@ public class TorSpline extends PathSegment {
 		}
 		return splineCopy;
 	}
+	
 	public void clear(){
 		path.clear();
 		setLength(0.0);
@@ -50,6 +54,7 @@ public class TorSpline extends PathSegment {
 			segment.rotateExternally(nextStartingHeading);
 		}
 		addToLength(segment.length());
+		addToTotalAngle(segment.totalAngle());
 		path.add(segment);
 	}
 
@@ -88,4 +93,5 @@ public class TorSpline extends PathSegment {
 		PathSegment lastSegment = path.get(path.size() - 1);
 		return internalRotation() + lastSegment.curvatureAt(lastSegment.length());
 	}
+
 }

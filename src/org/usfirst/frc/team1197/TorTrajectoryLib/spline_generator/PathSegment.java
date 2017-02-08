@@ -7,49 +7,65 @@ import org.apache.commons.math3.linear.RealVector;
 
 public abstract class PathSegment {
 	private double length;
+	private double totalAngle;
 	private double internalRotation;
 	private double externalRotation;
 	private RealMatrix internalRotationMatrix;
 	private RealMatrix externalRotationMatrix;
 	private RealVector internalTranslation;
 	private RealVector externalTranslation;
+	public enum SegmentType {LINE, ARC, CORNU_SPIRAL, SPLINE};
+	public abstract SegmentType type();
 	public abstract String toString();
 	public abstract PathSegment clone();
 	public abstract double curvatureAt(double s);
 	protected abstract RealVector rawPositionAt(double s);
 	protected abstract double rawHeadingAt(double s);
 	
-	
-	public PathSegment(RealVector internalTranslation, double internalRotation){
+	public PathSegment(RealVector internalTranslation, double internalRotation) {
 		translateInternally(internalTranslation);
 		rotateInternally(internalRotation);
 		rotateExternally(0.0);
 		translateExternally(0.0, 0.0);
+		length = 0.0;
+		totalAngle = 0.0;
 	}
 	
-	public PathSegment(double x, double y, double internalRotation){
+	public PathSegment(double x, double y, double internalRotation) {
 		translateInternally(x, y);
 		rotateInternally(internalRotation);
 		rotateExternally(0.0);
 		translateExternally(0.0, 0.0);
+		length = 0.0;
+		totalAngle = 0.0;
 	}
 	
-	public RealVector positionAt(double s){
+	public RealVector positionAt(double s) {
 		return externalTransform(rawPositionAt(s));
 	}
 	
-	public double headingAt(double s){
+	public double headingAt(double s) {
 		return externalRotation + rawHeadingAt(s);
 	}
 	
-	public double length(){
+	public double length() {
 		return length;
 	}
-	public void setLength(double l){
+	protected void setLength(double l) {
 		length = l;
 	}
-	public void addToLength(double delta_l){
-		length += delta_l;
+	protected void addToLength(double increment) {
+		length += increment;
+	}
+	
+	public double totalAngle(){
+		return totalAngle;
+	}
+	protected void setTotalAngle(double a){
+		totalAngle = a;
+	}
+	protected void addToTotalAngle(double increment){
+		totalAngle += increment;
 	}
 	
 	// Output transformation stuff:
@@ -121,5 +137,13 @@ public abstract class PathSegment {
 		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
 			  													{Math.sin(r), Math.cos(r)}});
 		return m;
+	}
+	
+	public PathSegment cloneTrimmedBy(double decrement){
+		//TODO: if decrement > length, throw a console freak-out
+		PathSegment segment = this.clone();
+		segment.addToLength(-decrement);
+		segment.setTotalAngle(segment.rawHeadingAt(segment.length()));
+		return segment;
 	}
 }

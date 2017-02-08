@@ -10,6 +10,7 @@ public class LineSegment extends PathSegment{
 	public LineSegment(double l, double r){
 		super(0.0, 0.0, r);
 		setLength(l);
+		setTotalAngle(0.0);
 	}
 	
 	public String toString(){
@@ -17,6 +18,10 @@ public class LineSegment extends PathSegment{
 									  .concat(", rotation=")
 									  .concat(String.valueOf(internalRotation()))
 									  .concat("]") ;
+	}
+	
+	public SegmentType type(){
+		return SegmentType.LINE;
 	}
 
 	@Override

@@ -73,6 +73,8 @@ public class CornuSpiral extends PathSegment {
 		startHeading = rawHeadingAt(0.0);
 		translateInternally(startPoint.mapMultiply(-1.0));
 		rotateInternally(-startHeading);
+		setLength(lengthData.get(lengthData.size()-1));
+		setTotalAngle(rawHeadingAt(lengthData.get(lengthData.size()-1)));
 		
 	}
 
@@ -93,6 +95,10 @@ public class CornuSpiral extends PathSegment {
 				   .concat(" / si=").concat(df.format(si))
 				   .concat(", sf=").concat(df.format(sf))
 				   .concat("]");
+	}
+	
+	public SegmentType type(){
+		return SegmentType.CORNU_SPIRAL;
 	}
 
 	@Override
@@ -175,6 +181,8 @@ public class CornuSpiral extends PathSegment {
 		startHeading = rawHeadingAt(0.0);
 		translateInternally(startPoint.mapMultiply(-1.0));
 		rotateInternally(-startHeading);
+		setLength(lengthData.get(lengthData.size()-1));
+		setTotalAngle(rawHeadingAt(lengthData.get(lengthData.size()-1)));
 	}
 	
 	private int getLowerNeighborIndex(double s){
