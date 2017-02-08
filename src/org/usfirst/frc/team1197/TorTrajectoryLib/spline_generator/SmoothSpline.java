@@ -1,9 +1,15 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.solvers.SecantSolver;
+import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
+
 public class SmoothSpline extends TorSpline {
 	
 	TorSpline inputSpline;
 	HalfSpiralSpline optimizingSpline;
+	UnivariateFunction radiusFunction;
+	UnivariateSolver radiusSolver;
 	double computedRadius;
 	double computedXLength;
 	
@@ -11,7 +17,6 @@ public class SmoothSpline extends TorSpline {
 		super(0.0, 0.0, 0.0);
 		inputSpline = s.clone();
 		optimizingSpline  = new HalfSpiralSpline();
-		PathSegment prev_segment = new ArcSegment(1.0, 1.0);
 		PathSegment segment, next_segment;
 		for (int i = 0; i < inputSpline.path.size(); i++){
 			segment = inputSpline.path.get(i);
@@ -23,22 +28,36 @@ public class SmoothSpline extends TorSpline {
 			if (segment.type() != SegmentType.ARC){
 				this.add(segment);
 			} else {
-				replace(prev_segment, segment, next_segment);
+				replace(i, segment, next_segment);
+				i++; //skip the line segment added by replace()
 			}
 		}
 	}
 	
-	private void replace(PathSegment line1, PathSegment arc, PathSegment line2){
+	private void replace(int index, PathSegment arc, PathSegment line){
+		//TODO: add a check to make sure we have line->arc->line
 		double angle = arc.totalAngle();
 		computeMinRadius(angle, 1.0/arc.curvatureAt(0.0));
-		this.add(line1.cloneTrimmedBy(computedXLength));
+		path.get(index-1).addToLength(-computedXLength);
 		this.add(new SpiralSpline(angle, computedRadius));
-		this.add(line2.cloneTrimmedBy(computedXLength));
-		
+		this.add(line.cloneTrimmedBy(computedXLength));
 	}
 	
 	private void computeMinRadius(double angle, double radius){
-		
+		radiusFunction = new UnivariateFunction() {
+			double x, y;
+			public double value(double r) {
+				optimizingSpline.buildRisingLegOnly(angle, r);
+				x = optimizingSpline.rawPivotCoordinatesAt(optimizingSpline.length()).getEntry(0);
+				y = optimizingSpline.rawPivotCoordinatesAt(optimizingSpline.length()).getEntry(1);
+				computedXLength = Math.abs(x);
+				return (radius - y);
+			}
+		};
+		final double relativeAccuracy = 1.0e-6;
+		final double absoluteAccuracy = 1.0e-8;
+		radiusSolver = new SecantSolver(relativeAccuracy, absoluteAccuracy);
+		computedRadius = radiusSolver.solve(10000, radiusFunction, 0, radius, radius);
 	}
 
 }
