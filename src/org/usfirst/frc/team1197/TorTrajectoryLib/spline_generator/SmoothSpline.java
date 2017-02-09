@@ -1,28 +1,22 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.solvers.SecantSolver;
-import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
 
 public class SmoothSpline extends TorSpline {
 	
 	TorSpline inputSpline;
-	HalfSpiralSpline optimizingSpline;
-	UnivariateFunction radiusFunction;
-	UnivariateSolver radiusSolver;
-	double computedRadius;
-	double computedXLength;
+	static HalfSpiralSpline optimizingSpline = new HalfSpiralSpline();
+	static double computedPivotX;
+	static double computedPivotY;
 	
 	public SmoothSpline(TorSpline s) {
 		super(s.internalTranslation().getEntry(0), s.internalTranslation().getEntry(1), s.internalRotation());
 		inputSpline = s.clone();
-		optimizingSpline  = new HalfSpiralSpline();
+//		optimizingSpline = new HalfSpiralSpline();
 		PathSegment segment, next_segment;
 		for (int i = 0; i < inputSpline.path.size(); i++){
 			segment = inputSpline.path.get(i);
 			if (i + 1 < inputSpline.path.size()){
 				next_segment = inputSpline.path.get(i+1);
-				System.out.println("Hello");
 			} else {
 				next_segment = new ArcSegment(1.0, 1.0);
 			}
@@ -38,27 +32,55 @@ public class SmoothSpline extends TorSpline {
 	private void replace(int index, PathSegment arc, PathSegment line){
 		//TODO: add a check to make sure we have line->arc->line
 		double angle = arc.totalAngle();
-		computeMinRadius(angle, 1.0/arc.curvatureAt(0.0));
-		path.get(index-1).addToLength(-computedXLength);
-		this.add(new SpiralSpline(angle, computedRadius));
-		this.add(line.cloneTrimmedBy(computedXLength));
+		double radius = secantMethod(angle, Math.abs(1.0/arc.curvatureAt(0.0)));
+		System.out.println("computedPivotX = " + computedPivotX);
+		path.get(index-1).addToLength(computedPivotX);
+		this.addToLength(computedPivotX);
+		this.add(new SpiralSpline(angle, radius));
+		this.add(line.cloneTrimmedBy(-computedPivotX));
 	}
 	
-	private void computeMinRadius(double angle, double radius){
-		radiusFunction = new UnivariateFunction() {
-			double x, y;
-			public double value(double r) {
-				optimizingSpline.buildRisingLegOnly(angle, r);
-				x = optimizingSpline.rawPivotCoordinatesAt(optimizingSpline.length()).getEntry(0);
-				y = optimizingSpline.rawPivotCoordinatesAt(optimizingSpline.length()).getEntry(1);
-				computedXLength = Math.abs(x);
-				return (radius - y);
-			}
-		};
-		final double relativeAccuracy = 1.0e-6;
-		final double absoluteAccuracy = 1.0e-8;
-		radiusSolver = new SecantSolver(relativeAccuracy, absoluteAccuracy);
-		computedRadius = radiusSolver.solve(10000, radiusFunction, 0, radius, radius);
+	private double secantMethod(double angle, double radius){
+		double accuracy = 1.0e-8;
+		int max_iterations = 100;
+		double x = radius, x_prev = radius * 1.001;
+		double f = rootFunction(angle, x, radius);
+		double f_prev = rootFunction(angle, x_prev, radius);
+		double q;
+		for(int i = 0; i < max_iterations; i++){
+			f = rootFunction(angle, x, radius);
+			System.out.println("x = " + x + ";\tf = " + f);
+			if (Math.abs(f) <= accuracy)
+				break;
+			q = slopeFunction(x, f, x_prev, f_prev);
+			x_prev = x;
+			f_prev = f;
+			x = x - f/q;
+		}
+		return x;
+
+	}
+	
+	static int count = 1;
+	private static double rootFunction(double angle, double radius, double targetY){
+		optimizingSpline.buildRisingLegOnly(angle, radius);
+		computedPivotX = optimizingSpline.pivot_x();
+		computedPivotY = optimizingSpline.pivot_y();
+		count++;
+		return targetY - computedPivotY;
+	}
+	
+//	private double rootFunction(HalfSpiralSpline spline, double targetY){
+//		computedPivotX = spline.pivot_x();
+//		computedPivotY = spline.pivot_y();
+//		System.out.println(count);
+//		System.out.println(spline);
+//		count++;
+//		return targetY - computedPivotY;
+//	}
+	
+	private static double slopeFunction(double x, double f, double x_prev, double f_prev){
+		return (f - f_prev)/(x - x_prev);
 	}
 
 }

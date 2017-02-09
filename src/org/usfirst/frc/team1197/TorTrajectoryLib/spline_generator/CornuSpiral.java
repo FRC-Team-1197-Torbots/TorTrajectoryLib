@@ -73,7 +73,7 @@ public class CornuSpiral extends PathSegment {
 		startHeading = rawHeadingAt(0.0);
 		translateInternally(startPoint.mapMultiply(-1.0));
 		rotateInternally(-startHeading);
-		setLength(lengthData.get(lengthData.size()-1));
+//		setLength(lengthData.get(lengthData.size()-1));
 		setTotalAngle(rawHeadingAt(lengthData.get(lengthData.size()-1)));
 		
 	}
@@ -92,7 +92,7 @@ public class CornuSpiral extends PathSegment {
 		return ("Cornu Spiral[A=").concat(df.format(A))
 				   .concat(", B=").concat(df.format(B))
 				   .concat(", C=").concat(df.format(C))
-				   .concat(" / si=").concat(df.format(si))
+				   .concat("; si=").concat(df.format(si))
 				   .concat(", sf=").concat(df.format(sf))
 				   .concat("]");
 	}

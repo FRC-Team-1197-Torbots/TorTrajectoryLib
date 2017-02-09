@@ -3,6 +3,7 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
 public class TorSpline extends PathSegment {
@@ -43,6 +44,7 @@ public class TorSpline extends PathSegment {
 	public void clear(){
 		path.clear();
 		setLength(0.0);
+		setTotalAngle(0.0);
 	}
 
 	public void add(PathSegment s) {
@@ -60,6 +62,9 @@ public class TorSpline extends PathSegment {
 
 	@Override
 	public RealVector rawPositionAt(double s) {
+//		if (path.size() == 0){
+//			return new ArrayRealVector(new double[] {0.0, 0.0});
+//		}
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length())
@@ -72,6 +77,9 @@ public class TorSpline extends PathSegment {
 
 	@Override
 	public double rawHeadingAt(double s) {
+//		if (path.size() == 0){
+//			return 0.0;
+//		}
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length())
@@ -84,6 +92,9 @@ public class TorSpline extends PathSegment {
 
 	@Override
 	public double curvatureAt(double s) {
+//		if (path.size() == 0){
+//			return 0.0;
+//		}
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length())
