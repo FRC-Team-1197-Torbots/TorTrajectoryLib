@@ -3,15 +3,14 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
 public class SmoothSpline extends TorSpline {
 	
-	TorSpline inputSpline;
-	static HalfSpiralSpline optimizingSpline = new HalfSpiralSpline();
-	static double computedPivotX;
-	static double computedPivotY;
+	private TorSpline inputSpline;
+	private HalfSpiralSpline optimizingSpline = new HalfSpiralSpline();
+	private double computedPivotX;
+	private double computedPivotY;
 	
 	public SmoothSpline(TorSpline s) {
 		super(s.internalTranslation().getEntry(0), s.internalTranslation().getEntry(1), s.internalRotation());
 		inputSpline = s.clone();
-//		optimizingSpline = new HalfSpiralSpline();
 		PathSegment segment, next_segment;
 		for (int i = 0; i < inputSpline.path.size(); i++){
 			segment = inputSpline.path.get(i);
@@ -33,15 +32,6 @@ public class SmoothSpline extends TorSpline {
 		//TODO: add a check to make sure we have line->arc->line
 		double angle = arc.totalAngle();
 		double radius = secantMethod(Math.abs(angle), Math.abs(1.0/arc.curvatureAt(0.0)));
-		optimizingSpline.buildRisingLegOnly(angle, radius);
-		computedPivotX = optimizingSpline.pivot_x();
-		computedPivotY = optimizingSpline.pivot_y();
-		System.out.println("end point = " + optimizingSpline.rawPositionAt(optimizingSpline.length()));
-		System.out.println("end heading = " + optimizingSpline.rawHeadingAt(optimizingSpline.length()));
-		System.out.println("end curvature = " + optimizingSpline.curvatureAt(optimizingSpline.length()));
-		System.out.println("computedPivotX = " + computedPivotX);
-		System.out.println("computedPivotY = " + computedPivotY);
-		System.out.println("radius = " + 1.0/arc.curvatureAt(0.0));
 		path.get(index-1).addToLength(-computedPivotX);
 		this.addToLength(-computedPivotX);
 		this.add(new SpiralSpline(angle, radius));
@@ -69,16 +59,14 @@ public class SmoothSpline extends TorSpline {
 
 	}
 	
-	static int count = 1;
-	private static double rootFunction(double angle, double radius, double targetY){
+	private double rootFunction(double angle, double radius, double targetY){
 		optimizingSpline.buildRisingLegOnly(angle, radius);
-//		computedPivotX = optimizingSpline.pivot_x();
+		computedPivotX = optimizingSpline.pivot_x();
 		computedPivotY = optimizingSpline.pivot_y();
-		count++;
 		return targetY - computedPivotY;
 	}
 	
-	private static double slopeFunction(double x, double f, double x_prev, double f_prev){
+	private double slopeFunction(double x, double f, double x_prev, double f_prev){
 		return (f - f_prev)/(x - x_prev);
 	}
 

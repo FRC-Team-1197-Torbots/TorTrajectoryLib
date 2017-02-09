@@ -62,9 +62,6 @@ public class TorSpline extends PathSegment {
 
 	@Override
 	public RealVector rawPositionAt(double s) {
-//		if (path.size() == 0){
-//			return new ArrayRealVector(new double[] {0.0, 0.0});
-//		}
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length())
@@ -77,9 +74,6 @@ public class TorSpline extends PathSegment {
 
 	@Override
 	public double rawHeadingAt(double s) {
-//		if (path.size() == 0){
-//			return 0.0;
-//		}
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length())
@@ -92,9 +86,6 @@ public class TorSpline extends PathSegment {
 
 	@Override
 	public double curvatureAt(double s) {
-//		if (path.size() == 0){
-//			return 0.0;
-//		}
 		double lengthSoFar = 0.0;
 		for (PathSegment segment : path) {
 			if (s - lengthSoFar <= segment.length())

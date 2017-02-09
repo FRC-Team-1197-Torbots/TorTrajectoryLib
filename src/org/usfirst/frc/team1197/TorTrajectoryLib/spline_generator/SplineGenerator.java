@@ -21,25 +21,18 @@ public class SplineGenerator {
 		final PathGraph graph = new PathGraph();
 		graph.display();
 		
-//		TorSpline move1Left = new TorSpline(0.375, 6.070, 0.0);
-//		move1Left.add(new LineSegment(1.697, 0.0));
-//		move1Left.add(new ArcSegment(0.943, -60*(Math.PI/180.0)));
-//		move1Left.add(new LineSegment(0.5, 0.0));
-//		inputSpline.add(move1Left);
-		
-
-		inputSpline = new TorSpline(5.139, 6.165, 0.0);
-		inputSpline.add(new LineSegment(1.0, 2.0*Math.PI/3.0));
-		// Note: 0.5 was baaarely too short, so this path is garbage for competition purposes.
-		inputSpline.add(new ArcSegment(0.75, 150.0*(Math.PI/180.0)));
-		inputSpline.add(new LineSegment(3.025, 0.0));
-		inputSpline.add(new ArcSegment(1.654, -40.0*(Math.PI/180.0)));
+		inputSpline = new TorSpline(0.375, 6.070, 0.0);
+		inputSpline.add(new LineSegment(1.697, 0.0));
+		inputSpline.add(new ArcSegment(0.943, -60*(Math.PI/180.0)));
 		inputSpline.add(new LineSegment(0.5, 0.0));
-		
-//		inputSpline = new TorSpline(1.0, 1.0, 0.0);
-//		inputSpline.add(new LineSegment(1.0, 0.0));
-//		inputSpline.add(new SpiralSpline((2.0*Math.PI/3.0), 0.5));
-//		inputSpline.add(new LineSegment(1.0, 0.0));
+
+//		inputSpline = new TorSpline(5.139, 6.165, 0.0);
+//		inputSpline.add(new LineSegment(1.0, 2.0*Math.PI/3.0));
+//		// Note: 0.5 was baaarely too short, so this path is garbage for competition purposes.
+//		inputSpline.add(new ArcSegment(0.75, 150.0*(Math.PI/180.0)));
+//		inputSpline.add(new LineSegment(3.025, 0.0));
+//		inputSpline.add(new ArcSegment(1.654, -40.0*(Math.PI/180.0)));
+//		inputSpline.add(new LineSegment(0.5, 0.0));
 		
 		RealVector P = new ArrayRealVector(new double[] { 0.0, 0.0 });
 		for (double s = 0.0; s <= inputSpline.length(); s += ds) {
@@ -53,7 +46,6 @@ public class SplineGenerator {
 			graph.outputPath.add(P.getEntry(0), P.getEntry(1));
 		}
 
-//		trajectory = new SplineTrajectory(inputSpline);
 		trajectory = new SplineTrajectory(outputSpline);
 		translationGraph = new VelocityGraph(trajectory, motionType.Translation);
 		rotationGraph = new VelocityGraph(trajectory, motionType.Rotation);
