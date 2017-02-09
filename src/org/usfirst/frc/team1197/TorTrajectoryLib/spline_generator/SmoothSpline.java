@@ -33,11 +33,19 @@ public class SmoothSpline extends TorSpline {
 		//TODO: add a check to make sure we have line->arc->line
 		double angle = arc.totalAngle();
 		double radius = secantMethod(angle, Math.abs(1.0/arc.curvatureAt(0.0)));
-		System.out.println("computedPivotX = " + computedPivotX);
-		path.get(index-1).addToLength(computedPivotX);
-		this.addToLength(computedPivotX);
+		optimizingSpline.buildRisingLegOnly(angle, radius);
+		computedPivotX = optimizingSpline.pivot_x();
+		computedPivotY = optimizingSpline.pivot_y();
+//		System.out.println("end point = " + optimizingSpline.rawPositionAt(optimizingSpline.length()));
+//		System.out.println("end heading = " + optimizingSpline.rawHeadingAt(optimizingSpline.length()));
+//		System.out.println("end curvature = " + optimizingSpline.curvatureAt(optimizingSpline.length()));
+//		System.out.println("computedPivotX = " + computedPivotX);
+//		System.out.println("computedPivotY = " + computedPivotY);
+//		System.out.println("radius = " + 1.0/arc.curvatureAt(0.0));
+		path.get(index-1).addToLength(-computedPivotX);
+		this.addToLength(-computedPivotX);
 		this.add(new SpiralSpline(angle, radius));
-		this.add(line.cloneTrimmedBy(-computedPivotX));
+		this.add(line.cloneTrimmedBy(computedPivotX));
 	}
 	
 	private double secantMethod(double angle, double radius){

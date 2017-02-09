@@ -62,8 +62,8 @@ public class SpiralSpline extends TorSpline {
 		double radius = 1.0 / curvatureAt(s);
 		double angle = rawHeadingAt(s) + Math.signum(totalAngle())*(Math.PI/2.0);
 		RealVector pos = new ArrayRealVector(new double[] {Math.cos(angle), Math.sin(angle)});
-		pos.mapMultiply(radius);
-		pos.add(rawPositionAt(s));
+		pos = pos.mapMultiply(radius);
+		pos = pos.add(rawPositionAt(s));
 		return pos;
 	}
 	
