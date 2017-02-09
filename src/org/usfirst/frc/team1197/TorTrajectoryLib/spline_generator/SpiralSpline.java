@@ -59,7 +59,7 @@ public class SpiralSpline extends TorSpline {
 	}
 	
 	public RealVector rawPivotCoordinatesAt(double s){
-		double radius = 1.0 / curvatureAt(s);
+		double radius = Math.abs(1.0 / curvatureAt(s));
 		double angle = rawHeadingAt(s) + Math.signum(totalAngle())*(Math.PI/2.0);
 		RealVector pos = new ArrayRealVector(new double[] {Math.cos(angle), Math.sin(angle)});
 		pos = pos.mapMultiply(radius);

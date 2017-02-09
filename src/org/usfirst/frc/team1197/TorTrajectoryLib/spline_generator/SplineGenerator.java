@@ -27,12 +27,14 @@ public class SplineGenerator {
 //		move1Left.add(new LineSegment(0.5, 0.0));
 //		inputSpline.add(move1Left);
 		
-		inputSpline = new TorSpline(3.139, 5.165, 0.0);
+
+		inputSpline = new TorSpline(5.139, 6.165, 0.0);
 		inputSpline.add(new LineSegment(1.0, 2.0*Math.PI/3.0));
+		// Note: 0.5 was baaarely too short, so this path is garbage for competition purposes.
 		inputSpline.add(new ArcSegment(0.75, 150.0*(Math.PI/180.0)));
 		inputSpline.add(new LineSegment(3.025, 0.0));
-//		inputSpline.add(new ArcSegment(1.654, -40.0*(Math.PI/180.0)));
-//		inputSpline.add(new LineSegment(0.5, 0.0));
+		inputSpline.add(new ArcSegment(1.654, -40.0*(Math.PI/180.0)));
+		inputSpline.add(new LineSegment(0.5, 0.0));
 		
 //		inputSpline = new TorSpline(1.0, 1.0, 0.0);
 //		inputSpline.add(new LineSegment(1.0, 0.0));
