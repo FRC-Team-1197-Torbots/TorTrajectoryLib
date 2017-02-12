@@ -42,10 +42,6 @@ public class SplineGenerator {
 		inputSpline.add(new ArcSegment(0.75, -253.74*(Math.PI/180.0)));
 		inputSpline.add(new LineSegment(2.0, 0.0));
 		inputSpline.add(new ArcSegment(0.75, 253.74*(Math.PI/180.0)));
-		inputSpline.add(new LineSegment(2.0, 0.0));
-		inputSpline.add(new ArcSegment(0.75, -253.74*(Math.PI/180.0)));
-		inputSpline.add(new LineSegment(2.0, 0.0));
-		inputSpline.add(new ArcSegment(0.75, 253.74*(Math.PI/180.0)));
 		inputSpline.add(new LineSegment(1.0, 0.0));
 		
 		RealVector P = new ArrayRealVector(new double[] { 0.0, 0.0 });
