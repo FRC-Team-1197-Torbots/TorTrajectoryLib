@@ -45,7 +45,7 @@ public class PathGraph extends ApplicationFrame {
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 		renderer.setSeriesLinesVisible(0, true);
 		renderer.setSeriesShapesVisible(0, false);
-		renderer.setSeriesPaint(0, new Color(0x00, 0xFF, 0x00));
+		renderer.setSeriesPaint(0, new Color(0xFF, 0xFF, 0x00));
 		renderer.setSeriesLinesVisible(1, true);
 		renderer.setSeriesShapesVisible(1, false);
 		renderer.setSeriesPaint(1, new Color(0x00, 0x00, 0x00));
@@ -58,7 +58,7 @@ public class PathGraph extends ApplicationFrame {
 		plot.setSquaredToRange(true); 		// Define x-axis, and square y-axis to it.
 		readBackgroundImage();
 		plot.setBackgroundImage(backgroundImage);
-		plot.setBackgroundPaint(Color.white);
+//		plot.setBackgroundPaint(Color.white);
 		plot.setDomainGridlinePaint(Color.white);
 		plot.setRangeGridlinePaint(Color.white);
 		// Create the chart:
