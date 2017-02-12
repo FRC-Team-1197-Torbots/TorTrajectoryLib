@@ -11,7 +11,9 @@ public class TorSpline extends PathSegment {
 	protected List<PathSegment> path;
 
 	public TorSpline(double start_x, double start_y, double start_head) {
-		super(start_x, start_y, start_head);
+		super(0.0, 0.0, 0.0);
+		rotateExternally(start_head);
+		translateExternally(start_x, start_y);
 		path = new ArrayList<PathSegment>();
 	}
 

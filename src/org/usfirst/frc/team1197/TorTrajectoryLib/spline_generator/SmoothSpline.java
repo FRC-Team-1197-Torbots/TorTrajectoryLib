@@ -9,7 +9,7 @@ public class SmoothSpline extends TorSpline {
 	private double computedPivotY;
 	
 	public SmoothSpline(TorSpline s) {
-		super(s.internalTranslation().getEntry(0), s.internalTranslation().getEntry(1), s.internalRotation());
+		super(s.externalTranslation().getEntry(0), s.externalTranslation().getEntry(1), s.externalRotation());
 		inputSpline = s.clone();
 		PathSegment segment, next_segment;
 		for (int i = 0; i < inputSpline.path.size(); i++){

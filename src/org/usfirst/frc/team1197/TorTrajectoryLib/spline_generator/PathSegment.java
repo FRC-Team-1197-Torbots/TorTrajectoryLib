@@ -126,13 +126,13 @@ public abstract class PathSegment {
 	public RealMatrix externalRotationMatrix(){
 		return externalRotationMatrix;
 	}
-	private RealMatrix internalUnrotateMatrix(){
+	public RealMatrix internalUnrotateMatrix(){
 		double r = -internalRotation;
 		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
 			  													{Math.sin(r), Math.cos(r)}});
 		return m;
 	}
-	private RealMatrix externalUnrotateMatrix(){
+	public RealMatrix externalUnrotateMatrix(){
 		double r = -externalRotation;
 		RealMatrix m = new Array2DRowRealMatrix(new double[][] {{Math.cos(r), -Math.sin(r)}, 
 			  													{Math.sin(r), Math.cos(r)}});
