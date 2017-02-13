@@ -30,21 +30,33 @@ public class DotJavaWriter extends MotionDataWriter {
 
 		for (long time = 0; time <= trajectory.totalTime(); time += dt) {
 			lookUpData(time);
-			s = "\n\t\ttime.add((long) ".concat(String.valueOf(time)).concat(");\n");
-
-			s = s.concat("\t\ttranslation.add(new MotionState1D(");
+			s = "\t\ttestMethod(".concat(String.valueOf(time)).concat(", ");
+			
 			s = s.concat(df.format(pos)).concat(", ");
 			s = s.concat(df.format(vel)).concat(", ");
-			s = s.concat(df.format(acc)).concat("));\n");
-
-			s = s.concat("\t\trotation.add(new MotionState1D(");
+			s = s.concat(df.format(acc)).concat(", ");
 			s = s.concat(df.format(head)).concat(", ");
 			s = s.concat(df.format(omg)).concat(", ");
-			s = s.concat(df.format(alf)).concat("));\n");
-
+			s = s.concat(df.format(alf)).concat(");\n");
+			
 			fileWriter.write(s, 0, s.length());
 		}
-		s = "\t}\n\n}";
+		s = s.concat("\t}\n");
+		s = s.concat("\tpublic void ").concat("testMethod").concat("(int t, double pos, double vel, double acc, double hed, double omg, double alf) {\n");
+		s = s.concat("\t\ttime.add((long) ").concat("t").concat(");\n");
+		
+		s = s.concat("\t\ttranslation.add(new MotionState1D(");
+		s = s.concat("pos, ");
+		s = s.concat("vel, ");
+		s = s.concat("acc));\n");
+
+		s = s.concat("\t\trotation.add(new MotionState1D(");
+		s = s.concat("hed, ");
+		s = s.concat("omg, ");
+		s = s.concat("alf));\n");
+		
+		s = s.concat("\t}");
+		s = s.concat("\n\n}");
 		fileWriter.write(s, 0, s.length());
 	}
 }
