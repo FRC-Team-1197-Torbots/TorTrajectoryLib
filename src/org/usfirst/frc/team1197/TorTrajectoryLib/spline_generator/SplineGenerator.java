@@ -24,10 +24,10 @@ public class SplineGenerator {
 		final PathGraph graph = new PathGraph();
 		graph.display();
 		
-//		inputSpline = new TorSpline(0.375, 6.070, 0.0);
-//		inputSpline.add(new LineSegment(1.697, 0.0));
-//		inputSpline.add(new ArcSegment(0.943, -60*(Math.PI/180.0)));
-//		inputSpline.add(new LineSegment(0.5, 0.0));
+		inputSpline = new TorSpline(0.375, 6.070, 0.0);
+		inputSpline.add(new LineSegment(1.605, 0.0));
+		inputSpline.add(new ArcSegment(0.91, -60*(Math.PI/180.0)));
+		inputSpline.add(new LineSegment(0.615, 0.0));
 
 //		inputSpline = new TorSpline(5.139, 6.165, 2.0*Math.PI/3.0);
 //		inputSpline.add(new LineSegment(1.0, 0.0));
@@ -37,12 +37,12 @@ public class SplineGenerator {
 //		inputSpline.add(new ArcSegment(1.654, -40.0*(Math.PI/180.0)));
 //		inputSpline.add(new LineSegment(0.5, 0.0));
 		
-		inputSpline = new TorSpline(8.0, 4.0, 36.87*(Math.PI/180.0));
-		inputSpline.add(new LineSegment(1.0, 0.0));
-		inputSpline.add(new ArcSegment(0.75, -253.74*(Math.PI/180.0)));
-		inputSpline.add(new LineSegment(2.0, 0.0));
-		inputSpline.add(new ArcSegment(0.75, 253.74*(Math.PI/180.0)));
-		inputSpline.add(new LineSegment(1.0, 0.0));
+//		inputSpline = new TorSpline(8.0, 4.0, 36.87*(Math.PI/180.0));
+//		inputSpline.add(new LineSegment(1.0, 0.0));
+//		inputSpline.add(new ArcSegment(0.75, -253.74*(Math.PI/180.0)));
+//		inputSpline.add(new LineSegment(2.0, 0.0));
+//		inputSpline.add(new ArcSegment(0.75, 253.74*(Math.PI/180.0)));
+//		inputSpline.add(new LineSegment(1.0, 0.0));
 		
 		RealVector P = new ArrayRealVector(new double[] { 0.0, 0.0 });
 		for (double s = 0.0; s <= inputSpline.length(); s += ds) {
