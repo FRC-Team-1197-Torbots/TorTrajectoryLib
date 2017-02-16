@@ -28,26 +28,30 @@ public class SplineGenerator {
 		 *  BOILER AUTO TRAJECTORIES
 		 */
 		//pos1
-//		inputSpline = new TorSpline(0.375, 2.070, 0.0);
-//		inputSpline.add(new LineSegment(1.605, 0.0));
-//		inputSpline.add(new ArcSegment(0.91, 60*(Math.PI/180.0)));
-//		inputSpline.add(new LineSegment(0.615, 0.0));
+		inputSpline = new TorSpline(0.378, 2.175, 0.0);
+		inputSpline.add(new LineSegment(1.750, 0.0));
+		inputSpline.add(new ArcSegment(1.053, 60*(Math.PI/180.0)));
+		inputSpline.add(new LineSegment(0.205, 0.0));
 		
 		//pos2
 //		inputSpline = new TorSpline(3.14, 2.88, 30*(Math.PI/180.0));
-//		inputSpline.add(new LineSegment(1.30, 0.0));
-//		inputSpline.add(new ArcSegment(0.21, -60*(Math.PI/180.0)));
-//		inputSpline.add(new LineSegment(0.50, 0.0));
-//		inputSpline.add(new ArcSegment(0.58, 50*(Math.PI/180.0)));
-//		inputSpline.add(new LineSegment(0.90, 0.0));
-		//pos3
+//		inputSpline.add(new LineSegment(0.5, 0.0));
+//		inputSpline.add(new ArcSegment(0.7, 35.06*(Math.PI/180.0)));
+//		inputSpline.add(new LineSegment(0.91, 0.0));
+//		inputSpline.add(new ArcSegment(0.89, -25.06*(Math.PI/180.0)));
+//		inputSpline.add(new LineSegment(1.02, 0.0));
 		
-		inputSpline = new TorSpline(3.0, 2.070, 0.0);
-		inputSpline.add(new LineSegment(1.0, 0.0));
-//		inputSpline.add(new ArcSegment(0.91, 60*(Math.PI/180.0)));
-
-//		inputSpline = new TorSpline(5.139, 6.165, 2.0*Math.PI/3.0);
-//		inputSpline.add(new LineSegment(1.0, 0.0));
+		//pos3
+//		inputSpline = new TorSpline(0.78, 0.75, 50*(Math.PI/180.0));
+//		inputSpline.add(new LineSegment(0.75, 0.0));
+//		inputSpline.add(new ArcSegment(1.25, -50*(Math.PI/180.0)));
+//		inputSpline.add(new LineSegment(1.25, 0.0));
+		
+		/**
+		 * LOADING STATION AUTO TRAJECTORIES
+		 */
+		//pos1
+		
 //		// Note: 0.5 was baaarely too short, so this path is garbage for competition purposes.
 //		inputSpline.add(new ArcSegment(0.75, 150.0*(Math.PI/180.0)));
 //		inputSpline.add(new LineSegment(3.025, 0.0));
@@ -60,6 +64,12 @@ public class SplineGenerator {
 //		inputSpline.add(new LineSegment(2.0, 0.0));
 //		inputSpline.add(new ArcSegment(0.75, 253.74*(Math.PI/180.0)));
 //		inputSpline.add(new LineSegment(1.0, 0.0));
+		
+		/**
+		 * CENTER AUTO TRAJECTORIES
+		 */
+		//pos1
+//		inputSpline = new TorSpline()
 		
 		RealVector P = new ArrayRealVector(new double[] { 0.0, 0.0 });
 		for (double s = 0.0; s <= inputSpline.length(); s += ds) {

@@ -24,7 +24,6 @@ public class SplineTrajectory extends TorTrajectory {
 		walk();
 		if(backward){
 			flipSign(translation);
-			flipSign(rotation);
 		}
 	}
 
