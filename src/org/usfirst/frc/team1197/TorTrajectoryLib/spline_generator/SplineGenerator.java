@@ -24,10 +24,27 @@ public class SplineGenerator {
 		final PathGraph graph = new PathGraph();
 		graph.display();
 		
-		inputSpline = new TorSpline(0.375, 6.070, 0.0);
-		inputSpline.add(new LineSegment(1.605, 0.0));
-		inputSpline.add(new ArcSegment(0.91, -60*(Math.PI/180.0)));
-		inputSpline.add(new LineSegment(0.615, 0.0));
+		/**
+		 *  BOILER AUTO TRAJECTORIES
+		 */
+		//pos1
+//		inputSpline = new TorSpline(0.375, 2.070, 0.0);
+//		inputSpline.add(new LineSegment(1.605, 0.0));
+//		inputSpline.add(new ArcSegment(0.91, 60*(Math.PI/180.0)));
+//		inputSpline.add(new LineSegment(0.615, 0.0));
+		
+		//pos2
+//		inputSpline = new TorSpline(3.14, 2.88, 30*(Math.PI/180.0));
+//		inputSpline.add(new LineSegment(1.30, 0.0));
+//		inputSpline.add(new ArcSegment(0.21, -60*(Math.PI/180.0)));
+//		inputSpline.add(new LineSegment(0.50, 0.0));
+//		inputSpline.add(new ArcSegment(0.58, 50*(Math.PI/180.0)));
+//		inputSpline.add(new LineSegment(0.90, 0.0));
+		//pos3
+		
+		inputSpline = new TorSpline(3.0, 2.070, 0.0);
+		inputSpline.add(new LineSegment(1.0, 0.0));
+//		inputSpline.add(new ArcSegment(0.91, 60*(Math.PI/180.0)));
 
 //		inputSpline = new TorSpline(5.139, 6.165, 2.0*Math.PI/3.0);
 //		inputSpline.add(new LineSegment(1.0, 0.0));
@@ -56,7 +73,7 @@ public class SplineGenerator {
 			graph.outputPath.add(P.getEntry(0), P.getEntry(1));
 		}
 
-		trajectory = new SplineTrajectory(outputSpline);
+		trajectory = new SplineTrajectory(outputSpline, true);
 		translationGraph = new VelocityGraph(trajectory, motionType.Translation);
 		rotationGraph = new VelocityGraph(trajectory, motionType.Rotation);
 		translationGraph.display();

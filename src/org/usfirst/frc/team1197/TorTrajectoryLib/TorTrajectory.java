@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 public abstract class TorTrajectory {
@@ -283,5 +284,10 @@ public abstract class TorTrajectory {
 	}
 	public boolean isComplete(){
 		return isComplete;
+	}
+	public void flipSign(List<MotionState1D> motion){
+		for(MotionState1D element : motion){
+			element.set(-element.pos, -element.vel, -element.acc);
+		}
 	}
 }

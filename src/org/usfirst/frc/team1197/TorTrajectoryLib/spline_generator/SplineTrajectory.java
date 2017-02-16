@@ -9,7 +9,7 @@ public class SplineTrajectory extends TorTrajectory {
 	protected final static double absoluteMinTurnRadius = 0.5;
 	protected final static double maxThrottle = 0.6 * (absoluteMinTurnRadius/(absoluteMinTurnRadius+0.2858)); // (38%???)
 
-	public SplineTrajectory(PathSegment p) {
+	public SplineTrajectory(PathSegment p, boolean backward) {
 		path = p.clone();
 		goal_pos = path.length();
 		goal_head = path.headingAt(goal_pos);
@@ -22,6 +22,10 @@ public class SplineTrajectory extends TorTrajectory {
 		build(goal_pos, max_vel, max_acc, max_jerk, translation);
 		
 		walk();
+		if(backward){
+			flipSign(translation);
+			flipSign(rotation);
+		}
 	}
 
 	private void walk() {
