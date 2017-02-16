@@ -261,7 +261,7 @@ public class testSpline extends TorTrajectory {
 		testMethod(1255, -1, -0, 0.1, -0, -0, -0);
 		testMethod(1260, -1, -0, -0, -0, -0, -0);
 		testMethod(1260, -1, -0, -0, -0, -0, -0);
-	0}
+	}
 	public void testMethod(int t, double pos, double vel, double acc, double hed, double omg, double alf) {
 		time.add((long) t);
 		translation.add(new MotionState1D(pos, vel, acc));
