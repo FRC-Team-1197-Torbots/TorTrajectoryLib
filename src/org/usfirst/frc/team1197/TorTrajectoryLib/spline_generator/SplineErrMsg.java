@@ -69,12 +69,12 @@ class SplineErrMsg {
 		return false;
 	}
 
-	protected static boolean tooShortAlert(List<PathSegment> path, int i, double needed_length) {
-		double actual_length = path.get(i).length();
+	protected static boolean tooShortAlert(List<PathSegment> path, int i_use, int i_disp, double needed_length) {
+		double actual_length = path.get(i_use).length();
 		if ((actual_length < 0) || ((actual_length - needed_length) < 0)) {
 			String s = basic_msg + "The ";
-			s = s + ordinal(i+1);
-			s = s + " PathSegment is too short by ";
+			s = s + ordinal(i_disp+1);
+			s = s + " input path segment is too short by ";
 			s = s + df.format(needed_length - actual_length); // If this comes out negative, something is really weird.
 			s = s + "m.";
 			System.err.println(s);
@@ -84,9 +84,8 @@ class SplineErrMsg {
 	}
 	
 	protected static boolean unexpectedSegmentAlert(SegmentType type) {
-		
 		System.err.println(basic_msg + "Unexpected path segment (" + type + ").");
-		return false;
+		return true;
 	}
 
 	private static String ordinal(int i) {

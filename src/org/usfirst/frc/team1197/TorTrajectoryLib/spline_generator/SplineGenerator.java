@@ -36,7 +36,9 @@ public class SplineGenerator {
 		// Splice-a-tize me, captain!
 		 inputSpline = new TorSpline(0.378, 2.175, 0.0);
 		 inputSpline.add(new LineSegment(2.0, 0.0));
-		 inputSpline.add(new LineSegment(2.0, 90*(Math.PI/180.0)));
+		 inputSpline.add(new LineSegment(2.5, 90*(Math.PI/180.0)));
+		 inputSpline.add(new LineSegment(2.5, -90*(Math.PI/180.0)));
+		 inputSpline.add(new LineSegment(2.5, -90*(Math.PI/180.0)));
 
 //		// Illegal spline #1:
 //		inputSpline = new TorSpline(0.378, 2.175, 0.0);

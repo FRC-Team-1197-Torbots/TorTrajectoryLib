@@ -26,10 +26,11 @@ public class SmoothSpline extends TorSpline {
 					replaceArc(inputSpline.path, this.path, input_index, output_index);
 				} else if (inputSpline.path.get(input_index).type() == SegmentType.LINE 
 						&& inputSpline.path.get(input_index-1).type() == SegmentType.LINE) {
-					System.out.println("At least this far without breaking.");
 					spliceLines(inputSpline.path, this.path, input_index, output_index);
-					output_index++; // since we added an extra path segment on the output path, but not the input
+					output_index += 2; // since we added an extra path segment on the output path, but not the input
 				} else {
+					SplineErrMsg.unexpectedSegmentAlert(inputSpline.path.get(input_index).type());
+					// (If this happens, it's 100% my (Joe's) fault and I'm very sorry.)
 					break;
 				}
 			}
@@ -39,17 +40,17 @@ public class SmoothSpline extends TorSpline {
 	private void replaceArc(List<PathSegment> inputPath, 
 							List<PathSegment> outputPath,
 							int inputIndex, int outputIndex) {
-//		int inputLine1 = inputIndex - 2;
+		int inputLine1 = inputIndex - 2;
 		int inputArc = inputIndex - 1;
 		int inputLine2 = inputIndex;
 		int outputLine1 = outputIndex - 2;
 //		int outputSpiralSpline = outputIndex - 1;
-		int outputLine2 = outputIndex;
+//		int outputLine2 = outputIndex;
 		double angle = inputPath.get(inputArc).totalAngle();
 		double curvature = inputPath.get(inputArc).curvatureAt(0.0);
 		double radius = secantMethod(Math.abs(angle), Math.abs(1.0 / curvature));
-		if (!SplineErrMsg.tooShortAlert(outputPath, outputLine1, computedPivotX)
-				&& !SplineErrMsg.tooShortAlert(inputPath, outputLine2, computedPivotX)) {
+		if (!SplineErrMsg.tooShortAlert(outputPath, outputLine1, inputLine1, computedPivotX)
+		 && !SplineErrMsg.tooShortAlert(inputPath, inputLine2, inputLine2, computedPivotX)) {
 			outputPath.get(outputLine1).addToLength(-computedPivotX);
 			this.addToLength(-computedPivotX);
 			this.add(new SpiralSpline(angle, radius));
@@ -60,7 +61,7 @@ public class SmoothSpline extends TorSpline {
 	private void spliceLines(List<PathSegment> inputPath,
 							 List<PathSegment> outputPath,
 							 int inputIndex, int outputIndex) {
-//		int inputLine1 = inputIndex - 2;
+		int inputLine1 = inputIndex - 2;
 		int inputLine2 = inputIndex;
 		int outputLine1 = outputIndex - 1;
 //		int outputSpiralSpline = outputIndex;
@@ -71,8 +72,10 @@ public class SmoothSpline extends TorSpline {
 				+ Math.abs(newSpline.pivot_y())/Math.tan(0.5*(Math.PI - Math.abs(angle)));
 		//TODO: Handle segments with 0 internal rotation--------------------------^^^
 		//Probably add a trivial spiral spline, i.e. a short line segment
-		if (!SplineErrMsg.tooShortAlert(outputPath, outputLine1, length_to_cut)
-		 && !SplineErrMsg.tooShortAlert(inputPath, inputLine2, length_to_cut)) {
+		if (!SplineErrMsg.tooShortAlert(outputPath, outputLine1, inputLine1, length_to_cut)
+		 && !SplineErrMsg.tooShortAlert(inputPath, inputLine2, inputLine2, length_to_cut)) {
+			System.out.println(outputPath.get(outputLine1));
+			System.out.println(length_to_cut);
 			outputPath.get(outputLine1).addToLength(-length_to_cut);
 			this.addToLength(-length_to_cut);
 			this.add(newSpline);
