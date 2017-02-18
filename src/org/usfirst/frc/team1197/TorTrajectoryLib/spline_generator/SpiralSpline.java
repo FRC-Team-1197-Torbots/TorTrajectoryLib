@@ -10,26 +10,18 @@ public class SpiralSpline extends TorSpline {
 	private static final double max_jeta = 40.0;
 	protected final double ds = 0.0001;
 	
-	private static final double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
-	private static final double absoluteMinTurnRadius = 0.5;
-	private static final double maxThrottle = 0.6 * (absoluteMinTurnRadius/(absoluteMinTurnRadius+0.2858)); // (38%???)
-	private static final double max_vel = maxThrottle * absoluteMaxVel;
-	private static final double absoluteMaxOmega = max_vel/absoluteMinTurnRadius;
-	private double max_omg;
+	protected static final double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
+	protected static final double absoluteMinTurnRadius = 0.5;
+	protected static final double halfTrackWidth = 0.2858;
+	protected static final double maxThrottle = 0.6 * (absoluteMinTurnRadius/(absoluteMinTurnRadius+halfTrackWidth)); // (38%???)
+	protected static final double max_vel = maxThrottle * absoluteMaxVel;
+	protected static final double absoluteMaxOmega = max_vel/absoluteMinTurnRadius;
+	protected double max_omg;
 	
 	double[] s;
 	double[] A;
 	double[] B;
 	double[] C;
-
-	public SpiralSpline(double angle, double min_radius) {
-		super(0.0, 0.0, 0.0);
-		s = new double[8];
-		A = new double[7];
-		B = new double[7];
-		C = new double[7];
-		build(angle, min_radius);
-	}
 	
 	public SpiralSpline() {
 		super(0.0, 0.0, 0.0);
@@ -37,6 +29,24 @@ public class SpiralSpline extends TorSpline {
 		A = new double[7];
 		B = new double[7];
 		C = new double[7];
+	}
+	
+	public SpiralSpline(double angle) {
+		super(0.0, 0.0, 0.0);
+		s = new double[8];
+		A = new double[7];
+		B = new double[7];
+		C = new double[7];
+		build(angle, absoluteMinTurnRadius);
+	}
+	
+	public SpiralSpline(double angle, double min_radius) {
+		super(0.0, 0.0, 0.0);
+		s = new double[8];
+		A = new double[7];
+		B = new double[7];
+		C = new double[7];
+		build(angle, min_radius);
 	}
 	
 	public void build(double angle, double min_radius){
@@ -56,6 +66,14 @@ public class SpiralSpline extends TorSpline {
 	
 	public double pivot_y(double s){
 		return rawPivotCoordinatesAt(s).getEntry(1);
+	}
+	
+	public double pivot_x(){
+		return pivot_x(0.5*(s[3]+s[4]));
+	}
+	
+	public double pivot_y(){
+		return pivot_y(0.5*(s[3]+s[4]));
 	}
 	
 	public RealVector rawPivotCoordinatesAt(double s){
