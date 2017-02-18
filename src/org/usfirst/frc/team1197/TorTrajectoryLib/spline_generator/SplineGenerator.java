@@ -103,7 +103,7 @@ public class SplineGenerator {
 
 		outputSpline = new SmoothSpline(inputSpline); // TODO: Make it work for
 														// splines of splines?
-		if (outputSpline.length() > 0.0) {
+		if (Math.abs(outputSpline.length()) > 0.0) {
 			for (double s = 0.0; s <= outputSpline.length(); s += ds) {
 				P = outputSpline.positionAt(s);
 				graph.outputPath.add(P.getEntry(0), P.getEntry(1));

@@ -53,8 +53,6 @@ public class SmoothSpline extends TorSpline {
 		if (!SplineErrMsg.tooShortAlert(outputPath, outputLine1, inputLine1, computedPivotX)
 		 && !SplineErrMsg.tooShortAlert(inputPath, inputLine2, inputLine2, computedPivotX)
 		 && !SplineErrMsg.tangencyViolatedAlert(inputPath, inputLine2)) {
-			System.out.println("outputLine1 = " + outputPath.get(outputLine1));
-			System.out.println("inputLine2 = " + inputPath.get(inputLine2));
 			outputPath.get(outputLine1).addToLength(-computedPivotX);
 			this.addToLength(-computedPivotX);
 			this.add(new SpiralSpline(angle, radius));
