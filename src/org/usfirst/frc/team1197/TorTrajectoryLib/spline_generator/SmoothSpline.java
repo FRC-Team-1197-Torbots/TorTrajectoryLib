@@ -14,20 +14,21 @@ public class SmoothSpline extends TorSpline {
 		inputSpline = s.clone();
 		int input_index, output_index = 1;
 		if (SplineError.checkPathIsLegal(inputSpline.path)) {
-			path.add(inputSpline.path.get(0).clone());
+			this.add(inputSpline.path.get(0).clone());
 			for (input_index = 1; input_index < inputSpline.path.size()-1; input_index++) {
 				if (inputSpline.path.get(input_index-1).type() == SegmentType.LINE 
 				 && inputSpline.path.get(input_index).type() == SegmentType.ARC
 				 && inputSpline.path.get(input_index+1).type() == SegmentType.LINE){
-					replaceArc(inputSpline.path, path, input_index, output_index);
+					replaceArc(inputSpline.path, this.path, input_index, output_index);
 					input_index++;
 					output_index++;
-					
-				} else if (inputSpline.path.get(input_index-1).type() == SegmentType.LINE 
+				}
+				else if (inputSpline.path.get(input_index-1).type() == SegmentType.LINE 
 						&& inputSpline.path.get(input_index).type() == SegmentType.LINE) {
 					spliceLines(inputSpline.path, path, input_index, output_index);
 					output_index++; // since we added an extra path segment on the output path, but not the input
-				} else {
+				} 
+				else {
 					//SplineError: unexpected path sequence (100% Joe's fault, sorry)
 					break;
 				}
@@ -42,8 +43,9 @@ public class SmoothSpline extends TorSpline {
 		if (SplineError.checkLongEnough(outputPath, out_i - 1, computedPivotX)
 				&& SplineError.checkLongEnough(inputPath, in_i + 1, computedPivotX)) {
 			outputPath.get(out_i - 1).addToLength(-computedPivotX);
-			outputPath.add(new SpiralSpline(angle, radius));
-			outputPath.add(inputPath.get(in_i + 1).cloneTrimmedBy(computedPivotX));
+			this.addToLength(-computedPivotX);
+			this.add(new SpiralSpline(angle, radius));
+			this.add(inputPath.get(in_i + 1).cloneTrimmedBy(computedPivotX));
 		}
 	}
 	
