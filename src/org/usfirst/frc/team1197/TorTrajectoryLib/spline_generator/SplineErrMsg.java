@@ -13,7 +13,7 @@ class SplineErrMsg {
 	protected static boolean pathIllegalAlert(List<PathSegment> path) {
 		if (path.size() == 0) {
 			System.err.println(basic_msg + "input path is empty.");
-			return false;
+			return true;
 		}
 		boolean isIllegal = true;
 		PathSegment badSeg1 = null, badSeg2 = null, badSeg3 = null;
@@ -77,6 +77,17 @@ class SplineErrMsg {
 			s = s + " input path segment is too short by ";
 			s = s + df.format(needed_length - actual_length); // If this comes out negative, something is really weird.
 			s = s + "m.";
+			System.err.println(s);
+			return true;
+		}
+		return false;
+	}
+	
+	protected static boolean tangencyViolatedAlert(List<PathSegment> path, int i){
+		if (Math.abs(path.get(i).internalRotation()) > 0.00001){
+			String s = basic_msg + "The ";
+			s = s + ordinal(i+1);
+			s = s + " input path segment is not tangent to the preceding arc.";
 			System.err.println(s);
 			return true;
 		}

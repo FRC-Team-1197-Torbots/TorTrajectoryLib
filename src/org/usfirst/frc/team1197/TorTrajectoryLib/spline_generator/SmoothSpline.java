@@ -24,6 +24,7 @@ public class SmoothSpline extends TorSpline {
 				 && inputSpline.path.get(input_index-1).type() == SegmentType.ARC
 				 && inputSpline.path.get(input_index-2).type() == SegmentType.LINE){
 					replaceArc(inputSpline.path, this.path, input_index, output_index);
+					output_index++;
 				} else if (inputSpline.path.get(input_index).type() == SegmentType.LINE 
 						&& inputSpline.path.get(input_index-1).type() == SegmentType.LINE) {
 					spliceLines(inputSpline.path, this.path, input_index, output_index);
@@ -50,7 +51,10 @@ public class SmoothSpline extends TorSpline {
 		double curvature = inputPath.get(inputArc).curvatureAt(0.0);
 		double radius = secantMethod(Math.abs(angle), Math.abs(1.0 / curvature));
 		if (!SplineErrMsg.tooShortAlert(outputPath, outputLine1, inputLine1, computedPivotX)
-		 && !SplineErrMsg.tooShortAlert(inputPath, inputLine2, inputLine2, computedPivotX)) {
+		 && !SplineErrMsg.tooShortAlert(inputPath, inputLine2, inputLine2, computedPivotX)
+		 && !SplineErrMsg.tangencyViolatedAlert(inputPath, inputLine2)) {
+			System.out.println("outputLine1 = " + outputPath.get(outputLine1));
+			System.out.println("inputLine2 = " + inputPath.get(inputLine2));
 			outputPath.get(outputLine1).addToLength(-computedPivotX);
 			this.addToLength(-computedPivotX);
 			this.add(new SpiralSpline(angle, radius));
@@ -74,8 +78,6 @@ public class SmoothSpline extends TorSpline {
 		//Probably add a trivial spiral spline, i.e. a short line segment
 		if (!SplineErrMsg.tooShortAlert(outputPath, outputLine1, inputLine1, length_to_cut)
 		 && !SplineErrMsg.tooShortAlert(inputPath, inputLine2, inputLine2, length_to_cut)) {
-			System.out.println(outputPath.get(outputLine1));
-			System.out.println(length_to_cut);
 			outputPath.get(outputLine1).addToLength(-length_to_cut);
 			this.addToLength(-length_to_cut);
 			this.add(newSpline);
