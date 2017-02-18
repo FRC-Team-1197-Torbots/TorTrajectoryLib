@@ -140,7 +140,6 @@ public abstract class PathSegment {
 	}
 	
 	public PathSegment cloneTrimmedBy(double decrement){
-		//TODO: if decrement > length, throw a console freak-out
 		PathSegment segment = this.clone();
 		segment.addToLength(-decrement);
 		segment.setTotalAngle(segment.rawHeadingAt(segment.length()));

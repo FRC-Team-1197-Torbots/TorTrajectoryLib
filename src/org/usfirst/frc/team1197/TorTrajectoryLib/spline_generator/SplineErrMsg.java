@@ -5,38 +5,39 @@ import java.util.List;
 
 import org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator.PathSegment.SegmentType;
 
-class SplineError {
+class SplineErrMsg {
 	
 	private static DecimalFormat df = new DecimalFormat("0.####");
+	private static final String basic_msg = "Error creating SmoothSpline: ";
 	
-	protected static boolean checkPathIsLegal(List<PathSegment> path) {
+	protected static boolean pathIllegalAlert(List<PathSegment> path) {
 		if (path.size() == 0) {
-			System.err.println("Error creating SmoothSpline: input path is empty.");
+			System.err.println(basic_msg + "input path is empty.");
 			return false;
 		}
-		boolean isLegal = false;
+		boolean isIllegal = true;
 		PathSegment badSeg1 = null, badSeg2 = null, badSeg3 = null;
 		if (path.size() == 1) {
-			isLegal = true;
+			isIllegal = false;
 		}
 		if (path.size() == 2) {
 			if (path.get(0).type() == SegmentType.LINE && path.get(1).type() == SegmentType.LINE) {
-				isLegal = true;
+				isIllegal = false;
 			} else {
-				isLegal = false;
+				isIllegal = true;
 				badSeg1 = path.get(0);
 				badSeg2 = path.get(1);
 			}
 		} else {
 			for (int i = 1; i < path.size() - 1; i++) {
 				if (path.get(i - 1).type() == SegmentType.LINE && path.get(i).type() == SegmentType.LINE) {
-					isLegal = true;
+					isIllegal = false;
 				} else if (path.get(i - 1).type() == SegmentType.LINE && path.get(i).type() == SegmentType.ARC
 						&& path.get(i + 1).type() == SegmentType.LINE) {
-					isLegal = true;
+					isIllegal = false;
 					i++;
 				} else {
-					isLegal = false;
+					isIllegal = true;
 					badSeg1 = path.get(i - 1);
 					badSeg2 = path.get(i);
 					badSeg3 = path.get(i + 1);
@@ -44,43 +45,48 @@ class SplineError {
 				}
 			}
 		}
-		if (!isLegal) {
-			String s = "Error creating SmoothSpline: PathSegment sequence ";
+		if (isIllegal) {
+			String s = basic_msg + "PathSegment sequence ";
 			if (badSeg1 != null) {
-				s = s.concat(badSeg1.type().toString());
+				s = s + badSeg1.type();
 				if (badSeg2 != null || badSeg3 != null) {
-					s = s.concat("->");
+					s = s + "->";
 				}
 			}
 			if (badSeg2 != null) {
-				s = s.concat(badSeg2.type().toString());
+				s = s + badSeg2.type();
 				if (badSeg3 != null) {
-					s = s.concat("->");
+					s = s + "->";
 				}
 			}
 			if (badSeg3 != null) {
-				s = s.concat(badSeg3.type().toString());
+				s = s + badSeg3.type();
 			}
-			s = s.concat(" is not allowed. (Must be LINE->LINE or LINE->ARC->LINE.)");
+			s = s + " is not allowed. (Must be LINE->LINE or LINE->ARC->LINE.)";
 			System.err.println(s);
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
-	protected static boolean checkLongEnough(List<PathSegment> path, int i, double needed_length) {
+	protected static boolean tooShortAlert(List<PathSegment> path, int i, double needed_length) {
 		double actual_length = path.get(i).length();
-		if ((Math.abs(actual_length) < 0) || ((actual_length - needed_length) < 0)) {
-			String s = "Error creating SmoothSpline: The ";
-			s = s.concat(ordinal(i+1));
-			s = s.concat(" PathSegment is too short by ");
-			s = s.concat(df.format(needed_length - actual_length));
-			s = s.concat("m.");
+		if ((actual_length < 0) || ((actual_length - needed_length) < 0)) {
+			String s = basic_msg + "The ";
+			s = s + ordinal(i+1);
+			s = s + " PathSegment is too short by ";
+			s = s + df.format(needed_length - actual_length); // If this comes out negative, something is really weird.
+			s = s + "m.";
 			System.err.println(s);
-			return false;
+			return true;
 		}
-
-		return true;
+		return false;
+	}
+	
+	protected static boolean unexpectedSegmentAlert(SegmentType type) {
+		
+		System.err.println(basic_msg + "Unexpected path segment (" + type + ").");
+		return false;
 	}
 
 	private static String ordinal(int i) {
