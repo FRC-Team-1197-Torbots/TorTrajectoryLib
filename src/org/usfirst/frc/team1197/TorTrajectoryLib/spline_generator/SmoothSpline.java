@@ -15,53 +15,68 @@ public class SmoothSpline extends TorSpline {
 		int input_index, output_index = 1;
 		if (!SplineErrMsg.pathIllegalAlert(inputSpline.path)) {
 			this.add(inputSpline.path.get(0).clone());
-			for (input_index = 1; input_index < inputSpline.path.size()-1; input_index++) {
-				if (inputSpline.path.get(input_index-1).type() == SegmentType.LINE 
-				 && inputSpline.path.get(input_index).type() == SegmentType.ARC
-				 && inputSpline.path.get(input_index+1).type() == SegmentType.LINE){
-					replaceArc(inputSpline.path, this.path, input_index, output_index);
-					input_index++;
+			for (input_index = 1; input_index < inputSpline.path.size(); input_index++) {
+				if (inputSpline.path.get(input_index).type() == SegmentType.ARC) {
+					input_index++; // Can't just add an arc, so skip to the next segment.
 					output_index++;
 				}
-				else if (inputSpline.path.get(input_index-1).type() == SegmentType.LINE 
-						&& inputSpline.path.get(input_index).type() == SegmentType.LINE) {
-					spliceLines(inputSpline.path, path, input_index, output_index);
+				if (inputSpline.path.get(input_index).type() == SegmentType.LINE 
+				 && inputSpline.path.get(input_index-1).type() == SegmentType.ARC
+				 && inputSpline.path.get(input_index-2).type() == SegmentType.LINE){
+					replaceArc(inputSpline.path, this.path, input_index, output_index);
+				} else if (inputSpline.path.get(input_index).type() == SegmentType.LINE 
+						&& inputSpline.path.get(input_index-1).type() == SegmentType.LINE) {
+					System.out.println("At least this far without breaking.");
+					spliceLines(inputSpline.path, this.path, input_index, output_index);
 					output_index++; // since we added an extra path segment on the output path, but not the input
-				} 
-				else {
-					SplineErrMsg.unexpectedSegmentAlert(inputSpline.path.get(input_index).type());
+				} else {
 					break;
 				}
 			}
 		}
 	}
 
-	private void replaceArc(List<PathSegment> inputPath, List<PathSegment> outputPath, int in_i, int out_i) {
-		double angle = inputPath.get(in_i).totalAngle();
-		double curvature = inputPath.get(in_i).curvatureAt(0.0);
+	private void replaceArc(List<PathSegment> inputPath, 
+							List<PathSegment> outputPath,
+							int inputIndex, int outputIndex) {
+//		int inputLine1 = inputIndex - 2;
+		int inputArc = inputIndex - 1;
+		int inputLine2 = inputIndex;
+		int outputLine1 = outputIndex - 2;
+//		int outputSpiralSpline = outputIndex - 1;
+		int outputLine2 = outputIndex;
+		double angle = inputPath.get(inputArc).totalAngle();
+		double curvature = inputPath.get(inputArc).curvatureAt(0.0);
 		double radius = secantMethod(Math.abs(angle), Math.abs(1.0 / curvature));
-		if (!SplineErrMsg.tooShortAlert(outputPath, out_i - 1, computedPivotX)
-				&& !SplineErrMsg.tooShortAlert(inputPath, in_i + 1, computedPivotX)) {
-			outputPath.get(out_i - 1).addToLength(-computedPivotX);
+		if (!SplineErrMsg.tooShortAlert(outputPath, outputLine1, computedPivotX)
+				&& !SplineErrMsg.tooShortAlert(inputPath, outputLine2, computedPivotX)) {
+			outputPath.get(outputLine1).addToLength(-computedPivotX);
 			this.addToLength(-computedPivotX);
 			this.add(new SpiralSpline(angle, radius));
-			this.add(inputPath.get(in_i + 1).cloneTrimmedBy(computedPivotX));
+			this.add(inputPath.get(inputLine2).cloneTrimmedBy(computedPivotX));
 		}
 	}
 	
-	private void spliceLines(List<PathSegment> inputPath, List<PathSegment> outputPath, int in_i, int out_i) {
-		double angle = inputPath.get(in_i).internalRotation();
+	private void spliceLines(List<PathSegment> inputPath,
+							 List<PathSegment> outputPath,
+							 int inputIndex, int outputIndex) {
+//		int inputLine1 = inputIndex - 2;
+		int inputLine2 = inputIndex;
+		int outputLine1 = outputIndex - 1;
+//		int outputSpiralSpline = outputIndex;
+//		int outputLine2 = outputIndex + 1;
+		double angle = inputPath.get(inputLine2).internalRotation();
 		SpiralSpline newSpline = new SpiralSpline(angle);
 		double length_to_cut = Math.abs(newSpline.pivot_x()) 
 				+ Math.abs(newSpline.pivot_y())/Math.tan(0.5*(Math.PI - Math.abs(angle)));
 		//TODO: Handle segments with 0 internal rotation--------------------------^^^
 		//Probably add a trivial spiral spline, i.e. a short line segment
-		if (!SplineErrMsg.tooShortAlert(outputPath, out_i - 1, length_to_cut)
-				&& SplineErrMsg.tooShortAlert(inputPath, in_i, length_to_cut)) {
-			outputPath.get(out_i - 1).addToLength(-length_to_cut);
+		if (!SplineErrMsg.tooShortAlert(outputPath, outputLine1, length_to_cut)
+		 && !SplineErrMsg.tooShortAlert(inputPath, inputLine2, length_to_cut)) {
+			outputPath.get(outputLine1).addToLength(-length_to_cut);
 			this.addToLength(-length_to_cut);
 			this.add(newSpline);
-			this.add(inputPath.get(in_i).cloneTrimmedBy(length_to_cut));
+			this.add(new LineSegment((inputPath.get(inputLine2).length()-length_to_cut), 0.0));
 		}
 	}
 	
