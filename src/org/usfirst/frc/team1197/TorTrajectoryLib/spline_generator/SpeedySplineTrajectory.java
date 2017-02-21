@@ -5,13 +5,6 @@ import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
 import org.apache.commons.math3.analysis.integration.UnivariateIntegrator;
 
 public class SpeedySplineTrajectory extends SplineTrajectory {
-	private PathSegment path;
-	protected final static double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
-	protected final static double absoluteMinTurnRadius = 0.5;
-	protected final static double halfTrackWidth = 0.2858;
-	protected final static double dangerFactor = 0.6;
-	protected final static double maxThrottle = dangerFactor * (absoluteMinTurnRadius 
-													/ (absoluteMinTurnRadius + halfTrackWidth));
 	UnivariateIntegrator integrator;
 	UnivariateFunction integrand;
 

@@ -109,11 +109,12 @@ public class SplineGenerator {
 				graph.outputPath.add(P.getEntry(0), P.getEntry(1));
 			}
 
-//			trajectory = new SpeedySplineTrajectory(outputSpline, true);
-//			TorTrajectory splineTraj = new SplineTrajectory(outputSpline, true);
-//			System.out.println(" Speedy Spline Trajectory length: " + trajectory.goalPos());
-//			System.out.println("Regular Spline Trajectory length: " + splineTraj.goalPos());
-			trajectory = new SplineTrajectory(outputSpline, true);
+//			trajectory = new SplineTrajectory(outputSpline, true);
+			trajectory = new SpeedySplineTrajectory(outputSpline, true);
+			TorTrajectory splineTraj = new SplineTrajectory(outputSpline, true);
+			System.out.println(" Speedy Spline Trajectory length: " + trajectory.goalPos());
+			System.out.println("Regular Spline Trajectory length: " + splineTraj.goalPos());
+
 			
 			translationGraph = new VelocityGraph(trajectory, motionType.Translation);
 			rotationGraph = new VelocityGraph(trajectory, motionType.Rotation);
