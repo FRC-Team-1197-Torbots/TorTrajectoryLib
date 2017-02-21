@@ -31,10 +31,10 @@ public class SplineGenerator {
 		// generator:
 		inputSpline = new TorSpline(9.0, 1.0, 90 * (Math.PI / 180.0));
 		inputSpline.add(new LineSegment(2.0, 0.0));
-		inputSpline.add(new LineSegment(1.5, 90 * (Math.PI / 180.0)));
+		inputSpline.add(new LineSegment(2.0, 90 * (Math.PI / 180.0)));
 		inputSpline.add(new ArcSegment(1.0, -90 * (Math.PI / 180.0)));
-		inputSpline.add(new LineSegment(1.5, 0 * (Math.PI / 180.0)));
-		inputSpline.add(new LineSegment(1.5, -90 * (Math.PI / 180.0)));
+		inputSpline.add(new LineSegment(2.0, 0 * (Math.PI / 180.0)));
+		inputSpline.add(new LineSegment(2.0, -90 * (Math.PI / 180.0)));
 		inputSpline.add(new ArcSegment(1.0, 90 * (Math.PI / 180.0)));
 		inputSpline.add(new LineSegment(1.0, 0.0));
 
@@ -104,12 +104,17 @@ public class SplineGenerator {
 		outputSpline = new SmoothSpline(inputSpline); // TODO: Make it work for
 														// splines of splines?
 		if (Math.abs(outputSpline.length()) > 0.0) {
-			for (double s = 0.0; s <= outputSpline.length(); s += ds) {
+			for (double s = 0.0; s <= outputSpline.length(); s += 0.005) {
 				P = outputSpline.positionAt(s);
 				graph.outputPath.add(P.getEntry(0), P.getEntry(1));
 			}
 
+//			trajectory = new SpeedySplineTrajectory(outputSpline, true);
+//			TorTrajectory splineTraj = new SplineTrajectory(outputSpline, true);
+//			System.out.println(" Speedy Spline Trajectory length: " + trajectory.goalPos());
+//			System.out.println("Regular Spline Trajectory length: " + splineTraj.goalPos());
 			trajectory = new SplineTrajectory(outputSpline, true);
+			
 			translationGraph = new VelocityGraph(trajectory, motionType.Translation);
 			rotationGraph = new VelocityGraph(trajectory, motionType.Rotation);
 			translationGraph.display();

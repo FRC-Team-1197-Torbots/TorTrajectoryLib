@@ -5,9 +5,9 @@ import org.apache.commons.math3.linear.RealVector;
 
 public class SpiralSpline extends TorSpline {
 	private double kMax;
-	private static final double absoluteMaxAlpha = 20.0;
+	private static final double absoluteMaxAlpha = 9.0;
 	private double max_alf;
-	private static final double max_jeta = 80.0;
+	private static final double max_jeta = 40.0;
 	protected final double ds = 0.0001;
 	
 	protected static final double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
