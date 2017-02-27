@@ -29,14 +29,14 @@ public class SplineGenerator {
 		 */
 		// Pretty cool spline that showcases what you can do with the spline
 		// generator:
-		inputSpline = new TorSpline(9.0, 1.0, 90 * (Math.PI / 180.0));
-		inputSpline.add(new LineSegment(2.0, 0.0));
-		inputSpline.add(new LineSegment(2.0, 90 * (Math.PI / 180.0)));
-		inputSpline.add(new ArcSegment(1.0, -90 * (Math.PI / 180.0)));
-		inputSpline.add(new LineSegment(2.0, 0 * (Math.PI / 180.0)));
-		inputSpline.add(new LineSegment(2.0, -90 * (Math.PI / 180.0)));
-		inputSpline.add(new ArcSegment(1.0, 90 * (Math.PI / 180.0)));
-		inputSpline.add(new LineSegment(1.0, 0.0));
+//		inputSpline = new TorSpline(9.0, 1.0, 90 * (Math.PI / 180.0));
+//		inputSpline.add(new LineSegment(2.0, 0.0));
+//		inputSpline.add(new LineSegment(2.0, 90 * (Math.PI / 180.0)));
+//		inputSpline.add(new ArcSegment(1.0, -90 * (Math.PI / 180.0)));
+//		inputSpline.add(new LineSegment(2.0, 0 * (Math.PI / 180.0)));
+//		inputSpline.add(new LineSegment(2.0, -90 * (Math.PI / 180.0)));
+//		inputSpline.add(new ArcSegment(1.0, 90 * (Math.PI / 180.0)));
+//		inputSpline.add(new LineSegment(1.0, 0.0));
 
 		// A figure-8:
 		// inputSpline = new TorSpline(8.0, 4.0, 36.87*(Math.PI/180.0));
@@ -58,24 +58,21 @@ public class SplineGenerator {
 		 * BOILER AUTO TRAJECTORIES
 		 */
 		// pos1
-		// inputSpline = new TorSpline(0.378, 2.175, 0.0);
-		// inputSpline.add(new LineSegment(1.750, 0.0));
-		// inputSpline.add(new ArcSegment(1.053, 60*(Math.PI/180.0)));
-		// inputSpline.add(new LineSegment(0.420, 0.0));
+//		 inputSpline = new TorSpline(0.378, 1.350, 0.0);
+//		 inputSpline.add(new LineSegment(1.0, 0.0));
+//		 inputSpline.add(new ArcSegment(1.4, 60*(Math.PI/180.0)));
+//		 inputSpline.add(new LineSegment(1.024, 0.0));
 
 		// pos2
-		// inputSpline = new TorSpline(3.14, 2.88, 30*(Math.PI/180.0));
-		// inputSpline.add(new LineSegment(0.5, 0.0));
-		// inputSpline.add(new ArcSegment(0.7, 35.06*(Math.PI/180.0)));
-		// inputSpline.add(new LineSegment(0.91, 0.0));
-		// inputSpline.add(new ArcSegment(0.89, -25.06*(Math.PI/180.0)));
-		// inputSpline.add(new LineSegment(1.02, 0.0));
+//		 inputSpline = new TorSpline(3.099, 2.934, 30*(Math.PI/180.0));
+//		 inputSpline.add(new LineSegment(1.0, 7.51*(Math.PI/180.0)));
+//		 inputSpline.add(new LineSegment(1.458, -17.32*(Math.PI/180.0)));
+//		 inputSpline.add(new LineSegment(0.760, 9.83*(Math.PI/180.0)));
 
 		// pos3
-		// inputSpline = new TorSpline(0.78, 0.75, 50*(Math.PI/180.0));
-		// inputSpline.add(new LineSegment(0.75, 0.0));
-		// inputSpline.add(new ArcSegment(1.25, -50*(Math.PI/180.0)));
-		// inputSpline.add(new LineSegment(1.25, 0.0));
+//		 inputSpline = new TorSpline(0.755, 0.755, 45*(Math.PI/180.0));
+//		 inputSpline.add(new LineSegment(1.447, 0.0));
+//		 inputSpline.add(new LineSegment(1.261, -45*(Math.PI/180.0)));
 
 		/**
 		 * LOADING STATION AUTO TRAJECTORIES
