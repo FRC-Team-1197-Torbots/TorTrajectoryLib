@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
+import org.usfirst.frc.team1197.TorTrajectoryLib.FileTrajectory;
 import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 import org.usfirst.frc.team1197.TorTrajectoryLib.trajectory_writer.TrajectoryWriter;
 import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph;
@@ -29,14 +30,14 @@ public class SplineGenerator {
 		 */
 		// Pretty cool spline that showcases what you can do with the spline
 		// generator:
-//		inputSpline = new TorSpline(9.0, 1.0, 90 * (Math.PI / 180.0));
-//		inputSpline.add(new LineSegment(2.0, 0.0));
-//		inputSpline.add(new LineSegment(2.0, 90 * (Math.PI / 180.0)));
-//		inputSpline.add(new ArcSegment(1.0, -90 * (Math.PI / 180.0)));
-//		inputSpline.add(new LineSegment(2.0, 0 * (Math.PI / 180.0)));
-//		inputSpline.add(new LineSegment(2.0, -90 * (Math.PI / 180.0)));
-//		inputSpline.add(new ArcSegment(1.0, 90 * (Math.PI / 180.0)));
-//		inputSpline.add(new LineSegment(1.0, 0.0));
+		// inputSpline = new TorSpline(9.0, 1.0, 90 * (Math.PI / 180.0));
+		// inputSpline.add(new LineSegment(2.0, 0.0));
+		// inputSpline.add(new LineSegment(2.0, 90 * (Math.PI / 180.0)));
+		// inputSpline.add(new ArcSegment(1.0, -90 * (Math.PI / 180.0)));
+		// inputSpline.add(new LineSegment(2.0, 0 * (Math.PI / 180.0)));
+		// inputSpline.add(new LineSegment(2.0, -90 * (Math.PI / 180.0)));
+		// inputSpline.add(new ArcSegment(1.0, 90 * (Math.PI / 180.0)));
+		// inputSpline.add(new LineSegment(1.0, 0.0));
 
 		// A figure-8:
 		// inputSpline = new TorSpline(8.0, 4.0, 36.87*(Math.PI/180.0));
@@ -58,21 +59,21 @@ public class SplineGenerator {
 		 * BOILER AUTO TRAJECTORIES
 		 */
 		// pos1
-		 inputSpline = new TorSpline(0.461, 1.350, 0.0);
-		 inputSpline.add(new LineSegment(0.75, 0.0));
-		 inputSpline.add(new ArcSegment(1.4, 60*(Math.PI/180.0)));
-		 inputSpline.add(new LineSegment(1.075, 0.0));
+		inputSpline = new TorSpline(0.461, 1.350, 0.0);
+		inputSpline.add(new LineSegment(0.75, 0.0));
+		inputSpline.add(new ArcSegment(1.4, 60 * (Math.PI / 180.0)));
+		inputSpline.add(new LineSegment(1.075, 0.0));
 
 		// pos2
-//		 inputSpline = new TorSpline(3.099, 2.934, 30*(Math.PI/180.0));
-//		 inputSpline.add(new LineSegment(1.0, 7.51*(Math.PI/180.0)));
-//		 inputSpline.add(new LineSegment(1.458, -17.32*(Math.PI/180.0)));
-//		 inputSpline.add(new LineSegment(0.6774, 9.83*(Math.PI/180.0)));
+		// inputSpline = new TorSpline(3.099, 2.934, 30*(Math.PI/180.0));
+		// inputSpline.add(new LineSegment(1.0, 7.51*(Math.PI/180.0)));
+		// inputSpline.add(new LineSegment(1.458, -17.32*(Math.PI/180.0)));
+		// inputSpline.add(new LineSegment(0.6774, 9.83*(Math.PI/180.0)));
 
 		// pos3
-//		 inputSpline = new TorSpline(0.755, 0.755, 45*(Math.PI/180.0));
-//		 inputSpline.add(new LineSegment(1.447, 0.0));
-//		 inputSpline.add(new LineSegment(1.261, -45*(Math.PI/180.0)));
+		// inputSpline = new TorSpline(0.755, 0.755, 45*(Math.PI/180.0));
+		// inputSpline.add(new LineSegment(1.447, 0.0));
+		// inputSpline.add(new LineSegment(1.261, -45*(Math.PI/180.0)));
 
 		/**
 		 * LOADING STATION AUTO TRAJECTORIES
@@ -108,26 +109,29 @@ public class SplineGenerator {
 
 			trajectory = new SplineTrajectory(outputSpline, false);
 			// Uncomment the next 4 lines if you want a SpeedySpline:
-//			trajectory = new SpeedySplineTrajectory(outputSpline, true);
-//			TorTrajectory splineTraj = new SplineTrajectory(outputSpline, true);
-//			System.out.println(" Speedy Spline Trajectory length: " + trajectory.goalPos());
-//			System.out.println("Regular Spline Trajectory length: " + splineTraj.goalPos());
+			// trajectory = new SpeedySplineTrajectory(outputSpline, true);
+			// TorTrajectory splineTraj = new SplineTrajectory(outputSpline, true);
+			// System.out.println(" Speedy Spline Trajectory length: " + trajectory.goalPos());
+			// System.out.println("Regular Spline Trajectory length: " + splineTraj.goalPos());
 
+			writer = new TrajectoryWriter(trajectory, new String("testTraj"));
+			try {
+				// writer.writeDotJava(new String("org.usfirst.frc.team1197.robot"));
+				writer.writeDotCSV();
+			} catch (IOException x) {
+				System.err.format("IOException: %s%n", x);
+			}
 			
-			translationGraph = new VelocityGraph(trajectory, motionType.Translation);
-			rotationGraph = new VelocityGraph(trajectory, motionType.Rotation);
+			FileTrajectory testFileTrajectory = new FileTrajectory("testTraj.CSV");
+
+//			translationGraph = new VelocityGraph(trajectory, motionType.Translation);
+//			rotationGraph = new VelocityGraph(trajectory, motionType.Rotation);
+			translationGraph = new VelocityGraph(testFileTrajectory, motionType.Translation);
+			rotationGraph = new VelocityGraph(testFileTrajectory, motionType.Rotation);
 			translationGraph.display();
 			rotationGraph.display();
 			translationGraph.plotData();
 			rotationGraph.plotData();
-
-			writer = new TrajectoryWriter(trajectory, new String("testSpline"));
-			try {
-				writer.writeDotJava(new String("org.usfirst.frc.team1197.robot"));
-				// writer.writeDotCSV();
-			} catch (IOException x) {
-				System.err.format("IOException: %s%n", x);
-			}
 		}
 	}
 

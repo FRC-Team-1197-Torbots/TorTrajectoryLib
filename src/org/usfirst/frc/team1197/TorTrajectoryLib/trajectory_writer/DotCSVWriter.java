@@ -15,13 +15,17 @@ public class DotCSVWriter extends MotionDataWriter {
 	public void write() throws IOException {
 		for (long time = 0; time <= trajectory.totalTime(); time += dt) {
 			lookUpData(time);
-			s = "".concat(String.valueOf(time)).concat(String.valueOf(", "));
-			s = s.concat(String.valueOf(pos)).concat(String.valueOf(", "));
-			s = s.concat(String.valueOf(vel)).concat(String.valueOf(", "));
-			s = s.concat(String.valueOf(acc)).concat(String.valueOf(", "));
-			s = s.concat(String.valueOf(head)).concat(String.valueOf(", "));
-			s = s.concat(String.valueOf(omg)).concat(String.valueOf(", "));
-			s = s.concat(String.valueOf(alf)).concat(String.valueOf('\n'));
+			s = "";
+			s = s + String.valueOf(time) + ", ";
+			s = s + String.valueOf(pos) + ", ";
+			s = s + String.valueOf(vel) + ", ";
+			s = s + String.valueOf(acc) + ", ";
+			s = s + String.valueOf(head) + ", ";
+			s = s + String.valueOf(omg) + ", ";
+			s = s + String.valueOf(alf);
+			if (time < trajectory.totalTime()){
+				s = s + '\n';
+			}
 			fileWriter.write(s, 0, s.length());
 		}
 	}
