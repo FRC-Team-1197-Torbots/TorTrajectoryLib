@@ -58,16 +58,16 @@ public class SplineGenerator {
 		 * BOILER AUTO TRAJECTORIES
 		 */
 		// pos1
-//		 inputSpline = new TorSpline(0.378, 1.350, 0.0);
-//		 inputSpline.add(new LineSegment(1.0, 0.0));
-//		 inputSpline.add(new ArcSegment(1.4, 60*(Math.PI/180.0)));
-//		 inputSpline.add(new LineSegment(1.024, 0.0));
+		 inputSpline = new TorSpline(0.461, 1.350, 0.0);
+		 inputSpline.add(new LineSegment(0.75, 0.0));
+		 inputSpline.add(new ArcSegment(1.4, 60*(Math.PI/180.0)));
+		 inputSpline.add(new LineSegment(1.075, 0.0));
 
 		// pos2
 //		 inputSpline = new TorSpline(3.099, 2.934, 30*(Math.PI/180.0));
 //		 inputSpline.add(new LineSegment(1.0, 7.51*(Math.PI/180.0)));
 //		 inputSpline.add(new LineSegment(1.458, -17.32*(Math.PI/180.0)));
-//		 inputSpline.add(new LineSegment(0.760, 9.83*(Math.PI/180.0)));
+//		 inputSpline.add(new LineSegment(0.6774, 9.83*(Math.PI/180.0)));
 
 		// pos3
 //		 inputSpline = new TorSpline(0.755, 0.755, 45*(Math.PI/180.0));
@@ -106,7 +106,7 @@ public class SplineGenerator {
 				graph.outputPath.add(P.getEntry(0), P.getEntry(1));
 			}
 
-			trajectory = new SplineTrajectory(outputSpline, true);
+			trajectory = new SplineTrajectory(outputSpline, false);
 			// Uncomment the next 4 lines if you want a SpeedySpline:
 //			trajectory = new SpeedySplineTrajectory(outputSpline, true);
 //			TorTrajectory splineTraj = new SplineTrajectory(outputSpline, true);
