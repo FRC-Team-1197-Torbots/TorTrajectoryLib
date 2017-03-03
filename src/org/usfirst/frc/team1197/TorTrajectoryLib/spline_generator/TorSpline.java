@@ -3,7 +3,6 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
 public class TorSpline extends PathSegment {

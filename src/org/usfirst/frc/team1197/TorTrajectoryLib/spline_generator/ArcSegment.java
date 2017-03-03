@@ -2,7 +2,6 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
-import org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator.PathSegment.SegmentType;
 
 public class ArcSegment extends PathSegment {
 	
