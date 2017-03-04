@@ -70,7 +70,6 @@ public class FileTrajectory extends TorTrajectory {
 		if(cUTF16 == -1){
 			endOfFileReached = true;
 		}
-		System.out.println(s);
 		return Long.parseLong(s);
 	}
 
