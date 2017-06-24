@@ -8,6 +8,7 @@ public class GaussLagrange {
 	// Unless it turns out we would need a symbolic library if we wanted to compute these in Java.
 	// Then these numbers ain't going anywhere.
 	
+	private static final int MAX_POINTS = 20;
 	private static final double points[][] = {
 		{ 0.000000000000000D,  0.000000000000000D,  0.000000000000000D,  0.000000000000000D,  0.000000000000000D,
 		  0.000000000000000D,  0.000000000000000D,  0.000000000000000D,  0.000000000000000D,  0.000000000000000D,
@@ -189,8 +190,8 @@ public class GaussLagrange {
 	public GaussLagrange(double relativeAccuracy, double absoluteAccuracy, int minIterations, int maxIterations) {
 		this.relativeAccuracy = relativeAccuracy;
 		this.absoluteAccuracy = absoluteAccuracy;
-		this.minIterations = Math.max(1, Math.min(minIterations, 30));
-		this.maxIterations = Math.min(30, Math.max(maxIterations, 1));
+		this.minIterations = Math.max(1, Math.min(minIterations, MAX_POINTS));
+		this.maxIterations = Math.min(MAX_POINTS, Math.max(maxIterations, 1));
 	}
 	
 	public double integrate(int maxIterations, UnivariateFunction f, double a, double b) {
@@ -221,6 +222,21 @@ public class GaussLagrange {
 			I_prev = I;
 		}
 		return 0.0;
+	}
+	
+	public double fastIntegrate(int iterations, UnivariateFunction f, double a, double b) {
+		if (a == b) {
+			return 0.0; // No Dirac delta functions please!
+		}
+		double w = 0;
+		double z = 0;
+		double I = 0;
+		for (int i = 0; i < iterations; i++) {
+			z = 0.5 * (b - a) * points[iterations][i] + 0.5 * (b + a);
+			w = 0.5 * (b - a) * weights[iterations][i];
+			I += w * f.value(z);
+		}
+		return I;
 	}
 
 }

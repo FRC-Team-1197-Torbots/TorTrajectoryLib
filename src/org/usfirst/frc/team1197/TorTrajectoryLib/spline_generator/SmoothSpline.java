@@ -90,7 +90,8 @@ public class SmoothSpline extends TorSpline {
 		double f = rootFunction(angle, x, radius);
 		double f_prev = rootFunction(angle, x_prev, radius);
 		double q;
-		for (int i = 0; i < max_iterations; i++) {
+		int i;
+		for (i = 0; i < max_iterations; i++) {
 			f = rootFunction(angle, x, radius);
 			if (Math.abs(f) <= accuracy)
 				break;

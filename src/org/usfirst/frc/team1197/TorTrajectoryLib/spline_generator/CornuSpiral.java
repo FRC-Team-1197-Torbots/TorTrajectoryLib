@@ -3,8 +3,6 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 import java.text.DecimalFormat;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
-import org.apache.commons.math3.analysis.integration.UnivariateIntegrator;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
@@ -14,10 +12,9 @@ public class CornuSpiral extends PathSegment {
 	private double a, b, c;
 	private double si, sf;
 
+	private final static int ITERATIONS = 9; // Determined experimentally- fits our (unnecessarily tight) tolerances.
 	GaussLagrange x_integrator;
 	GaussLagrange y_integrator;
-//	UnivariateIntegrator x_integrator;
-//	UnivariateIntegrator y_integrator;
 	UnivariateFunction x_integrand;
 	UnivariateFunction y_integrand;
 	
@@ -73,13 +70,8 @@ public class CornuSpiral extends PathSegment {
 			xb = xa;
 			yb = ya;
 		} else {
-			if (sb < si)
-			{
-				System.out.printf("sb = %f, si = %f.\n", sb, si);
-				System.out.println("What r u doin!!!");
-			}
-			xb = xa + x_integrator.integrate(10000, x_integrand, sa, sb);
-			yb = ya + y_integrator.integrate(10000, y_integrand, sa, sb);
+			xb = xa + x_integrator.fastIntegrate(ITERATIONS, x_integrand, sa, sb);
+			yb = ya + y_integrator.fastIntegrate(ITERATIONS, y_integrand, sa, sb);
 		}
 		RealVector pos = new ArrayRealVector(new double[] {xb, yb});
 		s_prev = sb;
@@ -118,12 +110,10 @@ public class CornuSpiral extends PathSegment {
 		setConstants(A, B, C, si, sf);
 		if (x_integrator == null)
 		{
-//			x_integrator = new SimpsonIntegrator(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
 			x_integrator = new GaussLagrange(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
 		}
 		if (y_integrator == null)
 		{
-//			y_integrator = new SimpsonIntegrator(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
 			y_integrator = new GaussLagrange(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
 		}
 		x_integrand = new UnivariateFunction() {
