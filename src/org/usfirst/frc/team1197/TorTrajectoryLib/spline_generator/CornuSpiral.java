@@ -1,8 +1,6 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
@@ -16,8 +14,10 @@ public class CornuSpiral extends PathSegment {
 	private double a, b, c;
 	private double si, sf;
 
-	UnivariateIntegrator x_integrator;
-	UnivariateIntegrator y_integrator;
+	GaussLagrange x_integrator;
+	GaussLagrange y_integrator;
+//	UnivariateIntegrator x_integrator;
+//	UnivariateIntegrator y_integrator;
 	UnivariateFunction x_integrand;
 	UnivariateFunction y_integrand;
 	
@@ -118,11 +118,13 @@ public class CornuSpiral extends PathSegment {
 		setConstants(A, B, C, si, sf);
 		if (x_integrator == null)
 		{
-			x_integrator = new SimpsonIntegrator(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
+//			x_integrator = new SimpsonIntegrator(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
+			x_integrator = new GaussLagrange(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
 		}
 		if (y_integrator == null)
 		{
-			y_integrator = new SimpsonIntegrator(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
+//			y_integrator = new SimpsonIntegrator(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
+			y_integrator = new GaussLagrange(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
 		}
 		x_integrand = new UnivariateFunction() {
 			public double value(double t) {
