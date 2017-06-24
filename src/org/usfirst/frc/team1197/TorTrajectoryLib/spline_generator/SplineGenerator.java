@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
-import org.usfirst.frc.team1197.TorTrajectoryLib.FileTrajectory;
+//import org.usfirst.frc.team1197.TorTrajectoryLib.FileTrajectory;
 import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 import org.usfirst.frc.team1197.TorTrajectoryLib.trajectory_writer.TrajectoryWriter;
 import org.usfirst.frc.team1197.TorTrajectoryLib.velocity_plotter.VelocityGraph;
@@ -109,9 +109,6 @@ public class SplineGenerator {
 			graph.inputPath.add(P.getEntry(0), P.getEntry(1));
 		}
 		
-		// To print out the time to generate the SmoothSpline data, record the time before beginning:
-		long startTime = System.nanoTime();
-		
 		outputSpline = new SmoothSpline(inputSpline); // TODO: Make it work for
 														// splines of splines?
 		
@@ -136,9 +133,6 @@ public class SplineGenerator {
 				System.err.format("IOException: %s%n", x);
 			}
 			
-			// To record the elapsed time, we need a delta:
-			long endTime = System.nanoTime();
-			
 //			FileTrajectory testFileTrajectory = new FileTrajectory("testTraj.CSV");
 
 			translationGraph = new VelocityGraph(trajectory, motionType.Translation);
@@ -149,9 +143,6 @@ public class SplineGenerator {
 			rotationGraph.display();
 			translationGraph.plotData();
 			rotationGraph.plotData();
-			
-			System.out.printf("SmoothSpline generated in %8.6f seconds.\n",
-							  (endTime - startTime) * 0.000000001);
 		}
 	}
 }

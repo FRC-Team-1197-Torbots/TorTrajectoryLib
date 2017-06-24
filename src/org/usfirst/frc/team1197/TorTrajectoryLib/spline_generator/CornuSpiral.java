@@ -97,7 +97,7 @@ public class CornuSpiral extends PathSegment {
 		c = C;
 		setLength(sf - si);
 		startHeading = rawHeadingAt(si);
-		setTotalAngle(rawHeadingAt(sf)-startHeading);
+		setTotalAngle(rawHeadingAt(sf) - startHeading);
 	}
 	
 	private void build(double A, double B, double C, double si, double sf) {

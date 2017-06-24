@@ -23,23 +23,21 @@ public class GaussLegendre {
 			return 0.0; // No Dirac delta functions please!
 		}
 		int N = Math.min(maxIterations, this.maxIterations);
-		double w, z;
-		double I = 0;
+		double w, z, I;
 		double I_prev = 0;
 		for (int n = minIterations; n < N; n++) {
 			I = 0;
 			for (int i = 0; i < n; i++) {
-				z = 0.5 * (b - a) * points[n-1][i] + 0.5 * (b + a);
-				w = 0.5 * (b - a) * weights[n-1][i];
+				z = 0.5 * (b - a) * points[n - 1][i] + 0.5 * (b + a);
+				w = 0.5 * (b - a) * weights[n - 1][i];
 				I += w * f.value(z);
 			}
-			double absError = Math.abs(I-I_prev);
+			double absError = Math.abs(I - I_prev);
 			double relError = relativeAccuracy;
-			if (I!= 0.0){
-				relError = absError/Math.abs(I);
+			if (I != 0.0) {
+				relError = absError / Math.abs(I);
 			}
-			if (absError < absoluteAccuracy || relError < relativeAccuracy)
-			{
+			if (absError < absoluteAccuracy || relError < relativeAccuracy) {
 				return I;
 			}
 			I_prev = I;
@@ -54,8 +52,8 @@ public class GaussLegendre {
 		double w, z;
 		double I = 0;
 		for (int i = 0; i < iterations; i++) {
-			z = 0.5 * (b - a) * points[iterations-1][i] + 0.5 * (b + a);
-			w = 0.5 * (b - a) * weights[iterations-1][i];
+			z = 0.5 * (b - a) * points[iterations - 1][i] + 0.5 * (b + a);
+			w = 0.5 * (b - a) * weights[iterations - 1][i];
 			I += w * f.value(z);
 		}
 		return I;
