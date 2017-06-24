@@ -2,7 +2,7 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 
-public class GaussLagrange {
+public class GaussLegendre {
 	
 	private static final int MAX_POINTS = 20;
 
@@ -11,7 +11,7 @@ public class GaussLagrange {
 	int minIterations;
 	int maxIterations;
 	
-	public GaussLagrange(double relativeAccuracy, double absoluteAccuracy, int minIterations, int maxIterations) {
+	public GaussLegendre(double relativeAccuracy, double absoluteAccuracy, int minIterations, int maxIterations) {
 		this.relativeAccuracy = relativeAccuracy;
 		this.absoluteAccuracy = absoluteAccuracy;
 		this.minIterations = Math.min(MAX_POINTS, Math.max(minIterations, 1));
@@ -61,7 +61,7 @@ public class GaussLagrange {
 		return I;
 	}
 	
-	// Gauss-Lagrange polynomial roots and integration weights from MATLAB:
+	// Gauss-Legendre polynomial roots and integration weights from MATLAB:
 	// (Use "print_all_GL_points_and_weights(-1, 1, 20)" in the console)
 	public static final double points[][] = {
 		{ 0.000000000000000D,  0.000000000000000D,  0.000000000000000D,  0.000000000000000D,

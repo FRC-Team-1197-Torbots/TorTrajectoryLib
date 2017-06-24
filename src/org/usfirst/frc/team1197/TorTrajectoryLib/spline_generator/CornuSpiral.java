@@ -13,8 +13,8 @@ public class CornuSpiral extends PathSegment {
 	private double si, sf;
 
 	private final static int ITERATIONS = 10; // Determined experimentally - fits our (unnecessarily tight) tolerances.
-	GaussLagrange x_integrator;
-	GaussLagrange y_integrator;
+	GaussLegendre x_integrator;
+	GaussLegendre y_integrator;
 	UnivariateFunction x_integrand;
 	UnivariateFunction y_integrand;
 	
@@ -110,11 +110,11 @@ public class CornuSpiral extends PathSegment {
 		setConstants(A, B, C, si, sf);
 		if (x_integrator == null)
 		{
-			x_integrator = new GaussLagrange(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
+			x_integrator = new GaussLegendre(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
 		}
 		if (y_integrator == null)
 		{
-			y_integrator = new GaussLagrange(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
+			y_integrator = new GaussLegendre(relativeAccuracy, absoluteAccuracy, minIterations, maxIterations);
 		}
 		x_integrand = new UnivariateFunction() {
 			public double value(double t) {
