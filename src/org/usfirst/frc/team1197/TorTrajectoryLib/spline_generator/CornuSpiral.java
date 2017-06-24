@@ -65,14 +65,8 @@ public class CornuSpiral extends PathSegment {
 			xa = xi;
 			ya = yi;
 		}
-		if (sa == sb)
-		{
-			xb = xa;
-			yb = ya;
-		} else {
-			xb = xa + x_integrator.fastIntegrate(ITERATIONS, x_integrand, sa, sb);
-			yb = ya + y_integrator.fastIntegrate(ITERATIONS, y_integrand, sa, sb);
-		}
+		xb = xa + x_integrator.fastIntegrate(ITERATIONS, x_integrand, sa, sb);
+		yb = ya + y_integrator.fastIntegrate(ITERATIONS, y_integrand, sa, sb);
 		RealVector pos = new ArrayRealVector(new double[] {xb, yb});
 		s_prev = sb;
 		x_prev = xb;
