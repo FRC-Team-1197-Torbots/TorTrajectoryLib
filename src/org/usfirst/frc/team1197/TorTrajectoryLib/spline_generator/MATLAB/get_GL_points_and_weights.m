@@ -6,7 +6,7 @@ function [z,w] = get_GL_points_and_weights(a,b,N)
 % Input a,b -> endpoints of the interval [a,b]
 %         N -> number of GL points in [a,b]
 %
-% Attribution: I wrote this following what professor Danielle Venturi was
+% Attribution: I wrote this following what professor Daniele Venturi was
 % showing us in a discussion section for AMS 147 at UC Santa Cruz when we
 % studied numerical integration (Winter quarter 2017).
 
