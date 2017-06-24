@@ -139,12 +139,12 @@ public class SplineGenerator {
 			// To record the elapsed time, we need a delta:
 			long endTime = System.nanoTime();
 			
-			FileTrajectory testFileTrajectory = new FileTrajectory("testTraj.CSV");
+//			FileTrajectory testFileTrajectory = new FileTrajectory("testTraj.CSV");
 
-//			translationGraph = new VelocityGraph(trajectory, motionType.Translation);
-//			rotationGraph = new VelocityGraph(trajectory, motionType.Rotation);
-			translationGraph = new VelocityGraph(testFileTrajectory, motionType.Translation);
-			rotationGraph = new VelocityGraph(testFileTrajectory, motionType.Rotation);
+			translationGraph = new VelocityGraph(trajectory, motionType.Translation);
+			rotationGraph = new VelocityGraph(trajectory, motionType.Rotation);
+//			translationGraph = new VelocityGraph(testFileTrajectory, motionType.Translation);
+//			rotationGraph = new VelocityGraph(testFileTrajectory, motionType.Rotation);
 			translationGraph.display();
 			rotationGraph.display();
 			translationGraph.plotData();
