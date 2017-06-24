@@ -94,10 +94,9 @@ public class SmoothSpline extends TorSpline {
 		double q;
 		for (int i = 0; i < max_iterations; i++) {
 			f = rootFunction(angle, x, radius);
-			// System.out.println("x = " + x + ";\tf = " + f);
 			if (Math.abs(f) <= accuracy)
 				break;
-			q = slopeFunction(x, f, x_prev, f_prev);
+			q = (f - f_prev) / (x - x_prev);
 			x_prev = x;
 			f_prev = f;
 			x = x - f / q;
@@ -110,10 +109,6 @@ public class SmoothSpline extends TorSpline {
 		computedPivotX = optimizingSpline.pivot_x();
 		computedPivotY = optimizingSpline.pivot_y();
 		return targetY - computedPivotY;
-	}
-
-	private double slopeFunction(double x, double f, double x_prev, double f_prev) {
-		return (f - f_prev) / (x - x_prev);
 	}
 
 }

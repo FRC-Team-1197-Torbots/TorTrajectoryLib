@@ -6,6 +6,11 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
 public abstract class PathSegment {
+	static final double relativeAccuracy = 1.0e-6;
+	static final double absoluteAccuracy = 1.0e-8;
+	static final int minIterations = 8;
+	static final int maxIterations = 64;
+	
 	private double length;
 	private double totalAngle;
 	private double internalRotation;

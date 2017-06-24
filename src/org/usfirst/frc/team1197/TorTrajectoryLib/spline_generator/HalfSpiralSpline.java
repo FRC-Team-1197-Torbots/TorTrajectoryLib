@@ -21,8 +21,8 @@ public class HalfSpiralSpline extends SpiralSpline{
 		setTotalAngle(angle);
 		setConstants(angle, min_radius, 4);
 		for (int i = 0; i < 4; i++){
-			if (Math.abs(s[i+1] - s[i]) > ds) {
-				this.add(new CornuSpiral(A[i], B[i], C[i], s[i], s[i+1]));
+			if (Math.abs(s[i+1] - s[i]) >= absoluteAccuracy) {
+				this.add(new CornuSpiral(A[i], B[i], C[i], 0, s[i+1] - s[i]));
 			}
 		}
 	}

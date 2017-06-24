@@ -8,7 +8,6 @@ public class SpiralSpline extends TorSpline {
 	private static final double absoluteMaxAlpha = 9.0;
 	private double max_alf;
 	private static final double max_jeta = 40.0;
-	protected final double ds = 0.0001;
 	
 	protected static final double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
 	protected static final double absoluteMinTurnRadius = 0.5;
@@ -54,8 +53,8 @@ public class SpiralSpline extends TorSpline {
 		setTotalAngle(angle);
 		setConstants(angle, min_radius, 7);
 		for (int i = 0; i < 7; i++){
-			if (Math.abs(s[i+1] - s[i]) > ds) {
-				this.add(new CornuSpiral(A[i], B[i], C[i], s[i], s[i+1]));
+			if (Math.abs(s[i+1] - s[i]) >= absoluteAccuracy) {
+				this.add(new CornuSpiral(A[i], B[i], C[i], 0, s[i+1] - s[i]));
 			}
 		}
 	}
@@ -152,15 +151,15 @@ public class SpiralSpline extends TorSpline {
 		
 		A[1] = 0.0;
 		B[1] = max_alf / (max_vel * max_vel);
-		C[1] = -(B[1] * B[1]) / (4 * A[0]);
+		C[1] = A[0] * s[1] * s[1];
 		if (num_segments == 2) {
 			checkAndNegateCoefficients(angle, 2);
 			return;
 		}
 		
 		A[2] = -A[0];
-		B[2] = -2 * A[2] * s[3];
-		C[2] = kMax + A[2] * s[3] * s[3];
+		B[2] = -2 * A[2] * s[1];
+		C[2] = kMax + A[2] * s[1] * s[1];
 		if (num_segments == 3) {
 			checkAndNegateCoefficients(angle, 3);
 			return;
@@ -175,8 +174,8 @@ public class SpiralSpline extends TorSpline {
 		}
 		
 		A[4] = A[2];
-		B[4] = -2 * A[4] * s[4];
-		C[4] = kMax + A[4] * s[4] * s[4];
+		B[4] = 0;
+		C[4] = kMax;
 		if (num_segments == 5) {
 			checkAndNegateCoefficients(angle, 5);
 			return;
@@ -184,15 +183,15 @@ public class SpiralSpline extends TorSpline {
 		
 		A[5] = 0.0;
 		B[5] = -B[1];
-		C[5] = C[1] - B[5] * (s[5] + s[2]);
+		C[5] = C[2];
 		if (num_segments == 6) {
 			checkAndNegateCoefficients(angle, 6);
 			return;
 		}
 		
 		A[6] = A[0];
-		B[6] = -2 * A[6] * s[7];
-		C[6] = A[6] * s[7] * s[7];
+		B[6] = -2 * A[6] * s[1];
+		C[6] = C[1];
 		checkAndNegateCoefficients(angle, 7);
 		return;
 	}
