@@ -83,8 +83,6 @@ public class SmoothSpline extends TorSpline {
 		}
 	}
 	
-	
-
 	private double secantMethod(double angle, double radius) {
 		double accuracy = 1.0e-8;
 		int max_iterations = 100;
