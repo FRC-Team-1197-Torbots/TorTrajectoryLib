@@ -4,10 +4,6 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 
 public class GaussLagrange {
 	
-	// Apologies for the enormous MATLAB output copypasta, this is just until I dig up my AMS 147 notes.
-	// Unless it turns out we would need a symbolic library if we wanted to compute these in Java.
-	// Then these numbers ain't going anywhere.
-	
 	private static final int MAX_POINTS = 20;
 	private static final double points[][] = {
 		{ 0.000000000000000D,  0.000000000000000D,  0.000000000000000D,  0.000000000000000D,  0.000000000000000D,

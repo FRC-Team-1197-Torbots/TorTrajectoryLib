@@ -114,6 +114,7 @@ public class SplineGenerator {
 		
 		outputSpline = new SmoothSpline(inputSpline); // TODO: Make it work for
 														// splines of splines?
+		
 		if (Math.abs(outputSpline.length()) > 0.0) {
 			for (double s = 0.0; s <= outputSpline.length(); s += 0.005) {
 				P = outputSpline.positionAt(s);

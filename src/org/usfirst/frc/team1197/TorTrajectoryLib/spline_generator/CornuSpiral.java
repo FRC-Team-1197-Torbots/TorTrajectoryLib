@@ -12,7 +12,7 @@ public class CornuSpiral extends PathSegment {
 	private double a, b, c;
 	private double si, sf;
 
-	private final static int ITERATIONS = 9; // Determined experimentally- fits our (unnecessarily tight) tolerances.
+	private final static int ITERATIONS = 10; // Determined experimentally - fits our (unnecessarily tight) tolerances.
 	GaussLagrange x_integrator;
 	GaussLagrange y_integrator;
 	UnivariateFunction x_integrand;

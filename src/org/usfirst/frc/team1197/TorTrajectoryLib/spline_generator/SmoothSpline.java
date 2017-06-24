@@ -84,16 +84,16 @@ public class SmoothSpline extends TorSpline {
 	}
 	
 	private double secantMethod(double angle, double radius) {
-		double accuracy = 1.0e-8;
 		int max_iterations = 100;
-		double x = radius, x_prev = radius * 1.001;
+		double x = radius;
+		double x_prev = radius * 1.001;
 		double f = rootFunction(angle, x, radius);
 		double f_prev = rootFunction(angle, x_prev, radius);
 		double q;
 		int i;
 		for (i = 0; i < max_iterations; i++) {
 			f = rootFunction(angle, x, radius);
-			if (Math.abs(f) <= accuracy)
+			if (Math.abs(f) <= absoluteAccuracy)
 				break;
 			q = (f - f_prev) / (x - x_prev);
 			x_prev = x;
