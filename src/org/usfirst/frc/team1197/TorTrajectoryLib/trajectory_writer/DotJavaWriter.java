@@ -30,7 +30,7 @@ public class DotJavaWriter extends MotionDataWriter {
 
 		for (long time = 0; time <= trajectory.totalTime(); time += dt) {
 			lookUpData(time);
-			s = "\t\ttestMethod(".concat(String.valueOf(time)).concat(", ");
+			s = "\t\tinputValues(".concat(String.valueOf(time)).concat(", ");
 			
 			s = s.concat(df.format(pos)).concat(", ");
 			s = s.concat(df.format(vel)).concat(", ");
@@ -41,8 +41,8 @@ public class DotJavaWriter extends MotionDataWriter {
 			
 			fileWriter.write(s, 0, s.length());
 		}
-		s = s.concat("\t}\n");
-		s = s.concat("\tpublic void ").concat("testMethod").concat("(int t, double pos, double vel, double acc, double hed, double omg, double alf) {\n");
+		s = s.concat("\t}\n\n");
+		s = s.concat("\tpublic void ").concat("inputValues").concat("(int t, double pos, double vel, double acc, double hed, double omg, double alf) {\n");
 		s = s.concat("\t\ttime.add((long) ").concat("t").concat(");\n");
 		
 		s = s.concat("\t\ttranslation.add(new MotionState1D(");
