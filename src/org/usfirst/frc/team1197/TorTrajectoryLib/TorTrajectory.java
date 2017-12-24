@@ -10,13 +10,20 @@ public abstract class TorTrajectory {
 	protected double goal_pos = 0.0;
 	protected double goal_head = 0.0;
 	
-	protected double max_vel = 4.5; //4.5
-	protected double max_acc = 3.5; //6.0 
-	protected double max_jerk = 20.0; //20.0
+//	protected double max_vel = 4.5; //4.5
+//	protected double max_acc = 3.5; //6.0 
+//	protected double max_jerk = 20.0; //20.0
+//	
+//	protected double max_omg = 8.0; //8.0
+//	protected double max_alf = 9.0; //10.0
+//	protected double max_jeta = 40.0; //40.0
+	protected double max_vel = 0.0; //4.5
+	protected double max_acc = 0.0; //6.0 
+	protected double max_jerk = 0.0; //20.0
 	
-	protected double max_omg = 8.0; //8.0
-	protected double max_alf = 9.0; //10.0
-	protected double max_jeta = 40.0; //40.0
+	protected double max_omg = 0.0; //8.0
+	protected double max_alf = 0.0; //10.0
+	protected double max_jeta = 0.0; //40.0
 	
 	protected List<Long> time;
 	protected List<MotionState1D> translation;

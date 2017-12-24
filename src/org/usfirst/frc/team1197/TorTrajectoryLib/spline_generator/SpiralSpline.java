@@ -1,21 +1,29 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
+import org.usfirst.frc.team1197.TorTrajectoryLib.GlobalMotionLimits;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 
 public class SpiralSpline extends TorSpline {
-	private double kMax;
-	private static final double absoluteMaxAlpha = 9.0;
-	private double max_alf;
-	private static final double max_jeta = 40.0;
+//	private static final double absoluteMaxAlpha = 9.0;
+//	protected static final double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
+//	protected static final double absoluteMinTurnRadius = 0.5;
+//	protected static final double halfTrackWidth = 0.2858;
+//	protected static final double maxThrottle = 0.6 * (absoluteMinTurnRadius/(absoluteMinTurnRadius+halfTrackWidth)); // (38%???)
+//	protected static final double max_vel = maxThrottle * absoluteMaxVel;
+//	protected static final double absoluteMaxOmega = max_vel/absoluteMinTurnRadius;
 	
-	protected static final double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
-	protected static final double absoluteMinTurnRadius = 0.5;
-	protected static final double halfTrackWidth = 0.2858;
-	protected static final double maxThrottle = 0.6 * (absoluteMinTurnRadius/(absoluteMinTurnRadius+halfTrackWidth)); // (38%???)
-	protected static final double max_vel = maxThrottle * absoluteMaxVel;
-	protected static final double absoluteMaxOmega = max_vel/absoluteMinTurnRadius;
+	// Motion limits for all Spiral Splines:
+	protected static final double maxWheelSpeed = GlobalMotionLimits.MAX_WHEEL_SPEED;
+	protected static final double absoluteMinTurnRadius = GlobalMotionLimits.MIN_TURN_RADIUS;
+	protected static final double absoluteMaxVel = GlobalMotionLimits.MAX_SPLINE_VEL;
+	protected static final double absoluteMaxOmega = GlobalMotionLimits.MAX_SPLINE_OMG;
+	protected static final double absoluteMaxAlpha = GlobalMotionLimits.MAX_ALF;
+	
 	protected double max_omg;
+	protected double max_alf;
+	protected double max_jeta = GlobalMotionLimits.MAX_JETA;
+	protected double kMax; // Maximum curvature of a particular spline
 	
 	double[] s;
 	double[] A;
@@ -93,7 +101,7 @@ public class SpiralSpline extends TorSpline {
 	
 	protected void setMotionLimits(double angle, double min_radius) {
 		double absAngle = Math.abs(angle);
-		max_omg = Math.min(absoluteMaxOmega, max_vel/min_radius);
+		max_omg = Math.min(absoluteMaxOmega, absoluteMaxVel/min_radius);
 		max_alf = Math.min(absoluteMaxAlpha,
 				   		   Math.min(Math.sqrt(max_omg * max_jeta),
 				   				    Math.pow((0.5 * absAngle * max_jeta * max_jeta), (1.0/3.0))));
@@ -101,7 +109,7 @@ public class SpiralSpline extends TorSpline {
 						   (-max_alf * max_alf + Math.sqrt(max_alf * max_alf * max_alf * max_alf
 							+ 4 * max_jeta * max_jeta * max_alf * absAngle)) 
 						    / (2 * max_jeta) );
-		kMax = max_omg / max_vel;
+		kMax = max_omg / absoluteMaxVel;
 	}
 	
 	protected double setArclengthNodes(double angle, int num_segments){
@@ -109,11 +117,11 @@ public class SpiralSpline extends TorSpline {
 		if (num_segments < 1)
 			return s[0];
 		
-		s[1] = max_alf * max_vel / max_jeta;
+		s[1] = max_alf * absoluteMaxVel / max_jeta;
 		if (num_segments == 1)
 			return s[1];
 		
-		s[2] = kMax * max_vel * max_vel / max_alf;
+		s[2] = kMax * absoluteMaxVel * absoluteMaxVel / max_alf;
 		if (num_segments == 2)
 			return s[2];
 		
@@ -141,7 +149,7 @@ public class SpiralSpline extends TorSpline {
 		if (num_segments < 1)
 			return;
 		
-		A[0] = max_jeta / (2 * max_vel * max_vel * max_vel);
+		A[0] = max_jeta / (2 * absoluteMaxVel * absoluteMaxVel * absoluteMaxVel);
 		B[0] = 0.0;
 		C[0] = 0.0;
 		if (num_segments == 1) {
@@ -150,7 +158,7 @@ public class SpiralSpline extends TorSpline {
 		}
 		
 		A[1] = 0.0;
-		B[1] = max_alf / (max_vel * max_vel);
+		B[1] = max_alf / (absoluteMaxVel * absoluteMaxVel);
 		C[1] = A[0] * s[1] * s[1];
 		if (num_segments == 2) {
 			checkAndNegateCoefficients(angle, 2);

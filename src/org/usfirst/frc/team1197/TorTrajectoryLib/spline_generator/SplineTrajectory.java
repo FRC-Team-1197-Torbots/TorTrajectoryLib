@@ -1,23 +1,30 @@
 package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 
+import org.usfirst.frc.team1197.TorTrajectoryLib.GlobalMotionLimits;
 import org.usfirst.frc.team1197.TorTrajectoryLib.MotionState1D;
 import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 
 public class SplineTrajectory extends TorTrajectory {
 	protected PathSegment path;
-	protected final static double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
-	protected final static double absoluteMinTurnRadius = 0.5;
-	protected final static double halfTrackWidth = 0.2858;
-	protected final static double dangerFactor = 0.6;
-	protected final static double maxThrottle = dangerFactor * (absoluteMinTurnRadius 
-													/ (absoluteMinTurnRadius + halfTrackWidth));
+//	protected final static double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
+//	protected final static double absoluteMinTurnRadius = 0.5;
+//	protected final static double halfTrackWidth = 0.2858;
+//	protected final static double dangerFactor = 0.6;
+//	protected final static double maxThrottle = dangerFactor * (absoluteMinTurnRadius 
+//													/ (absoluteMinTurnRadius + halfTrackWidth));
 	
 	public SplineTrajectory(PathSegment p, boolean backward) {
 		path = p.clone();
 		goal_pos = path.length();
 		goal_head = path.headingAt(goal_pos);
-		max_vel = maxThrottle * absoluteMaxVel;
-		max_omg = max_vel/absoluteMinTurnRadius;
+		
+		max_vel = GlobalMotionLimits.MAX_SPLINE_VEL;
+		max_acc = GlobalMotionLimits.MAX_ACC;
+		max_jerk = GlobalMotionLimits.MAX_JERK;
+		
+		max_omg = GlobalMotionLimits.MAX_SPLINE_OMG;
+		max_alf = GlobalMotionLimits.MAX_ALF;
+		max_jeta = GlobalMotionLimits.MAX_JETA;
 		
 		time.clear();
 		translation.clear();

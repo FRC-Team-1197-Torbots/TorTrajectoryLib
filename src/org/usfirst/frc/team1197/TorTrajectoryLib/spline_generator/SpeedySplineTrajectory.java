@@ -3,6 +3,7 @@ package org.usfirst.frc.team1197.TorTrajectoryLib.spline_generator;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.integration.SimpsonIntegrator;
 import org.apache.commons.math3.analysis.integration.UnivariateIntegrator;
+import org.usfirst.frc.team1197.TorTrajectoryLib.GlobalMotionLimits;
 
 public class SpeedySplineTrajectory extends SplineTrajectory {
 	UnivariateIntegrator integrator;
@@ -13,9 +14,15 @@ public class SpeedySplineTrajectory extends SplineTrajectory {
 		path = p.clone();
 		goal_pos = path.length();
 		goal_head = path.headingAt(goal_pos);
-		max_vel = dangerFactor * absoluteMaxVel;
-		double max_cornering_vel = maxThrottle * absoluteMaxVel; // fastest speed we can go around a turn
-		max_omg = max_cornering_vel / absoluteMinTurnRadius;
+		
+		max_vel = GlobalMotionLimits.MAX_VEL;
+		max_acc = GlobalMotionLimits.MAX_ACC;
+		max_jerk = GlobalMotionLimits.MAX_JERK;
+		
+		double max_cornering_vel = GlobalMotionLimits.MAX_THROTTLE * GlobalMotionLimits.MAX_WHEEL_SPEED; // fastest speed we can go around a turn
+		max_omg = max_cornering_vel / GlobalMotionLimits.MIN_TURN_RADIUS;
+		max_alf = GlobalMotionLimits.MAX_ALF;
+		max_jeta = GlobalMotionLimits.MAX_JETA;
 		
 		time.clear();
 		translation.clear();
@@ -46,7 +53,7 @@ public class SpeedySplineTrajectory extends SplineTrajectory {
 				v = translation.get(i).vel;
 			} else {
 				r_center = Math.abs(1.0 / path.curvatureAt(s));
-				r_outside = Math.abs(1.0 / path.curvatureAt(s)) + halfTrackWidth;
+				r_outside = Math.abs(1.0 / path.curvatureAt(s)) + GlobalMotionLimits.HALF_TRACKWIDTH;
 				v = translation.get(i).vel * (r_center / r_outside);
 			}
 			s = last_s + 0.5 * (last_v + v) * dt;
@@ -69,7 +76,7 @@ public class SpeedySplineTrajectory extends SplineTrajectory {
 					return 1.0;
 				} else {
 					r_center = Math.abs(1.0 / path.curvatureAt(s));
-					r_outside = Math.abs(1.0 / path.curvatureAt(s)) + halfTrackWidth;
+					r_outside = Math.abs(1.0 / path.curvatureAt(s)) + GlobalMotionLimits.HALF_TRACKWIDTH;
 					return r_outside / r_center;
 				}
 			}

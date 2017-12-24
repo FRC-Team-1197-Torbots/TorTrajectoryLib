@@ -4,6 +4,9 @@ public class PivotTrajectory extends TorTrajectory {
 	
 	public PivotTrajectory(double goal){
 		super(0.0, goal * (Math.PI/180.0));
+		max_omg = GlobalMotionLimits.MAX_OMG;
+		max_alf = GlobalMotionLimits.MAX_ALF;
+		max_jeta = GlobalMotionLimits.MAX_JETA;
 		time.clear();
 		translation.clear();
 		rotation.clear();
