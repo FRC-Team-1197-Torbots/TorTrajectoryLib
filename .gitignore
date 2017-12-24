@@ -2,3 +2,5 @@
 *.CSV
 *.csv
 *.DS_Store
+*.classpath
+*.prefs
