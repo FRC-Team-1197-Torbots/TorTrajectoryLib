@@ -41,6 +41,13 @@ public class TrajectoryWriter {
 		writeTextFile(outputFile, stringWriter);
 	}
 	
+	public void writeDotC() throws IOException{
+		String fileNameDotC = fileName.concat(".c");
+		outputFile = new File(fileNameDotC);
+		stringWriter = new DotCWriter(trajectory);
+		writeTextFile(outputFile, stringWriter);
+	}
+	
 	private void writeTextFile(File outputFile, MotionDataWriter stringWriter) throws IOException{
 		Charset charset = Charset.forName("US-ASCII");
 		BufferedWriter fileWriter = null;
