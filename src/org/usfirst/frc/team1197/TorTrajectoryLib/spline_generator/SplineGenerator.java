@@ -38,10 +38,10 @@ public class SplineGenerator {
 		inputSpline.add(new LineSegment(2.5, 90 * (Math.PI / 180.0)));
 		inputSpline.add(new ArcSegment(1.0, -180 * (Math.PI / 180.0)));
 		inputSpline.add(new LineSegment(2.5, 0 * (Math.PI / 180.0)));
-		inputSpline.add(new LineSegment(3.25, -120 * (Math.PI / 180.0)));
+		inputSpline.add(new LineSegment(4.25, -120 * (Math.PI / 180.0)));
 		inputSpline.add(new ArcSegment(0.598, 210 * (Math.PI / 180.0)));
-		inputSpline.add(new LineSegment(2.75, 0.0));
-		inputSpline.add(new LineSegment(2.5, 90 * (Math.PI / 180.0)));
+		inputSpline.add(new LineSegment(3.0, 0.0));
+		inputSpline.add(new LineSegment(2.0, 90 * (Math.PI / 180.0)));
 
 		// A figure-8:
 //		 inputSpline = new TorSpline(8.0, 4.0, 36.87*(Math.PI/180.0));
@@ -75,6 +75,7 @@ public class SplineGenerator {
 			}
 
 			trajectory = new SplineTrajectory(outputSpline, forOrBack);
+//			trajectory = new SpeedySplineTrajectory(outputSpline, forOrBack);
 			
 			/* Uncomment the next 4 lines if you want a SpeedySpline: */
 			// trajectory = new SpeedySplineTrajectory(outputSpline, true);

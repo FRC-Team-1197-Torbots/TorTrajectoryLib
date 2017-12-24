@@ -15,11 +15,12 @@ public class SpeedySplineTrajectory extends SplineTrajectory {
 		goal_pos = path.length();
 		goal_head = path.headingAt(goal_pos);
 		
-		max_vel = GlobalMotionLimits.MAX_VEL;
+		max_vel = GlobalMotionLimits.DANGER_FACTOR * GlobalMotionLimits.MAX_VEL; // TODO: Doing DF^2 is a hack, this deserves actual math.
 		max_acc = GlobalMotionLimits.MAX_ACC;
 		max_jerk = GlobalMotionLimits.MAX_JERK;
 		
-		double max_cornering_vel = GlobalMotionLimits.MAX_THROTTLE * GlobalMotionLimits.MAX_WHEEL_SPEED; // fastest speed we can go around a turn
+		// fastest speed we can go around a turn:
+		double max_cornering_vel = GlobalMotionLimits.MAX_THROTTLE * GlobalMotionLimits.MAX_WHEEL_SPEED;
 		max_omg = max_cornering_vel / GlobalMotionLimits.MIN_TURN_RADIUS;
 		max_alf = GlobalMotionLimits.MAX_ALF;
 		max_jeta = GlobalMotionLimits.MAX_JETA;
