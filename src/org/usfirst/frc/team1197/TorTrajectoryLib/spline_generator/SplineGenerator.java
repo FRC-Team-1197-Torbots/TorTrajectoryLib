@@ -39,7 +39,7 @@ public class SplineGenerator {
 		inputSpline.add(new ArcSegment(1.0, -180 * (Math.PI / 180.0)));
 		inputSpline.add(new LineSegment(2.5, 0 * (Math.PI / 180.0)));
 		inputSpline.add(new LineSegment(4.25, -120 * (Math.PI / 180.0)));
-		inputSpline.add(new ArcSegment(0.598, 210 * (Math.PI / 180.0)));
+		inputSpline.add(new ArcSegment(0.5978, 210 * (Math.PI / 180.0)));
 		inputSpline.add(new LineSegment(3.0, 0.0));
 		inputSpline.add(new LineSegment(2.0, 90 * (Math.PI / 180.0)));
 

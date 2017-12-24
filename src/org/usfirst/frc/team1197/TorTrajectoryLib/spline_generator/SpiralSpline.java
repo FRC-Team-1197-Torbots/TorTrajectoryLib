@@ -19,10 +19,10 @@ public class SpiralSpline extends TorSpline {
 	protected static final double absoluteMaxVel = GlobalMotionLimits.MAX_SPLINE_VEL;
 	protected static final double absoluteMaxOmega = GlobalMotionLimits.MAX_SPLINE_OMG;
 	protected static final double absoluteMaxAlpha = GlobalMotionLimits.MAX_ALF;
+	protected static final double absoluteMaxJeta = GlobalMotionLimits.MAX_JETA;
 	
 	protected double max_omg;
 	protected double max_alf;
-	protected double max_jeta = GlobalMotionLimits.MAX_JETA;
 	protected double kMax; // Maximum curvature of a particular spline
 	
 	double[] s;
@@ -57,6 +57,7 @@ public class SpiralSpline extends TorSpline {
 	}
 	
 	public void build(double angle, double min_radius){
+		System.out.println("Desired Minimum Radius: " + min_radius);
 		this.clear();
 		setTotalAngle(angle);
 		setConstants(angle, min_radius, 7);
@@ -93,6 +94,7 @@ public class SpiralSpline extends TorSpline {
 	}
 	
 	protected void setConstants(double angle, double min_radius, int num_segments) {
+		System.out.println("Desired Minimum Radius: " + min_radius);
 		setMotionLimits(angle, min_radius);
 		setTotalAngle(angle);
 		setLength(setArclengthNodes(angle, num_segments));
@@ -103,13 +105,14 @@ public class SpiralSpline extends TorSpline {
 		double absAngle = Math.abs(angle);
 		max_omg = Math.min(absoluteMaxOmega, absoluteMaxVel/min_radius);
 		max_alf = Math.min(absoluteMaxAlpha,
-				   		   Math.min(Math.sqrt(max_omg * max_jeta),
-				   				    Math.pow((0.5 * absAngle * max_jeta * max_jeta), (1.0/3.0))));
+				   		   Math.min(Math.sqrt(max_omg * absoluteMaxJeta),
+				   				    Math.pow((0.5 * absAngle * absoluteMaxJeta * absoluteMaxJeta), (1.0/3.0))));
 		max_omg = Math.min(max_omg,
 						   (-max_alf * max_alf + Math.sqrt(max_alf * max_alf * max_alf * max_alf
-							+ 4 * max_jeta * max_jeta * max_alf * absAngle)) 
-						    / (2 * max_jeta) );
+							+ 4 * absoluteMaxJeta * absoluteMaxJeta * max_alf * absAngle)) 
+						    / (2 * absoluteMaxJeta) );
 		kMax = max_omg / absoluteMaxVel;
+		System.out.println("kMax: " + kMax + "\nMinimum Radius: " + (1/kMax));
 	}
 	
 	protected double setArclengthNodes(double angle, int num_segments){
@@ -117,7 +120,7 @@ public class SpiralSpline extends TorSpline {
 		if (num_segments < 1)
 			return s[0];
 		
-		s[1] = max_alf * absoluteMaxVel / max_jeta;
+		s[1] = max_alf * absoluteMaxVel / absoluteMaxJeta;
 		if (num_segments == 1)
 			return s[1];
 		
@@ -149,7 +152,7 @@ public class SpiralSpline extends TorSpline {
 		if (num_segments < 1)
 			return;
 		
-		A[0] = max_jeta / (2 * absoluteMaxVel * absoluteMaxVel * absoluteMaxVel);
+		A[0] = absoluteMaxJeta / (2 * absoluteMaxVel * absoluteMaxVel * absoluteMaxVel);
 		B[0] = 0.0;
 		C[0] = 0.0;
 		if (num_segments == 1) {

@@ -94,7 +94,7 @@ public class TorSpline extends PathSegment {
 			lengthSoFar += segment.length();
 		}
 		PathSegment lastSegment = path.get(path.size() - 1);
-		return internalRotation() + lastSegment.curvatureAt(lastSegment.length());
+		return lastSegment.curvatureAt(lastSegment.length());
 	}
 
 }

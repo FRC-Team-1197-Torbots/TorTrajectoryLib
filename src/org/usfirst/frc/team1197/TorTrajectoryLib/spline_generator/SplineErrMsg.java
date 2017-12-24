@@ -94,6 +94,29 @@ class SplineErrMsg {
 		return false;
 	}
 	
+	protected static boolean arcTooTightAlert(List<PathSegment> path, int i){
+		// Get the arc's total angle and radius:
+		double angle = Math.abs(path.get(i).totalAngle());
+		double radius = Math.abs(1 / path.get(i).curvatureAt(0.0));
+		System.out.println("\tArc angle: " + angle);
+		System.out.println("\tArc radius: " + radius);
+		// How tight is too tight? Make a HalfSpiralSpline and get its pivot_y:
+		HalfSpiralSpline testSpline = new HalfSpiralSpline(angle);
+		double minPossibleRadius = testSpline.pivot_y();
+		if (radius < minPossibleRadius) {
+			String s = basic_msg + "The ";
+			s = s + ordinal(i+1);
+			s = s + " input path segment (an ArcSegment) is too tight by ";
+			s = s + df.format(minPossibleRadius - radius);
+			s = s + "m. \n\t(A" + orAn(angle) + "-degree ArcSegment may have a radius no tighter than ";
+			s = s + df.format(minPossibleRadius + .00005);
+			s = s + "m assuming the chosen motion limits.)";
+			System.err.println(s);
+			return true;
+		}
+		return false;
+	}
+	
 	protected static boolean unexpectedSegmentAlert(SegmentType type) {
 		System.err.println(basic_msg + "Unexpected path segment (" + type + ").");
 		return true;
@@ -109,6 +132,26 @@ class SplineErrMsg {
 		default:
 			return i + sufixes[i % 10];
 
+		}
+	}
+	
+	private static String orAn(double angle) {
+		String num = df.format(angle * (180.0 / Math.PI));
+		switch (num.charAt(0)) {
+			case '8': // 8-anything
+				return "n " + num;
+			case '1':
+				if (num.length() == 2 || num.charAt(2) == '.') { // ump-teen
+					switch (num.charAt(1)) {
+						case '1':
+						case '8':
+							return "n " + num; // 11 or 18
+						default:
+							return " " + num; // 10, 12, 13, 14, 15, 16 17, 19
+					}
+				}
+			default: // anything else
+				return " " + num;
 		}
 	}
 }
