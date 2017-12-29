@@ -98,8 +98,6 @@ class SplineErrMsg {
 		// Get the arc's total angle and radius:
 		double angle = Math.abs(path.get(i).totalAngle());
 		double radius = Math.abs(1 / path.get(i).curvatureAt(0.0));
-		System.out.println("\tArc angle: " + angle);
-		System.out.println("\tArc radius: " + radius);
 		// How tight is too tight? Make a HalfSpiralSpline and get its pivot_y:
 		HalfSpiralSpline testSpline = new HalfSpiralSpline(angle);
 		double minPossibleRadius = testSpline.pivot_y();

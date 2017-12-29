@@ -6,12 +6,6 @@ import org.usfirst.frc.team1197.TorTrajectoryLib.TorTrajectory;
 
 public class SplineTrajectory extends TorTrajectory {
 	protected PathSegment path;
-//	protected final static double absoluteMaxVel = 5.056; // See formulas in TorCAN/TorDrive
-//	protected final static double absoluteMinTurnRadius = 0.5;
-//	protected final static double halfTrackWidth = 0.2858;
-//	protected final static double dangerFactor = 0.6;
-//	protected final static double maxThrottle = dangerFactor * (absoluteMinTurnRadius 
-//													/ (absoluteMinTurnRadius + halfTrackWidth));
 	
 	public SplineTrajectory(PathSegment p, boolean backward) {
 		path = p.clone();
