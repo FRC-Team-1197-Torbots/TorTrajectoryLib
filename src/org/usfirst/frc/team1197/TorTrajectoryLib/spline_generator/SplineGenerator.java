@@ -31,17 +31,6 @@ public class SplineGenerator {
 		/**
 		 * TEST SPLINES
 		 */
-		// Pretty cool spline that showcases what you can do with the spline
-		// generator:
-		inputSpline = new TorSpline(5.0, 1.0, 0 * (Math.PI / 180.0));
-		inputSpline.add(new LineSegment(2.0, 0.0));
-		inputSpline.add(new LineSegment(2.5, 90 * (Math.PI / 180.0)));
-		inputSpline.add(new ArcSegment(1.0, -180 * (Math.PI / 180.0)));
-		inputSpline.add(new LineSegment(2.5, 0 * (Math.PI / 180.0)));
-		inputSpline.add(new LineSegment(4.25, -120 * (Math.PI / 180.0)));
-		inputSpline.add(new ArcSegment(0.5978, 210 * (Math.PI / 180.0)));
-		inputSpline.add(new LineSegment(3.0, 0.0));
-		inputSpline.add(new LineSegment(2.0, 90 * (Math.PI / 180.0)));
 
 		// A figure-8:
 //		 inputSpline = new TorSpline(8.0, 4.0, 36.87*(Math.PI/180.0));
