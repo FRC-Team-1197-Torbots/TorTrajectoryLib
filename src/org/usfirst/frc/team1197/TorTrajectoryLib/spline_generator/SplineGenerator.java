@@ -31,6 +31,8 @@ public class SplineGenerator {
 		/**
 		 * TEST SPLINES
 		 */
+		
+		//this is cool
 
 		// A figure-8:
 //		 inputSpline = new TorSpline(8.0, 4.0, 36.87*(Math.PI/180.0));
